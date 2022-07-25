@@ -1,7 +1,7 @@
 import argparse
 import sys
 
-from eMolFrag2.src.utilities import logging
+from eMolFrag2.src.utilities.logging import log
 from eMolFrag2.src.input import ConfigReader
 
 #
@@ -97,7 +97,7 @@ class Options:
 
             # Did the user state more than "eMolFrag2 -c *.emf"?
             if len(sys.argv) > 3:
-                logging.logger.warning(f'Configuration file specified. All other command-line arguments ignored.')
+                log.warning(f'Configuration file specified. All other command-line arguments ignored.')
    
             # TODO: Read config file
             args = ConfigReader.readConfig(args.c, parser)

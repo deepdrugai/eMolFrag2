@@ -1,7 +1,8 @@
 from pathlib import Path 
 
-import sys 
-from eMolFrag2.src.utilities import tc, logging, constants
+import sys
+from eMolFrag2.src.utilities import tc, constants
+from eMolFrag2.src.utilities.logging import log
 from eMolFrag2.src.representation import Molecule 
 from eMolFrag2.unittests import utilities
 
@@ -15,7 +16,7 @@ def run_TC_private(mol1path, mol2path, expec_result):
    
     tanimoto = tc.TC_private(rdkit_mol1, rdkit_mol2)
     # Show tc value for testing molecules 
-    logging.logger.info(f'TC value for {mol1path.name} and {mol2path.name} is: {tanimoto}' )
+    log.info(f'TC value for {mol1path.name} and {mol2path.name} is: {tanimoto}' )
 
     assert tanimoto == expec_result
 

@@ -1,11 +1,10 @@
 import sys
 from pathlib import Path
-
 from eMolFrag2.src.input import MoleculeFileReader, MoleculeReader, Options
 from eMolFrag2.src.chopper import Chopper
 from eMolFrag2.src.representation import Molecule
 from eMolFrag2.src.output import writer
-from eMolFrag2.src.utilities import logging
+from eMolFrag2.src.utilities.logging import log
 
 def main():
     """
@@ -19,7 +18,7 @@ def main():
     """
     options = Options.Options()
     if not options.isRunnable():
-        logging.logger.error(f'Command-line arguments failed to parse; execution of eMolFrag will stop.')
+        log.error(f'Command-line arguments failed to parse; execution of eMolFrag will stop.')
         return
 
     dataset = []
@@ -28,18 +27,18 @@ def main():
 
     # Get files
     mol_files = MoleculeFileReader.getFiles(options)
-    logging.logger.info(f'{len(mol_files)} files to be processed.')
+    log.info(f'{len(mol_files)} files to be processed.')
     
     # Get molecules
     molecules = MoleculeReader.getMolecules(mol_files)
-    logging.logger.info(f'{len(molecules)} molecules to be chopped.')
+    log.info(f'{len(molecules)} molecules to be chopped.')
  
     # CHOP
     brick_db, linker_db = Chopper.chopall(molecules)
     
     # Output fragments
-    logging.logger.info(f'{brick_db.numUnique()} unique bricks among {brick_db.numAllMolecules()} bricks')
-    logging.logger.info(f'{linker_db.numUnique()} unique linkers among {linker_db.numAllMolecules()} linkers')
+    log.info(f'{brick_db.numUnique()} unique bricks among {brick_db.numAllMolecules()} bricks')
+    log.info(f'{linker_db.numUnique()} unique linkers among {linker_db.numAllMolecules()} linkers')
 
     writer.write(options, brick_db, linker_db)
 

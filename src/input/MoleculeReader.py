@@ -5,7 +5,7 @@ from rdkit import RDLogger
 
 from eMolFrag2.src.representation import Molecule
 from eMolFrag2.src.utilities import constants
-from eMolFrag2.src.utilities import logging
+from eMolFrag2.src.utilities.logging import log
 
 # TODO: move to utilities
 def fileToString(file):
@@ -67,10 +67,10 @@ def convertToRDkit(contents, curr_file):
         mol = Chem.MolFromTPLBlock(contents)
 
     else:
-        logging.logger.error(f'Input file type with extension {extension} not supported.')
+        log.error(f'Input file type with extension {extension} not supported.')
 
     if mol is not None:
-        logging.logger.warning(f'Input file type {extension} will not preserve molecule SYBL atom types')
+        log.warning(f'Input file type {extension} will not preserve molecule SYBL atom types')
         return [(curr_file.name, mol)]
 
     return None
@@ -125,7 +125,7 @@ def getMolecules(files):
         try:
             id_mol_list = convertToRDkit(file_contents, current_file)
         except:
-            logging.logger.error(f'RDKit failed to read {current_file.name}')
+            log.error(f'RDKit failed to read {current_file.name}')
 
         # add it to our dataset and update the filenames we have
         if id_mol_list is not None:

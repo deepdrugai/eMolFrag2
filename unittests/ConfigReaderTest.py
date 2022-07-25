@@ -1,7 +1,7 @@
 import sys
 from pathlib import Path
 from eMolFrag2.unittests import utilities
-from eMolFrag2.src.utilities import logging
+from eMolFrag2.src.utilities.logging import log
 from eMolFrag2.src.input import ConfigReader
 
 usr_dir = Path.cwd()
@@ -63,7 +63,7 @@ def runtest(test_name, test_func, successful, failed):
 
 def runtests():
     printlevel = 1
-    logging.logger.info(f"Executing {__name__} unit tests.")
+    log.info(f"Executing {__name__} unit tests.")
     
     #
     # Define all tests as a Dictionary: {str-name, <function-to-execute>}
@@ -82,11 +82,11 @@ def runtests():
     # Report
     #
     if not failed:        
-        logging.logger.info(f'{__name__} unit tests are successful.')
+        log.info(f'{__name__} unit tests are successful.')
 
     else:
         for test in failed:
-            logging.logger.error(f'Failed {test}.')
+            log.error(f'Failed {test}.')
 
 if __name__ == "__main__":
     runtests()

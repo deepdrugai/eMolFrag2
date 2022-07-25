@@ -2,7 +2,7 @@ from pathlib import Path
 
 from eMolFrag2.src.representation import Molecule
 from eMolFrag2.src.utilities import constants
-from eMolFrag2.src.utilities import logging
+from eMolFrag2.src.utilities.logging import log
 
 #
 # We will handle two formats for SMILES; these formats can be intermixed
@@ -37,7 +37,7 @@ def parse(contents):
             mols.append((tokens[1], tokens[0]))
         
         elif len(tokens) > 2:
-            logging.logger.error(f'Expected SMILES file format. Either MOL\n or "smi id" expected, not {line}')        
+            log.error(f'Expected SMILES file format. Either MOL\n or "smi id" expected, not {line}')        
 
         else:
             pass # Ignore blank lines
@@ -58,7 +58,7 @@ def toRdkitMol(mol_id, mol_smi_str):
     try:
         import pybel
     except:
-        logging.logger.error(f'OpenBabel has not been installed; atom types of input SMILES molecules will not be preserved.')
+        log.error(f'OpenBabel has not been installed; atom types of input SMILES molecules will not be preserved.')
         return mol_id, rdkit_mol
 
     # Convert SMI -> Mol2 to acquire AtomTypes

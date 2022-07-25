@@ -2,7 +2,7 @@ from pathlib import Path
 
 from eMolFrag2.src.input import Options
 from eMolFrag2.src.utilities import constants
-from eMolFrag2.src.utilities import logging
+from eMolFrag2.src.utilities.logging import log
 
 def getFiles(options):
     """
@@ -12,12 +12,12 @@ def getFiles(options):
       
     # Non-existing directory means no files to process
     if not folderPath.exists():
-        logging.logger.error(f'Input path {options.INPUT_PATH} does not exist.')
+        log.error(f'Input path {options.INPUT_PATH} does not exist.')
         return []
 
     # Path is not a directory
     if not folderPath.is_dir():
-        logging.logger.error(f'Input path {options.INPUT_PATH} is not a directory. Did you mean: {folderPath.parent} ?')
+        log.error(f'Input path {options.INPUT_PATH} is not a directory. Did you mean: {folderPath.parent} ?')
         return []
      
     files = []
@@ -35,8 +35,8 @@ def getFiles(options):
 
     # Report unacceptable files
     if bad_files:
-        logging.logger.warning(f'emolFrag2 only accepts the following formats {", ".join(constants.ACCEPTED_FORMATS)}')
-        logging.logger.warning(f'The following files will be ignored: {", ".join([bf.name for bf in bad_files])}')
+        log.warning(f'emolFrag2 only accepts the following formats {", ".join(constants.ACCEPTED_FORMATS)}')
+        log.warning(f'The following files will be ignored: {", ".join([bf.name for bf in bad_files])}')
       
     return files
 
@@ -50,7 +50,7 @@ def acquireConfigurationFile(usr_file):
     if not filePath.exists():
 
         #print(f'Input path {usr_file} does not exist.')
-        logging.logger.error(f"Input path {usr_file} does not exist.")
+        log.error(f"Input path {usr_file} does not exist.")
         return None
     
     return filePath

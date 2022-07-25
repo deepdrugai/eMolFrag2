@@ -1,6 +1,6 @@
 from rdkit import Chem
 from eMolFrag2.src.utilities import constants
-from eMolFrag2.src.utilities import logging
+from eMolFrag2.src.utilities.logging import log
 from eMolFrag2.src.chopper import BRICS_custom
 
 def getMolMatrix(mol):
@@ -79,14 +79,14 @@ def combineAdjLinkerSequences(linkers, snips):
         if lx and ly:
             lx, ly = *lx, *ly
 
-            logging.logger.debug(f"Join linkers: {[lx, ly]} on {(x,y)}.")
+            log.debug(f"Join linkers: {[lx, ly]} on {(x,y)}.")
 
             linkers -= {lx, ly} # Remove linkers 
             linkers.add(lx + ly) # Add merged linker
             snips_r.add((x, y)) # Add snip to removelist
 
-            logging.logger.debug(f"All Linkers: {linkers}")
-            logging.logger.debug(f"snips_r: {snips_r}")
+            log.debug(f"All Linkers: {linkers}")
+            log.debug(f"snips_r: {snips_r}")
 
     return linkers, snips_r
 
@@ -109,19 +109,19 @@ def computeFragmentsAndSnips(nxfrags, snips):
   
     # split linkers & bricks (populate sets)
     [linkers.add(tuple(x)) if len(x) <= constants.LINKER_MAXIMUM_NUM_ATOMS else bricks.add(tuple(x)) for x in nxfrags]
-    logging.logger.debug(f"(Before) All Bricks: {bricks}")
-    logging.logger.debug(f"(Before) All Linkers: {linkers}")
-    logging.logger.debug(f"(Before) Snips: {snips}")
+    log.debug(f"(Before) All Bricks: {bricks}")
+    log.debug(f"(Before) All Linkers: {linkers}")
+    log.debug(f"(Before) Snips: {snips}")
 
     # Handle sequences of linkers
     linkers, snips_r = combineAdjLinkerSequences(linkers, snips)
 
-    logging.logger.debug(f"(After) All Linkers: {linkers}")
+    log.debug(f"(After) All Linkers: {linkers}")
 
     # Remove snip removelist from snip list
     snips -= snips_r
     
-    logging.logger.debug(f"Final Snips: {snips}")
+    log.debug(f"Final Snips: {snips}")
 
     return bricks, linkers, snips
     

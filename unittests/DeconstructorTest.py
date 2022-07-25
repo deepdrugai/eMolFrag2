@@ -16,7 +16,7 @@ def run_deconstruct(molPath):
     
     # type of test case - normal 
     # test for equal atom number in original molecule and fragments after deconstruction
-    # logging.logger.debug(f'Testing:{molPath.name}')
+    # log.debug(f'Testing:{molPath.name}')
 
     # create rdkit molecule from molPath 
     rdkit_mol = utilities.getRDKitMolecule(molPath, Path(molPath).suffix)
@@ -43,8 +43,8 @@ def run_deconstruct(molPath):
       for t in l: 
         fragments.append(t)
     
-    logging.logger.info(f'# of atoms in the molecule: { len(rdkit_mol.GetAtoms()) }')
-    logging.logger.info(f'# of atoms after deconstruct:{ b_count + l_count }')
+    log.info(f'# of atoms in the molecule: { len(rdkit_mol.GetAtoms()) }')
+    log.info(f'# of atoms after deconstruct:{ b_count + l_count }')
     
     # Check if there is any overlapped atoms - atoms 
     atoms = []
@@ -58,11 +58,11 @@ def run_deconstruct(molPath):
       if not atom in fragments: 
         diff += 1
     
-    logging.logger.info(f'Atoms not in bricks or linkers: {diff}')
+    log.info(f'Atoms not in bricks or linkers: {diff}')
 
     # difference = len(atoms) - len(uniqueAtoms)
-    logging.logger.info(f'Atoms in Final Snips: {atoms}')
-    logging.logger.info(f'Unique atoms in final snips: {uniqueAtoms}')
+    log.info(f'Atoms in Final Snips: {atoms}')
+    log.info(f'Unique atoms in final snips: {uniqueAtoms}')
       
     #
     # Test Normal Case: atoms do not overlap
@@ -142,7 +142,7 @@ def run_deconstructTests():
       molPath = cwd2.joinpath(mol)
      
       file_name = molPath.name
-      logging.logger.info(f"Testing: {file_name}")
+      log.info(f"Testing: {file_name}")
       run_deconstruct(molPath)
 
 
@@ -166,7 +166,7 @@ def runtest(test_name, test_func, successful, failed):
 def runtests(printlevel):
 
     #utilities.emit(printlevel, f'Executing {__file__} unit tests.')
-    logging.logger.debug(f'Executing {__file__} unit tests.')
+    log.debug(f'Executing {__file__} unit tests.')
 
     #
     # Define all tests as a Dictionary: {str-name, <function-to-execute>}

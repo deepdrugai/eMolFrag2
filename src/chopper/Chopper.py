@@ -1,5 +1,6 @@
 from rdkit import Chem
-from eMolFrag2.src.utilities import *
+from eMolFrag2.src.utilities import constants, tc
+from eMolFrag2.src.utilities.logging import log
 from eMolFrag2.src.chopper import Preprocessor
 from eMolFrag2.src.chopper import Deconstructor
 from eMolFrag2.src.chopper import Connectivity
@@ -70,7 +71,7 @@ def chopall(mols):
 
     for mol in mols:
 
-        logging.logger.debug(f'Processing molecule{mol.getFileName()}')
+        log.debug(f'Processing molecule{mol.getFileName()}')
 
         #
         # Chop
@@ -82,12 +83,12 @@ def chopall(mols):
         #
         results = brick_db.addAll([Brick.Brick(b, mol, suffix = index) for index, b in enumerate(bricks)])
     
-        logging.logger.debug(f'Added {len(results)} TC-unique bricks; \
+        log.debug(f'Added {len(results)} TC-unique bricks; \
                              {len(bricks) - len(results)} were TC-redundant')
 
         results = linker_db.addAll([Linker.Linker(ell, mol, suffix = index) for index, ell in enumerate(linkers)])
 
-        logging.logger.debug(f'Added {len(results)} TC-unique linkers; \
+        log.debug(f'Added {len(results)} TC-unique linkers; \
                              {len(linkers) - len(results)} were TC-redundant')
 
     return brick_db, linker_db

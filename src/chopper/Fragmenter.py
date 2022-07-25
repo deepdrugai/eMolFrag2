@@ -1,5 +1,5 @@
 from rdkit import Chem
-from eMolFrag2.src.utilities import logging
+from eMolFrag2.src.utilities.logging import log
 
 def fragmentToMol(mol, frag_as_set):
     """
@@ -21,7 +21,7 @@ def fragmentToMol(mol, frag_as_set):
     try:
         Chem.SanitizeMol(cp)
     except:
-        logging.logger.warning(f'Fragment {frag_as_set} is not sanitizable.')
+        log.warning(f'Fragment {frag_as_set} is not sanitizable.')
     
     return cp
 

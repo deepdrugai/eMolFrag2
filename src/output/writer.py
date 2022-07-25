@@ -2,7 +2,7 @@ import shutil
 from pathlib import Path
 
 from eMolFrag2.src.representation import MoleculeDatabase
-from eMolFrag2.src.utilities import logging
+from eMolFrag2.src.utilities.logging import log
 from eMolFrag2.src.utilities import constants
 
 def prepareDirectory(out_path):
@@ -11,18 +11,18 @@ def prepareDirectory(out_path):
         If the directory does exist, clean it.        
     """
     if out_path.is_file():
-        logging.logger.error(f'Output path {str(out_path)} is a file, not a directory.')
+        log.error(f'Output path {str(out_path)} is a file, not a directory.')
         raise ValueError(f'Malformed output specification path {str(out_path)}')
 
     # Rename the directory, if needed    
     new_path = out_path
     i=1
     while new_path.exists():
-        logging.logger.warning(f'Output path {str(new_path)} exists; {str(out_path)}-{i} will be used.')
+        log.warning(f'Output path {str(new_path)} exists; {str(out_path)}-{i} will be used.')
         new_path = out_path.parent / f"{out_path.name}-{i}"
         i+=1
     else:
-        logging.logger.info(f'Output path {str(new_path)} does not exist; will be created.')
+        log.info(f'Output path {str(new_path)} does not exist; will be created.')
 
     out_path = new_path
     del new_path, i
@@ -42,7 +42,7 @@ def writeSingleFile(indicator, name, out_dir, mols, extension = constants.SDF_FO
     """
     file_name = f'{indicator}{name}{extension}'
 
-    logging.logger.debug(f'Writing file {out_dir}/{file_name}')
+    log.debug(f'Writing file {out_dir}/{file_name}')
 
     # Delimiter needed? Or does SDWriter put it there?
     text = '\n'.join([mol.toSDF() for mol in mols])
@@ -73,7 +73,7 @@ def write(options, brick_db, linker_db):
     out_dir = Path(options.OUTPUT_PATH)
     out_dir = prepareDirectory(out_dir)
 
-    logging.logger.debug(f'Writing to directory {str(out_dir)}')
+    log.debug(f'Writing to directory {str(out_dir)}')
 
     bricks_to_write = []
     linkers_to_write = []

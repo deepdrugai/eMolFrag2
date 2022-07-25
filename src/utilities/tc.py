@@ -2,7 +2,7 @@ import math
 
 from rdkit import Chem
 from rdkit import DataStructs # For TC Computations
-from eMolFrag2.src.utilities import logging
+from eMolFrag2.src.utilities.logging import log
 from eMolFrag2.src.representation import Molecule
 
 #
@@ -18,7 +18,7 @@ def TC_private(rdkit_mol1, rdkit_mol2):
 def TC(mol1, mol2):
 
     if isinstance(mol1, Molecule.Molecule) != isinstance(mol2, Molecule.Molecule):
-        logging.logger.error(f'Molecule objects of different type in TC computation')
+        log.error(f'Molecule objects of different type in TC computation')
         return -1
 
     return (TC_private(mol1.getRDKitObject(), mol2.getRDKitObject()) \

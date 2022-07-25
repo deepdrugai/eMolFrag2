@@ -1,5 +1,6 @@
 
-from eMolFrag2.src.utilities import logging, constants
+from eMolFrag2.src.utilities import constants
+from eMolFrag2.src.utilities.logging import log
 from pathlib import Path
 
 def cleanCommandList(cmdList):
@@ -39,7 +40,7 @@ def grabCommands(config_file):
           retString += line
 
   if (len(retString) <= 0):
-    logging.logger.error(f"Configuration File is empty")
+    log.error(f"Configuration File is empty")
     return None
 
   return cleanCommandList(retString.split(" "))
@@ -52,11 +53,11 @@ def readConfig(config_file, parser):
       @output: parsed arguments from argparser
   """
   if not Path(config_file).exists():
-    logging.logger.error(f"{Path(config_file)} does not exist")
+    log.error(f"{Path(config_file)} does not exist")
     return None
 
   if Path(config_file).suffix != constants.EMF_FORMAT_EXT:
-    logging.logger.error(f"Configuration files must have the {constants.EMF_FORMAT_EXT} extension")
+    log.error(f"Configuration files must have the {constants.EMF_FORMAT_EXT} extension")
     return None
 
   #Grab the commands and then parse them
@@ -64,7 +65,7 @@ def readConfig(config_file, parser):
 
   args = parser.parse_args(cmdList)
   if args.i is None or args.o is None:
-    logging.logger.error(f'Command-line arguments failed to parse; execution of eMolFrag will stop.')
+    log.error(f'Command-line arguments failed to parse; execution of eMolFrag will stop.')
     return None
 
   return args

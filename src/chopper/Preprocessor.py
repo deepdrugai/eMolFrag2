@@ -1,5 +1,5 @@
 from rdkit import Chem
-from eMolFrag2.src.utilities import logging
+from eMolFrag2.src.utilities.logging import log
 from eMolFrag2.src.utilities import constants
 from eMolFrag2.src.chopper import Deconstructor
 from eMolFrag2.src.chopper import Connectivity
@@ -40,6 +40,6 @@ def preprocess(rdkit_mol):
     # (2) Ensure we have atomtype information for all atoms
     #
     if not ensureAtomTypeIntegrity(cp_mol):
-        logging.logger.warning(f'molecule does not have Tripos AtomTypes specified or computed; using Atom symbols as substitute')
+        log.warning(f'molecule does not have Tripos AtomTypes specified or computed; using Atom symbols as substitute')
 
     return cp_mol
