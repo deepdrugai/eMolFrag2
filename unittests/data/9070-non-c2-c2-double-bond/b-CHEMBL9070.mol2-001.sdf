@@ -1,0 +1,38 @@
+b-CHEMBL9070.mol2-001.sdf
+     RDKit          3D
+
+  7  6  0  0  0  0  0  0  0  0999 V2000
+    8.0101   -3.2057    1.1345 O   0  0  0  0  0  0  0  0  0  0  0  0
+    9.4066   -1.0655    1.2549 O   0  0  0  0  0  0  0  0  0  0  0  0
+    7.7967   -1.2523   -1.3818 F   0  0  0  0  0  0  0  0  0  0  0  0
+    6.9050    0.4008   -0.0814 F   0  0  0  0  0  0  0  0  0  0  0  0
+    7.1977   -1.2253    2.5357 O   0  0  0  0  0  0  0  0  0  0  0  0
+    7.0627   -0.9821   -0.2219 C   0  0  0  0  0  0  0  0  0  0  0  0
+    7.9505   -1.6429    1.2267 P   0  0  0  0  0  5  0  0  0  0  0  0
+  7  1  1  0
+  2  7  1  0
+  6  3  1  0
+  4  6  1  0
+  5  7  2  0
+  6  7  1  0
+V    8 *
+M  END
+
+> <ATOMTYPES> 
+O.3
+O.3
+F
+F
+O.2
+C.3
+P.3
+
+> <BRANCH @atom-number eligible-atmtype-to-connect> 
+6 C.ar
+
+
+> <fragments similar> 
+/content/test-9070-output/output-chop-comb/b-CHEMBL9070.mol2-001.sdf
+/content/test-9070-output/output-chop-comb/b-CHEMBL9070.mol2-002.sdf
+
+$$$$

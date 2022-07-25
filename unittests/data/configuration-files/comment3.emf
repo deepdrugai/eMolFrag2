@@ -1,0 +1,2 @@
+#Comment
+-i /content/eMolFrag2/unittests/data/db-files/mol2 -o /content/output
