@@ -1,9 +1,9 @@
 from pathlib import Path 
 
 import sys 
-from SuperSecretProject.src.utilities import tc, logging, constants
-from SuperSecretProject.src.representation import Molecule 
-from SuperSecretProject.unittests import utilities
+from eMolFrag2.src.utilities import tc, logging, constants
+from eMolFrag2.src.representation import Molecule 
+from eMolFrag2.unittests import utilities
 
 #
 # Test tanimoto coefficient calculation from two rdkit molecules 
@@ -21,7 +21,7 @@ def run_TC_private(mol1path, mol2path, expec_result):
 
 def run_TC_privateTests():
 
-    cwd = Path.cwd().joinpath("SuperSecretProject", "unittests", "data")
+    cwd = Path.cwd().joinpath("eMolFrag2", "unittests", "data")
 
     # Test 1: a pair of molecules (.smi) with tc = 1.0 
     # set 1
@@ -53,7 +53,7 @@ def run_TC(mol1, mol2, expec_result):
 
 def run_TCTests():
     
-    cwd = Path.cwd().joinpath("SuperSecretProject", "unittests", "data")
+    cwd = Path.cwd().joinpath("eMolFrag2", "unittests", "data")
 
     mol1path = cwd.joinpath("uniqueMol(SMI)/DB00415.smi")
     mol2path = cwd.joinpath("uniqueMol(SMI)/DB01208.smi")
@@ -96,7 +96,7 @@ def run_TCEquiv(mol1path, mol2path, expec_result):
 
 def run_TCEquivTests():
 
-    cwd = Path.cwd().joinpath("SuperSecretProject", "unittests", "data")
+    cwd = Path.cwd().joinpath("eMolFrag2", "unittests", "data")
 
     # Test tc unique molecules (antibiotics with tc < 1.0 )
     mol1path = cwd.joinpath("uniqueMol(SMI)/DB00415.smi")

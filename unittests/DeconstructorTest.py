@@ -1,13 +1,13 @@
 # Files needed for Deconstructor.py 
 from rdkit import Chem
-from SuperSecretProject.src.utilities import constants, logging
-from SuperSecretProject.src.chopper import BRICS_custom
+from eMolFrag2.src.utilities import constants, logging
+from eMolFrag2.src.chopper import BRICS_custom
 
 # Files needed for testing 
 from pathlib import Path
 import os
-from SuperSecretProject.unittests import utilities
-from SuperSecretProject.src.chopper import Deconstructor 
+from eMolFrag2.unittests import utilities
+from eMolFrag2.src.chopper import Deconstructor 
 
 #
 # Call the main method 
@@ -86,7 +86,7 @@ def run_deconstruct(molPath):
 
 def run_deconstructTests():
 
-    cwd = Path.cwd().joinpath("SuperSecretProject", "unittests", "data", "uniqueMol(SMI)")
+    cwd = Path.cwd().joinpath("eMolFrag2", "unittests", "data", "uniqueMol(SMI)")
 
     # Test 1: .smi files with overlapped atoms 
     Overlapped = ['DB00415.smi', 'DB04626.smi', 'DB13499.smi']
@@ -103,9 +103,9 @@ def run_deconstructTests():
 
 
     # Test 100 antibiotics - mol2 files 
-    cwd2 = Path.cwd().joinpath('SuperSecretProject', 'test', 'mol2-test')
+    cwd2 = Path.cwd().joinpath('eMolFrag2', 'test', 'mol2-test')
     antibiotics = []
-    directory = '/content/SuperSecretProject/test/mol2-test'
+    directory = '/content/eMolFrag2/test/mol2-test'
     for filename in os.listdir(directory):
       filepath = os.path.join(directory, filename)
 

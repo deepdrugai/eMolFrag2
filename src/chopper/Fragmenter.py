@@ -1,5 +1,5 @@
 from rdkit import Chem
-from SuperSecretProject.src.utilities import logging
+from eMolFrag2.src.utilities import logging
 
 def fragmentToMol(mol, frag_as_set):
     """

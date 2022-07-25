@@ -1,11 +1,11 @@
 import sys
 from pathlib import Path
 
-from SuperSecretProject.src.input import MoleculeFileReader, MoleculeReader, Options
-from SuperSecretProject.src.chopper import Chopper
-from SuperSecretProject.src.representation import Molecule
-from SuperSecretProject.src.output import writer
-from SuperSecretProject.src.utilities import logging
+from eMolFrag2.src.input import MoleculeFileReader, MoleculeReader, Options
+from eMolFrag2.src.chopper import Chopper
+from eMolFrag2.src.representation import Molecule
+from eMolFrag2.src.output import writer
+from eMolFrag2.src.utilities import logging
 
 def main():
     """

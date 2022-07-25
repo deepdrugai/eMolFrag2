@@ -1,8 +1,8 @@
 from pathlib import Path
 
-from SuperSecretProject.src.input import Options
-from SuperSecretProject.src.utilities import constants
-from SuperSecretProject.src.utilities import logging
+from eMolFrag2.src.input import Options
+from eMolFrag2.src.utilities import constants
+from eMolFrag2.src.utilities import logging
 
 def getFiles(options):
     """

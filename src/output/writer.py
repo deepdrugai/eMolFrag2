@@ -1,9 +1,9 @@
 import shutil
 from pathlib import Path
 
-from SuperSecretProject.src.representation import MoleculeDatabase
-from SuperSecretProject.src.utilities import logging
-from SuperSecretProject.src.utilities import constants
+from eMolFrag2.src.representation import MoleculeDatabase
+from eMolFrag2.src.utilities import logging
+from eMolFrag2.src.utilities import constants
 
 def prepareDirectory(out_path):
     """

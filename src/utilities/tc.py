@@ -2,8 +2,8 @@ import math
 
 from rdkit import Chem
 from rdkit import DataStructs # For TC Computations
-from SuperSecretProject.src.utilities import logging
-from SuperSecretProject.src.representation import Molecule
+from eMolFrag2.src.utilities import logging
+from eMolFrag2.src.representation import Molecule
 
 #
 # A utility function to compute the Tanimoto Coefficient

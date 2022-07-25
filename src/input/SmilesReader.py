@@ -1,8 +1,8 @@
 from pathlib import Path
 
-from SuperSecretProject.src.representation import Molecule
-from SuperSecretProject.src.utilities import constants
-from SuperSecretProject.src.utilities import logging
+from eMolFrag2.src.representation import Molecule
+from eMolFrag2.src.utilities import constants
+from eMolFrag2.src.utilities import logging
 
 #
 # We will handle two formats for SMILES; these formats can be intermixed

@@ -4,8 +4,8 @@
 from rdkit import Chem
 from rdkit.Chem import AllChem
 from rdkit import DataStructs
-from SuperSecretProject.src.utilities import constants
-from SuperSecretProject.src.utilities import tc
+from eMolFrag2.src.utilities import constants
+from eMolFrag2.src.utilities import tc
 
 class Molecule:
     def __init__(self, rdkit_mol,  file_name = None, parentMol = None):

@@ -1,12 +1,12 @@
 from rdkit import Chem
-from SuperSecretProject.src.utilities import *
-from SuperSecretProject.src.chopper import Preprocessor
-from SuperSecretProject.src.chopper import Deconstructor
-from SuperSecretProject.src.chopper import Connectivity
-from SuperSecretProject.src.chopper import Fragmenter
-from SuperSecretProject.src.representation import MoleculeDatabase as MDB
-from SuperSecretProject.src.representation import Brick
-from SuperSecretProject.src.representation import Linker
+from eMolFrag2.src.utilities import *
+from eMolFrag2.src.chopper import Preprocessor
+from eMolFrag2.src.chopper import Deconstructor
+from eMolFrag2.src.chopper import Connectivity
+from eMolFrag2.src.chopper import Fragmenter
+from eMolFrag2.src.representation import MoleculeDatabase as MDB
+from eMolFrag2.src.representation import Brick
+from eMolFrag2.src.representation import Linker
 
 def chop(rdkit_mol):
     """

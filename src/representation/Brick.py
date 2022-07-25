@@ -1,7 +1,7 @@
 from rdkit import Chem
 
-from SuperSecretProject.src.representation import Molecule
-from SuperSecretProject.src.utilities import constants
+from eMolFrag2.src.representation import Molecule
+from eMolFrag2.src.utilities import constants
 
 class Brick(Molecule.Molecule):
 

@@ -1,10 +1,10 @@
 import sys
 from pathlib import Path
-from SuperSecretProject.src.utilities import logging
-from SuperSecretProject.src.input import Options, MoleculeFileReader
+from eMolFrag2.src.utilities import logging
+from eMolFrag2.src.input import Options, MoleculeFileReader
 
 usr_dir = Path.cwd()
-dataPath = usr_dir.joinpath("SuperSecretProject/unittests/data/db-files")
+dataPath = usr_dir.joinpath("eMolFrag2/unittests/data/db-files")
 mol2 = dataPath.joinpath("mol2")
 smi = dataPath.joinpath("smi")
 sdf = dataPath.joinpath("sdf")
@@ -18,7 +18,7 @@ def getOptions(inputPath):
   f.write(f"-i {inputPath} -o /content/out")
   f.close()
 
-  sys.argv = ['/content/SuperSecretProject/src/eMolFrag.py',"-c", str(filePath)]
+  sys.argv = ['/content/eMolFrag2/src/eMolFrag.py',"-c", str(filePath)]
   options = Options.Options()
 
   return options

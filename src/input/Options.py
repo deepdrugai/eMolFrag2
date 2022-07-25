@@ -1,8 +1,8 @@
 import argparse
 import sys
 
-from SuperSecretProject.src.utilities import logging
-from SuperSecretProject.src.input import ConfigReader
+from eMolFrag2.src.utilities import logging
+from eMolFrag2.src.input import ConfigReader
 
 #
 # Arg     Explanation

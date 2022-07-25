@@ -1,10 +1,10 @@
 from rdkit import DataStructs # For TC Computations
 
 import sys
-from SuperSecretProject.src.utilities import constants 
-from SuperSecretProject.src.utilities import tc
+from eMolFrag2.src.utilities import constants 
+from eMolFrag2.src.utilities import tc
 
-from SuperSecretProject.src.representation.Molecule import Molecule
+from eMolFrag2.src.representation.Molecule import Molecule
 
 #
 # This class will simulate an equivalence class of molecules

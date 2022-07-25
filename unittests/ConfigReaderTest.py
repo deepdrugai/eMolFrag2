@@ -1,11 +1,11 @@
 import sys
 from pathlib import Path
-from SuperSecretProject.unittests import utilities
-from SuperSecretProject.src.utilities import logging
-from SuperSecretProject.src.input import ConfigReader
+from eMolFrag2.unittests import utilities
+from eMolFrag2.src.utilities import logging
+from eMolFrag2.src.input import ConfigReader
 
 usr_dir = Path.cwd()
-config_files = usr_dir.joinpath("SuperSecretProject/unittests/data/configuration-files")
+config_files = usr_dir.joinpath("eMolFrag2/unittests/data/configuration-files")
 
 def runReadNormalConfig(config_file):
   parser = utilities.createParser()

@@ -3,9 +3,9 @@ from pathlib import Path
 from rdkit import Chem
 from rdkit import RDLogger
 
-from SuperSecretProject.src.representation import Molecule
-from SuperSecretProject.src.utilities import constants
-from SuperSecretProject.src.utilities import logging
+from eMolFrag2.src.representation import Molecule
+from eMolFrag2.src.utilities import constants
+from eMolFrag2.src.utilities import logging
 
 # TODO: move to utilities
 def fileToString(file):
@@ -40,7 +40,7 @@ def convertToRDkit(contents, curr_file):
         return [(curr_file.name, readMol2File(contents))]
 
     elif (extension == constants.SMILES_FORMAT_EXT):
-        from SuperSecretProject.src.input import SmilesReader
+        from eMolFrag2.src.input import SmilesReader
         return SmilesReader.readSmilesFile(contents)
 
     #

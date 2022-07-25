@@ -1,10 +1,10 @@
 import sys
 from pathlib import Path
-from SuperSecretProject.src.utilities import logging
-from SuperSecretProject.src.input import Options
+from eMolFrag2.src.utilities import logging
+from eMolFrag2.src.input import Options
 
 usr_dir = Path.cwd()
-dataPath = usr_dir.joinpath("SuperSecretProject/unittests/data/db-files")
+dataPath = usr_dir.joinpath("eMolFrag2/unittests/data/db-files")
 mol2 = dataPath.joinpath("mol2")
 smi = dataPath.joinpath("smi")
 sdf = dataPath.joinpath("sdf")
@@ -12,7 +12,7 @@ pdb = dataPath.joinpath("pbd")
 mol = dataPath.joinpath("mol")
 
 def runOptions(test_file):
-  sys.argv = ['/content/SuperSecretProject/src/eMolFrag.py','-i', str(test_file), '-o', '/content/output']
+  sys.argv = ['/content/eMolFrag2/src/eMolFrag.py','-i', str(test_file), '-o', '/content/output']
   options = Options.Options()
   assert options.isRunnable()
 

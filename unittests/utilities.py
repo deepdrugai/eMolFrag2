@@ -5,8 +5,8 @@
 from rdkit import Chem
 from pathlib import Path
 import argparse
-from SuperSecretProject.src.utilities import constants
-from SuperSecretProject.src.input import Options
+from eMolFrag2.src.utilities import constants
+from eMolFrag2.src.input import Options
 
 #takes the contents of a file and puts it in a string for processing
 def fileToString(file):
