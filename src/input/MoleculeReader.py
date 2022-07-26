@@ -36,8 +36,11 @@ def convertToRDkit(contents, curr_file):
     extension = curr_file.suffix
 
     if (extension == constants.MOL2_FORMAT_EXT):
-        # return Chem.MolFromMol2Block(contents)
-        return [(curr_file.name, readMol2File(contents))]
+        mol = readMol2File(contents)
+        if mol is None:
+            logging.log.error(f'Rdkit failed to process mol2 file {curr_file.name}')
+            return None
+        return [(curr_file.name, mol)]
 
     elif (extension == constants.SMILES_FORMAT_EXT):
         from eMolFrag2.src.input import SmilesReader
