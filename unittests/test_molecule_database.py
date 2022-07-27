@@ -6,10 +6,7 @@ from eMolFrag2.src.representation.MoleculeDatabase import MoleculeDatabase
 # from eMolFrag2.src.utilities import tc    # _TCEquiv tests
 from eMolFrag2.src.utilities.logging import log
 
-# Create rdkit object
-# Add to molecule database
-# test if adding worked
-
+### Moved to Molecule file
 # def to_mol(molPath):
 #   """ Create Molecule object from file path """ 
 #   mol = utilities.getRDKitMolecule(molPath)
@@ -52,82 +49,59 @@ def five_mols():
     mols.append(Molecule.to_mol(Path(__file__).parent / "data" / m))
   return mols
 
-# return the list of UNIQUE database
 def test_add_list_to_mdb(five_mols, tc = 1.0):
+  """ Test adding a list to molecule database """
   mdb = MoleculeDatabase(tc)
   # mdb.addAll(five_mols)
   log.debug(f"test ||| {len(five_mols)}")
   assert len(mdb.addAll(five_mols)) == len(five_mols)
 
-  # for m in mols:
+@pytest.fixture
+def tc1_mol_pairs():
+  ms = [("similarPairSMI/1/DB00452.smi", 
+        "similarPairSMI/1/DB01421.smi"), 
+        ("similarPairSMI/2/DB01137.smi", 
+        "similarPairSMI/2/DB01165.smi"),
+        ("similarPairSMI/3/DB12447.smi", 
+        "similarPairSMI/3/DB16219.smi")]
+  molpairs = []
+  for a, b in ms:
+    am = Molecule.to_mol(Path(__file__).parent / "data" / a)
+    bm = Molecule.to_mol(Path(__file__).parent / "data" / b)
+    molpairs.append([am, bm])
+  return molpairs
 
-  # molecules = []
-
-  # for molPath in moleculesPath: 
-  #   # 1. create rdkit object 
-  #   mol = utilities.getRDKitMolecule(molPath, Path(molPath).suffix)
-  #   # 2. create a local molecule, take in (rdkit_object and file_name )
-  #   Mol = Molecule(mol, molPath.name)
-  #   # 3. add local molecule to a list 
-  #   molecules.append(Mol)
-
-  #   # frequency = md.addAll(molecules)
-  #   # print("Size of list:\n", len(frequency))
-  #   # print(frequency)
-
-  #   # Test the size of the list 
-  # assert len(md.addAll(molecules)) == length
-
-# def run_add(mdb, molPath, expec_result):
-
-#     # Create rdkit object from file path extension
-#     mol = utilities.getRDKitMolecule(molPath, Path(molPath).suffix)
-#     Mol = Molecule(mol, molPath.name)
-#     assert mdb.add(Mol) == expec_result
-
-
-
-
-
-# def run_addAllTests():
-#     cwd = Path.cwd().joinpath("eMolFrag2", "unittests", "data")
-#     md1 = MoleculeDatabase(given_tc = 1.0)
-#     moleculesPath = []
-
-#     # Test 1: adding 5 unique molecules 
-#     uniqueMol1 = cwd.joinpath("uniqueMol(SMI)/DB00415.smi")
-#     uniqueMol2 = cwd.joinpath("uniqueMol(SMI)/DB01208.smi")
-#     uniqueMol3 = cwd.joinpath("uniqueMol(SMI)/DB04626.smi")
-#     uniqueMol4 = cwd.joinpath("uniqueMol(SMI)/DB11774.smi")
-#     uniqueMol5 = cwd.joinpath("uniqueMol(SMI)/DB13499.smi")
+def test_add_many_mols_to_mdb(five_mols, tc1_mol_pairs):
+    """ Test adding a large number of mols to molecules database """
+    cwd = Path(__file__).parent / "data"
+    mdb1 = MoleculeDatabase(given_tc = 1.0)
     
-#     moleculesPath.extend([uniqueMol1, uniqueMol2, uniqueMol3, uniqueMol4, uniqueMol5])
-#     run_addAll(md1, moleculesPath, 5)
+    # Test 1: Adding 5 unique molecules to mdb1
+    mdb1.addAll(five_mols)
+    log.debug(f"{len(mdb1) = }")
+    assert len(mdb1) == 5
 
-#     # Test 2: add pairs of similar molecules (tc = 1.0)
-#     mol1 = cwd.joinpath("similarPairSMI/1/DB00452.smi")
-#     mol2 = cwd.joinpath("similarPairSMI/1/DB01421.smi")
-#     moleculesPath.clear()
-#     moleculesPath.extend([mol1, mol2])
-#     run_addAll(md1, moleculesPath, 1)
+    # Test 2: Add pairs of similar molecules (tc = 1.0) to mdb1
+    mdb1.addAll(tc1_mol_pairs[0])
+    log.debug(f"{len(mdb1) = }")
+    assert len(mdb1) == 6
 
-#     # Test 3: add 2nd pair of similar molecules
-#     mol3 = cwd.joinpath("similarPairSMI/2/DB01137.smi")
-#     mol4 = cwd.joinpath("similarPairSMI/2/DB01165.smi")
-#     moleculesPath.extend([mol3, mol4])
-#     run_addAll(md1, moleculesPath, 1)
+    # Test 3: add 2nd pair of similar molecules to mdb1
+    mdb1.addAll(tc1_mol_pairs[1])
+    log.debug(f"{len(mdb1) = }")
+    assert len(mdb1) == 7
 
-#     # Test 4: add 3 sets of 2 similar molecules 
-#     md2 = MoleculeDatabase()
-#     mol5 = cwd.joinpath("similarPairSMI/3/DB12447.smi")
-#     mol6 = cwd.joinpath("similarPairSMI/3/DB16219.smi")
-#     moleculesPath.extend([mol5, mol6])
-#     run_addAll(md2, moleculesPath, 3)
+    # Test 4: add 3 sets of 2 similar molecules to mdb2
+    mdb2 = MoleculeDatabase()
+    mdb2.addAll([x for xs in tc1_mol_pairs for x in xs])
+    log.debug(f"{len(mdb2) = }")
+    assert len(mdb2) == 3
 
-#     # Test 5: create a new database and add all 11 molecules at once 
-#     md3 = MoleculeDatabase()
-#     moleculesPath.extend([uniqueMol1, uniqueMol2, uniqueMol3, uniqueMol4, uniqueMol5])
-#     run_addAll(md3, moleculesPath, 8)
+    # Test 5: create a new database and add all 11 molecules at once 
+    mdb3 = MoleculeDatabase()
+    mdb3.addAll([x for xs in tc1_mol_pairs for x in xs] + five_mols)
+    log.debug(f"{len(mdb3) = }")
+    assert len(mdb3) == 8
 
 
 # def run_GetUniqueMolecules(moleculesPath, size):
