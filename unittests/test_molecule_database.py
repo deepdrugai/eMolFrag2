@@ -1,10 +1,8 @@
 import pytest
 from pathlib import Path
-from eMolFrag2.unittests import utilities
+from eMolFrag2.src.utilities.logging import log
 from eMolFrag2.src.representation.Molecule import Molecule
 from eMolFrag2.src.representation.MoleculeDatabase import MoleculeDatabase
-# from eMolFrag2.src.utilities import tc    # _TCEquiv tests
-from eMolFrag2.src.utilities.logging import log
 
 ### Moved to Molecule file
 # def to_mol(molPath):
@@ -115,27 +113,27 @@ def test_get_all_molecules_mdb(five_mols, tc1_mol_pairs):
     
     # Test 1: Adding 5 unique molecules to mdb1
     mdb1.addAll(five_mols)
-    log.debug(f"{len(mdb1) = }, {mdb1.GetAllMolecules() = }")
-    assert mdb1.GetAllMolecules() == 5
+    log.debug(f"{len(mdb1) = }, {mdb1.numAllMolecules() = }")
+    assert mdb1.numAllMolecules() == 5
 
     # Test 2: Add pairs of similar molecules (tc = 1.0) to mdb1
     mdb1.addAll(tc1_mol_pairs[0])
-    log.debug(f"{len(mdb1) = }, {mdb1.GetAllMolecules() = }")
-    assert mdb1.GetAllMolecules() == 7
+    log.debug(f"{len(mdb1) = }, {mdb1.numAllMolecules() = }")
+    assert mdb1.numAllMolecules() == 7
 
     # Test 3: add 2nd pair of similar molecules to mdb1
     mdb1.addAll(tc1_mol_pairs[1])
-    log.debug(f"{len(mdb1) = }, {mdb1.GetAllMolecules() = }")
-    assert mdb1.GetAllMolecules() == 9
+    log.debug(f"{len(mdb1) = }, {mdb1.numAllMolecules() = }")
+    assert mdb1.numAllMolecules() == 9
 
     # Test 4: add 3 sets of 2 similar molecules to mdb2
     mdb2 = MoleculeDatabase()
     mdb2.addAll([x for xs in tc1_mol_pairs for x in xs])
-    log.debug(f"{len(mdb2) = }, {mdb2.GetAllMolecules() = }")
-    assert mdb2.GetAllMolecules() == 6
+    log.debug(f"{len(mdb2) = }, {mdb2.numAllMolecules() = }")
+    assert mdb2.numAllMolecules() == 6
 
     # Test 5: create a new database and add all 11 molecules at once 
     mdb3 = MoleculeDatabase()
     mdb3.addAll([x for xs in tc1_mol_pairs for x in xs] + five_mols)
-    log.debug(f"{len(mdb3) = }, {mdb3.GetAllMolecules() = }")
-    assert mdb3.GetAllMolecules() == 11
+    log.debug(f"{len(mdb3) = }, {mdb3.numAllMolecules() = }")
+    assert mdb3.numAllMolecules() == 11
