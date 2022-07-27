@@ -65,7 +65,7 @@ def toRdkitMol(mol_id, mol_smi_str):
     obabel_mol = pybel.readstring('smi', mol_smi_str)
 
     # Associate the OpenBabel atom types with our Rdkit molecule    
-    for index, obabel_atom in enumerate(obabel_mol.atoms):
+    # for index, obabel_atom in enumerate(obabel_mol.atoms):
         # BREAKING here: rdkit_mol.GetAtomWithIdx(index - 1).SetProp(constants.ATOMTYPE_PROP, obabel_atom.type)
      
     return mol_id, rdkit_mol
