@@ -17,9 +17,9 @@ def main():
 
     """
     options = Options.Options()
-    if not options.isRunnable():
-        log.error(f'Command-line arguments failed to parse; execution of eMolFrag will stop.')
-        return
+    # if not options.isRunnable():
+    #     log.error(f'Command-line arguments failed to parse; execution of eMolFrag will stop.')
+    #     return
 
     dataset = []
     
