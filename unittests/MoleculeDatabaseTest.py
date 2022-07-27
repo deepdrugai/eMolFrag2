@@ -14,8 +14,7 @@ def run_add(md, molPath, expec_result):
     assert md.add(Mol) == expec_result 
 
 def run_addTests():
-
-    cwd = Path.cwd().joinpath("eMolFrag2", "unittests", "data")
+    cwd = Path(__file__).parent / "data"
     md = MoleculeDatabase.MoleculeDatabase(given_tc = 1.0)
 
     # Molecules with tc = 1.0
@@ -60,7 +59,7 @@ def run_addAll(md, moleculesPath, length):
     assert len(md.addAll(molecules)) == length
 
 def run_addAllTests():
-    cwd = Path.cwd().joinpath("eMolFrag2", "unittests", "data")
+    cwd = Path(__file__).parent / "data"
     md1 = MoleculeDatabase.MoleculeDatabase(given_tc = 1.0)
     moleculesPath = []
 
@@ -117,7 +116,7 @@ def run_GetUniqueMolecules(moleculesPath, size):
 
 def run_GetUniqueMoleculesTests():
 
-    cwd = Path.cwd().joinpath("eMolFrag2", "unittests", "data")
+    cwd = Path(__file__).parent / "data"
     moleculesPath = []
 
     # Test 1: adding 5 unique molecules 
@@ -169,7 +168,7 @@ def run_GetAllMolecules(moleculesPath, size):
   
 
 def run_GetAllMoleculesTests():
-    cwd = Path.cwd().joinpath("eMolFrag2", "unittests", "data")
+    cwd = Path(__file__).parent / "data"
     moleculesPath = []
 
     # Test 1: adding 5 unique molecules 

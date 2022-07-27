@@ -41,6 +41,8 @@ def five_mols():
   for m in ms:
     mols.append(Molecule.to_mol(Path(__file__).parent / "data" / m))
   return mols
+=======
+
 
 @pytest.mark.parametrize("input, expected", [
   # Single Molecules
@@ -75,6 +77,7 @@ def test_add_list_to_mdb(five_mols, tc = 1.0):
 
 def test_get_unique_molecules_mdb(five_mols, tc1_mol_pairs):
     """ Test adding a large number of mols to molecules database and get unique """
+    
     cwd = Path(__file__).parent / "data"
     mdb1 = MoleculeDatabase(given_tc = 1.0)
     

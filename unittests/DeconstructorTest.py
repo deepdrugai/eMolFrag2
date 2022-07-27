@@ -86,8 +86,7 @@ def run_deconstruct(molPath):
 
 def run_deconstructTests():
 
-    cwd = Path.cwd().joinpath("eMolFrag2", "unittests", "data", "uniqueMol(SMI)")
-
+    cwd = Path(__file__).parent / "data/uniqueMol(SMI)"
     # Test 1: .smi files with overlapped atoms 
     Overlapped = ['DB00415.smi', 'DB04626.smi', 'DB13499.smi']
     for smi in Overlapped: 
@@ -103,7 +102,7 @@ def run_deconstructTests():
 
 
     # Test 100 antibiotics - mol2 files 
-    cwd2 = Path.cwd().joinpath('eMolFrag2', 'test', 'mol2-test')
+    cwd2 = Path(__file__).parent / "../test/mol2-test"
     antibiotics = []
     directory = '/content/eMolFrag2/test/mol2-test'
     for filename in os.listdir(directory):
