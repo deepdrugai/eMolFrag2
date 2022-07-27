@@ -1,236 +1,213 @@
-from pathlib import Path
+# from pathlib import Path
 
-# import sys
-from eMolFrag2.src.utilities import tc  # , constants
-from eMolFrag2.src.utilities.logging import log
-from eMolFrag2.src.representation import Molecule
-from eMolFrag2.unittests import utilities
+# # import sys
+# from eMolFrag2.src.utilities import tc  # , constants
+# from eMolFrag2.src.utilities.logging import log
+# from eMolFrag2.src.representation import Molecule
+# from eMolFrag2.unittests import utilities
 
 
-def to_mol(molPath):
-    # Create rdkit object from file path
-    mol = utilities.getRDKitMolecule(molPath, Path(molPath).suffix)
-    log.debug(f"{mol} {molPath}")
-    m = Molecule(mol, molPath.name)
-    log.debug(f"{m}")
-    return m
+# #
+# # Test tanimoto coefficjient calculation from two rdkit molecules
+# #
 
-#
-# Test tanimoto coefficient calculation from two rdkit molecules
-#
 
+# def run_TC_private(mol1path, mol2path, expec_result):
 
-def run_TC_private(mol1path, mol2path, expec_result):
+#     rdkit_mol1 = utilities.getRDKitMolecule(mol1path, Path(mol1path).suffix)
+#     rdkit_mol2 = utilities.getRDKitMolecule(mol2path, Path(mol2path).suffix)
 
-    rdkit_mol1 = utilities.getRDKitMolecule(mol1path, Path(mol1path).suffix)
-    rdkit_mol2 = utilities.getRDKitMolecule(mol2path, Path(mol2path).suffix)
+#     tanimoto = tc.TC_private(rdkit_mol1, rdkit_mol2)
+#     # Show tc value for testing molecules
+#     log.info(
+#         f'TC value for {mol1path.name} and {mol2path.name} is: {tanimoto}')
 
-    tanimoto = tc.TC_private(rdkit_mol1, rdkit_mol2)
-    # Show tc value for testing molecules
-    log.info(
-        f'TC value for {mol1path.name} and {mol2path.name} is: {tanimoto}')
+#     assert tanimoto == expec_result
 
-    assert tanimoto == expec_result
 
+# def run_TC_privateTests():
 
-def run_TC_privateTests():
+#     cwd = Path(__file__).parent / "data"
 
-    cwd = Path(__file__).parent / "data"
+#     # Test 1: a pair of molecules (.smi) with tc = 1.0
+#     # set 1
+#     mol1 = cwd.joinpath("similarPairSMI/1/DB00452.smi")
+#     mol2 = cwd.joinpath("similarPairSMI/1/DB01421.smi")
+#     run_TC_private(mol1, mol2, 1.0)
 
-    # Test 1: a pair of molecules (.smi) with tc = 1.0
-    # set 1
-    mol1 = cwd.joinpath("similarPairSMI/1/DB00452.smi")
-    mol2 = cwd.joinpath("similarPairSMI/1/DB01421.smi")
-    run_TC_private(mol1, mol2, 1.0)
+#     # set 2
+#     mol3 = cwd.joinpath("similarPairSMI/2/DB01137.smi")
+#     mol4 = cwd.joinpath("similarPairSMI/2/DB01165.smi")
+#     run_TC_private(mol3, mol4, 1.0)
 
-    # set 2
-    mol3 = cwd.joinpath("similarPairSMI/2/DB01137.smi")
-    mol4 = cwd.joinpath("similarPairSMI/2/DB01165.smi")
-    run_TC_private(mol3, mol4, 1.0)
+#     # set 3
+#     mol5 = cwd.joinpath("similarPairSMI/3/DB12447.smi")
+#     mol6 = cwd.joinpath("similarPairSMI/3/DB16219.smi")
+#     run_TC_private(mol5, mol6, 1.0)
 
-    # set 3
-    mol5 = cwd.joinpath("similarPairSMI/3/DB12447.smi")
-    mol6 = cwd.joinpath("similarPairSMI/3/DB16219.smi")
-    run_TC_private(mol5, mol6, 1.0)
 
+# #
+# # Checks if two molecules match types and calculat tc value
+# #
+# def run_TC(mol1, mol2, expec_result):
 
-def test_tc_calc(mol1, mol2, expected):
-    """
-    Test to check the TC value given two molecules
-    mol1 : Molecule obj
-    mol2: Molecule obj
-    expected: TC value
-    """
-    cwd = Path.cwd() / "eMolFrag2/unittests/data"
-    mdb = Molecule
+#     result = tc.TC(mol1, mol2)
+#     # 3 decimal places accuracy
+#     assert abs(result - expec_result) <= 0.001
 
-    for m, e in zip(input, expected):
-        log.debug(f"{cwd / m}\t{e}")
-        assert mdb.add(to_mol(cwd / m)) is e
 
+# def run_TCTests():
 
-#
-# Checks if two molecules match types and calculat tc value
-#
-def run_TC(mol1, mol2, expec_result):
+#     cwd = Path(__file__).parent / "data"
 
-    result = tc.TC(mol1, mol2)
-    # 3 decimal places accuracy
-    assert abs(result - expec_result) <= 0.001
+#     mol1path = cwd.joinpath("uniqueMol(SMI)/DB00415.smi")
+#     mol2path = cwd.joinpath("uniqueMol(SMI)/DB01208.smi")
+#     mol3path = cwd.joinpath("uniqueMol(SMI)/DB04626.smi")
 
+#     # Create rdkit molecules and local Molecules
+#     mol1 = utilities.getRDKitMolecule(mol1path, Path(mol1path).suffix)
+#     Mol1 = Molecule.Molecule(mol1, mol1path.name)
 
-def run_TCTests():
+#     mol2 = utilities.getRDKitMolecule(mol2path, Path(mol2path).suffix)
+#     Mol2 = Molecule.Molecule(mol2, mol2path.name)
 
-    cwd = Path(__file__).parent / "data"
+#     mol3 = utilities.getRDKitMolecule(mol3path, Path(mol3path).suffix)
+#     Mol3 = Molecule.Molecule(mol3, mol3path.name)
 
-    mol1path = cwd.joinpath("uniqueMol(SMI)/DB00415.smi")
-    mol2path = cwd.joinpath("uniqueMol(SMI)/DB01208.smi")
-    mol3path = cwd.joinpath("uniqueMol(SMI)/DB04626.smi")
+#     # Test 1: different molecule type (1 rdkit_mol, 1 local molecule)
+#     run_TC(mol1, Mol2, -1)
+#     run_TC(Mol1, mol2, -1)
 
-    # Create rdkit molecules and local Molecules
-    mol1 = utilities.getRDKitMolecule(mol1path, Path(mol1path).suffix)
-    Mol1 = Molecule.Molecule(mol1, mol1path.name)
+#     # Test 2: two rdkit_mol
+#     run_TC(mol1, mol2, 0.444)
+#     run_TC(mol1, mol3, 0.293)
+#     run_TC(mol2, mol3, 0.311)
 
-    mol2 = utilities.getRDKitMolecule(mol2path, Path(mol2path).suffix)
-    Mol2 = Molecule.Molecule(mol2, mol2path.name)
+#     # Test 3: two local molecules
+#     run_TC(Mol1, Mol2, 0.444)
+#     run_TC(Mol1, Mol3, 0.293)
+#     run_TC(Mol2, Mol3, 0.311)
 
-    mol3 = utilities.getRDKitMolecule(mol3path, Path(mol3path).suffix)
-    Mol3 = Molecule.Molecule(mol3, mol3path.name)
 
-    # Test 1: different molecule type (1 rdkit_mol, 1 local molecule)
-    run_TC(mol1, Mol2, -1)
-    run_TC(Mol1, mol2, -1)
+# def run_TCEquiv(mol1path, mol2path, expec_result):
 
-    # Test 2: two rdkit_mol
-    run_TC(mol1, mol2, 0.444)
-    run_TC(mol1, mol3, 0.293)
-    run_TC(mol2, mol3, 0.311)
+#     mol1 = utilities.getRDKitMolecule(mol1path, Path(mol1path).suffix)
+#     Mol1 = Molecule.Molecule(mol1, mol1path.name)
 
-    # Test 3: two local molecules
-    run_TC(Mol1, Mol2, 0.444)
-    run_TC(Mol1, Mol3, 0.293)
-    run_TC(Mol2, Mol3, 0.311)
+#     mol2 = utilities.getRDKitMolecule(mol2path, Path(mol2path).suffix)
+#     Mol2 = Molecule.Molecule(mol2, mol2path.name)
 
+#     assert tc.TCEquiv(Mol1.getRDKitObject(),
+#                       Mol2.getRDKitObject()) == expec_result
 
-def run_TCEquiv(mol1path, mol2path, expec_result):
 
-    mol1 = utilities.getRDKitMolecule(mol1path, Path(mol1path).suffix)
-    Mol1 = Molecule.Molecule(mol1, mol1path.name)
+# def run_TCEquivTests():
 
-    mol2 = utilities.getRDKitMolecule(mol2path, Path(mol2path).suffix)
-    Mol2 = Molecule.Molecule(mol2, mol2path.name)
+#     cwd = Path(__file__).parent / "data"
 
-    assert tc.TCEquiv(Mol1.getRDKitObject(),
-                      Mol2.getRDKitObject()) == expec_result
+#     # Test tc unique molecules (antibiotics with tc < 1.0 )
+#     mol1path = cwd.joinpath("uniqueMol(SMI)/DB00415.smi")
+#     mol2path = cwd.joinpath("uniqueMol(SMI)/DB01208.smi")
+#     mol3path = cwd.joinpath("uniqueMol(SMI)/DB04626.smi")
 
+#     run_TCEquiv(mol1path, mol2path, False)
+#     run_TCEquiv(mol1path, mol3path, False)
+#     run_TCEquiv(mol2path, mol3path, False)
 
-def run_TCEquivTests():
+#     # Test similar pair antibiotics
+#     # set 1
+#     mol1 = cwd.joinpath("similarPairSMI/1/DB00452.smi")
+#     mol2 = cwd.joinpath("similarPairSMI/1/DB01421.smi")
+#     run_TCEquiv(mol1, mol2, True)
 
-    cwd = Path(__file__).parent / "data"
+#     # set 2
+#     mol3 = cwd.joinpath("similarPairSMI/2/DB01137.smi")
+#     mol4 = cwd.joinpath("similarPairSMI/2/DB01165.smi")
+#     run_TCEquiv(mol3, mol4, True)
 
-    # Test tc unique molecules (antibiotics with tc < 1.0 )
-    mol1path = cwd.joinpath("uniqueMol(SMI)/DB00415.smi")
-    mol2path = cwd.joinpath("uniqueMol(SMI)/DB01208.smi")
-    mol3path = cwd.joinpath("uniqueMol(SMI)/DB04626.smi")
+#     # prove sets of pairs of molecules do not have tc_equiv
+#     run_TCEquiv(mol1, mol3, False)
+#     run_TCEquiv(mol1, mol4, False)
+#     run_TCEquiv(mol2, mol3, False)
+#     run_TCEquiv(mol2, mol4, False)
 
-    run_TCEquiv(mol1path, mol2path, False)
-    run_TCEquiv(mol1path, mol3path, False)
-    run_TCEquiv(mol2path, mol3path, False)
+#     # set 3
+#     mol5 = cwd.joinpath("similarPairSMI/3/DB12447.smi")
+#     mol6 = cwd.joinpath("similarPairSMI/3/DB16219.smi")
+#     run_TCEquiv(mol5, mol6, True)
 
-    # Test similar pair antibiotics
-    # set 1
-    mol1 = cwd.joinpath("similarPairSMI/1/DB00452.smi")
-    mol2 = cwd.joinpath("similarPairSMI/1/DB01421.smi")
-    run_TCEquiv(mol1, mol2, True)
+#     # Test tc unique molecules (tc < 1.0)
+#     uniqueMol1 = cwd.joinpath("uniqueMol(SMI)/DB00415.smi")
+#     uniqueMol2 = cwd.joinpath("uniqueMol(SMI)/DB01208.smi")
+#     uniqueMol3 = cwd.joinpath("uniqueMol(SMI)/DB04626.smi")
+#     uniqueMol4 = cwd.joinpath("uniqueMol(SMI)/DB11774.smi")
+#     uniqueMol5 = cwd.joinpath("uniqueMol(SMI)/DB13499.smi")
 
-    # set 2
-    mol3 = cwd.joinpath("similarPairSMI/2/DB01137.smi")
-    mol4 = cwd.joinpath("similarPairSMI/2/DB01165.smi")
-    run_TCEquiv(mol3, mol4, True)
+#     run_TCEquiv(uniqueMol1, uniqueMol2, False)
+#     run_TCEquiv(uniqueMol1, uniqueMol3, False)
+#     run_TCEquiv(uniqueMol1, uniqueMol4, False)
+#     run_TCEquiv(uniqueMol1, uniqueMol5, False)
 
-    # prove sets of pairs of molecules do not have tc_equiv
-    run_TCEquiv(mol1, mol3, False)
-    run_TCEquiv(mol1, mol4, False)
-    run_TCEquiv(mol2, mol3, False)
-    run_TCEquiv(mol2, mol4, False)
+#     run_TCEquiv(uniqueMol2, uniqueMol3, False)
+#     run_TCEquiv(uniqueMol2, uniqueMol4, False)
+#     run_TCEquiv(uniqueMol2, uniqueMol5, False)
 
-    # set 3
-    mol5 = cwd.joinpath("similarPairSMI/3/DB12447.smi")
-    mol6 = cwd.joinpath("similarPairSMI/3/DB16219.smi")
-    run_TCEquiv(mol5, mol6, True)
+#     run_TCEquiv(uniqueMol3, uniqueMol4, False)
+#     run_TCEquiv(uniqueMol3, uniqueMol5, False)
 
-    # Test tc unique molecules (tc < 1.0)
-    uniqueMol1 = cwd.joinpath("uniqueMol(SMI)/DB00415.smi")
-    uniqueMol2 = cwd.joinpath("uniqueMol(SMI)/DB01208.smi")
-    uniqueMol3 = cwd.joinpath("uniqueMol(SMI)/DB04626.smi")
-    uniqueMol4 = cwd.joinpath("uniqueMol(SMI)/DB11774.smi")
-    uniqueMol5 = cwd.joinpath("uniqueMol(SMI)/DB13499.smi")
+#     run_TCEquiv(uniqueMol4, uniqueMol5, False)
 
-    run_TCEquiv(uniqueMol1, uniqueMol2, False)
-    run_TCEquiv(uniqueMol1, uniqueMol3, False)
-    run_TCEquiv(uniqueMol1, uniqueMol4, False)
-    run_TCEquiv(uniqueMol1, uniqueMol5, False)
 
-    run_TCEquiv(uniqueMol2, uniqueMol3, False)
-    run_TCEquiv(uniqueMol2, uniqueMol4, False)
-    run_TCEquiv(uniqueMol2, uniqueMol5, False)
+# #
+# #
+# # Unit test initiation functionality
+# #
+# #
+# def run(func):
 
-    run_TCEquiv(uniqueMol3, uniqueMol4, False)
-    run_TCEquiv(uniqueMol3, uniqueMol5, False)
+#     try:
+#         func()
+#         return True
 
-    run_TCEquiv(uniqueMol4, uniqueMol5, False)
+#     except:
+#         return False
 
 
-#
-#
-# Unit test initiation functionality
-#
-#
-def run(func):
+# def runtest(test_name, test_func, successful, failed):
+#     (successful if run(test_func) else failed).append(test_name)
 
-    try:
-        func()
-        return True
 
-    except:
-        return False
+# def runtests(printlevel):
 
+#     utilities.emit(printlevel, f'Executing {__file__} unit tests.')
 
-def runtest(test_name, test_func, successful, failed):
-    (successful if run(test_func) else failed).append(test_name)
+#     #
+#     # Define all tests as a Dictionary: {str-name, <function-to-execute>}
+#     #
+#     tests = {
+#         "TC_private": run_TC_privateTests,
+#         "TC": run_TCTests,
+#         "TCEquiv": run_TCEquivTests
+#     }
 
+#     #
+#     # Run
+#     #
+#     successful = []
+#     failed = []
+#     for (test_name, test_func) in tests.items():
+#         runtest(test_name, test_func, successful, failed)
 
-def runtests(printlevel):
+#     #
+#     # Report
+#     #
+#     if not failed:
+#         utilities.emit(printlevel, f'{__name__} unit tests are successful.')
 
-    utilities.emit(printlevel, f'Executing {__file__} unit tests.')
+#     else:
+#         for test in failed:
+#             utilities.emit(printlevel+1, f'Failed {test}.')
 
-    #
-    # Define all tests as a Dictionary: {str-name, <function-to-execute>}
-    #
-    tests = {
-        "TC_private": run_TC_privateTests,
-        "TC": run_TCTests,
-        "TCEquiv": run_TCEquivTests
-    }
 
-    #
-    # Run
-    #
-    successful = []
-    failed = []
-    for (test_name, test_func) in tests.items():
-        runtest(test_name, test_func, successful, failed)
-
-    #
-    # Report
-    #
-    if not failed:
-        utilities.emit(printlevel, f'{__name__} unit tests are successful.')
-
-    else:
-        for test in failed:
-            utilities.emit(printlevel+1, f'Failed {test}.')
-
-
-if __name__ == "__main__":
-    runtests(0)
+# if __name__ == "__main__":
+#     runtests(0)
