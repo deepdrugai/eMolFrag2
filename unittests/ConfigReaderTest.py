@@ -4,8 +4,8 @@ from eMolFrag2.unittests import utilities
 from eMolFrag2.src.utilities.logging import log
 from eMolFrag2.src.input import ConfigReader
 
-usr_dir = Path.cwd()
-config_files = usr_dir.joinpath("eMolFrag2/unittests/data/configuration-files")
+usr_dir = Path(__file__).parent
+config_files = usr_dir / "data/configuration-files"
 
 def runReadNormalConfig(config_file):
   parser = utilities.createParser()
