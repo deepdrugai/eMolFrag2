@@ -41,7 +41,6 @@ def five_mols():
   for m in ms:
     mols.append(Molecule.to_mol(Path(__file__).parent / "data" / m))
   return mols
-=======
 
 
 @pytest.mark.parametrize("input, expected", [
