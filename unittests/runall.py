@@ -6,7 +6,7 @@
 #
 
 import MoleculeDatabaseTest
-import ChopperTest
+# import ChopperTest
 import utilities
 
 def runtests():

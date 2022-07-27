@@ -1,8 +1,8 @@
 from rdkit import Chem
 from eMolFrag2.src.utilities.logging import log
 from eMolFrag2.src.utilities import constants
-from eMolFrag2.src.chopper import Deconstructor
-from eMolFrag2.src.chopper import Connectivity
+# from eMolFrag2.src.chopper import Deconstructor
+# from eMolFrag2.src.chopper import Connectivity
 
 def ensureAtomTypeIntegrity(mol):
     """

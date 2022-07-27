@@ -3,8 +3,8 @@ from pathlib import Path
 from eMolFrag2.src.utilities.logging import log
 from eMolFrag2.src.input import Options, MoleculeFileReader
 
-usr_dir = Path.cwd()
-dataPath = usr_dir.joinpath("eMolFrag2/unittests/data/db-files")
+usr_dir = Path(__file__)
+dataPath = usr_dir / "data/db-files"
 mol2 = dataPath.joinpath("mol2")
 smi = dataPath.joinpath("smi")
 sdf = dataPath.joinpath("sdf")
@@ -14,9 +14,8 @@ mol = dataPath.joinpath("mol")
 def getOptions(inputPath):
 
   filePath = usr_dir.joinpath("config.emf")
-  f = open("config.emf", "w")
-  f.write(f"-i {inputPath} -o /content/out")
-  f.close()
+  with open("config.emf", "w") as f:
+    f.write(f"-i {inputPath} -o /content/out")
 
   sys.argv = ['/content/eMolFrag2/src/eMolFrag.py',"-c", str(filePath)]
   options = Options.Options()

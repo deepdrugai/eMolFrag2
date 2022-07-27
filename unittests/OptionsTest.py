@@ -3,8 +3,8 @@ from pathlib import Path
 from eMolFrag2.src.utilities.logging import log
 from eMolFrag2.src.input import Options
 
-usr_dir = Path.cwd()
-dataPath = usr_dir.joinpath("eMolFrag2/unittests/data/db-files")
+usr_dir = Path(__file__)
+dataPath = usr_dir / "data/db-files"
 mol2 = dataPath.joinpath("mol2")
 smi = dataPath.joinpath("smi")
 sdf = dataPath.joinpath("sdf")

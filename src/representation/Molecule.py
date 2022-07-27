@@ -1,11 +1,12 @@
 #
-# That molecule class will contain the rdkit object, the name of the file it came from, as well as a list of 'equal other fragments'.
+# The molecule class will contain the rdkit object, the name of the file it came from, as well as a list of 'equal other fragments'.
 #
 from rdkit import Chem
-from rdkit.Chem import AllChem
-from rdkit import DataStructs
-from eMolFrag2.src.utilities import constants
-from eMolFrag2.src.utilities import tc
+# from rdkit.Chem import AllChem
+# from rdkit import DataStructs
+from eMolFrag2.src.utilities import constants, tc
+from eMolFrag2.src.utilities.logging import log
+from eMolFrag2.unittests.utilities import getRDKitMolecule # should func this be moved to src?
 
 class Molecule:
     def __init__(self, rdkit_mol,  file_name = None, parentMol = None):
@@ -22,6 +23,13 @@ class Molecule:
         self.filename = file_name
         self.parent = parentMol
         self.similar = []
+
+    @staticmethod
+    def to_mol(molPath):
+        """ Create Molecule object from file path (string) """ 
+        mol = getRDKitMolecule(molPath)
+        m = Molecule(mol, molPath.name)
+        return m
         
     def getParent(self):
         return self.parent

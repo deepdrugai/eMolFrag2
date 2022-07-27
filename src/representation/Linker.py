@@ -1,4 +1,4 @@
-from rdkit import Chem
+# from rdkit import Chem
 
 from eMolFrag2.src.representation import Molecule
 from eMolFrag2.src.utilities import constants

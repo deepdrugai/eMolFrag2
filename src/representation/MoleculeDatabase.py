@@ -1,6 +1,6 @@
-from rdkit import DataStructs # For TC Computations
+# from rdkit import DataStructs # For TC Computations
 
-import sys
+# import sys
 from eMolFrag2.src.utilities import constants 
 from eMolFrag2.src.utilities import tc
 
@@ -80,6 +80,9 @@ class MoleculeDatabase(Molecule):
         
     def numAllMolecules(self):
         return len(self.GetAllMolecules())
+
+    def __len__(self):
+        return len(self.database)
         
     def __str__(self):
         """

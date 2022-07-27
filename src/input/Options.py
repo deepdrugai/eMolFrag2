@@ -16,6 +16,7 @@ from eMolFrag2.src.input import ConfigReader
 
 INPUT_ARG = 'i'
 OUTPUT_ARG = 'o'
+LOGGING_ARG = 'l'
 CONFIGURATION_FILE_ARG = 'c'
 ALL_FRAGMENTS_ARG = 'all'
 INDIVIDUAL_FILE_ARG = 'indiv'
@@ -24,6 +25,7 @@ class Options:
     def __init__(self):
         self.INPUT_PATH = None
         self.OUTPUT_PATH = None
+        self.LOGGING_LEVEL = "DEBUG"
         self.CONFIGURATION_FILE = None
         
         self.INDIVIDUAL = False
@@ -35,16 +37,16 @@ class Options:
         
         self._interpretArgs(arg_env)
 
-    def isRunnable(self):
-        """
-            After parsing the input command-line or configuration file,
-            do we have the minimum requirements to execute?
+    # def isRunnable(self):
+    #     """
+    #         After parsing the input command-line or configuration file,
+    #         do we have the minimum requirements to execute?
             
-            Requirements:
-              (1) input directory
-              (2) output directory
-        """
-        return self.INPUT_PATH is not None or self.OUTPUT_PATH is not None
+    #         Requirements:
+    #           (1) input directory
+    #           (2) output directory
+    #     """
+    #     return self.INPUT_PATH is not None or self.OUTPUT_PATH is not None
 
     def _parseCommandLineArgs(self):
         """
@@ -76,6 +78,18 @@ class Options:
                             help = 'Output path for fragments (existing files will be overwritten.)', 
                             required=True)
 
+        parser.add_argument("-d", 
+                            dest = "debug", 
+                            action=argparse.BooleanOptionalAction,
+                            help = "Quick flag to set logging level to debug.")
+
+        parser.add_argument("-l", 
+                            dest = "logLevel", 
+                            choices = ['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'], 
+                            # default = 'INFO',
+                            default = 'DEBUG', # NOTE set to DEBUG until we decide to move to production
+                            help = "Set the logging level to print to console.")
+
         parser.add_argument('-' + CONFIGURATION_FILE_ARG,
                             type = str,
                             help = 'Configuration file: .emf extension required.)')
@@ -90,7 +104,12 @@ class Options:
                             default = self.ALL_FRAGMENTS,
                             help = 'Fragment will be output in their own individual files')
 
-        args = parser.parse_args()        
+        args = parser.parse_args()
+
+        if not args.debug:
+            log.setLevel(args.logLevel)
+        else:
+            log.setLevel("DEBUG")
 
         # Configuration file used for execution
         if args.c is not None:
