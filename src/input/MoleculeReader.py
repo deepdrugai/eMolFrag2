@@ -17,7 +17,6 @@ def fileToString(file):
     contents = ""
     with open(file) as f:
         contents = f.read()
-    f.close()
 
     return contents
 

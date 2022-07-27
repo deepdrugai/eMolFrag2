@@ -14,9 +14,8 @@ mol = dataPath.joinpath("mol")
 def getOptions(inputPath):
 
   filePath = usr_dir.joinpath("config.emf")
-  f = open("config.emf", "w")
-  f.write(f"-i {inputPath} -o /content/out")
-  f.close()
+  with open("config.emf", "w") as f:
+    f.write(f"-i {inputPath} -o /content/out")
 
   sys.argv = ['/content/eMolFrag2/src/eMolFrag.py',"-c", str(filePath)]
   options = Options.Options()
