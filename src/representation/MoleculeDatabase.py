@@ -80,6 +80,9 @@ class MoleculeDatabase(Molecule):
         
     def numAllMolecules(self):
         return len(self.GetAllMolecules())
+
+    def __len__(self):
+        return len(self.database)
         
     def __str__(self):
         """
