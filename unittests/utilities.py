@@ -8,21 +8,19 @@ import argparse
 from eMolFrag2.src.utilities import constants
 from eMolFrag2.src.input import Options
 
-#takes the contents of a file and puts it in a string for processing
-def fileToString(file):
 
+def fileToString(file):
+    """ Takes the contents of a file and puts it in a string for processing """
     contents = ""
     with open(file) as f:
         contents = f.read()
-        
-    f.close()
     
     return contents
    
-#converts the contetns of a file to their respective molecule
 def convertToRDkit(contents, extension):
-    #kekulize = False
-    #Chem.doKekule = False 
+    """ Converts the contents of a file to a molecule """
+    #kekulize = False       # TODO: Should we move this to args?
+    #Chem.doKekule = False  # TODO: This one too?
     
     if (extension == ".fasta"):
         return Chem.MolFromFASTA(contents)
