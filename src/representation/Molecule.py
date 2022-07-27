@@ -28,9 +28,7 @@ class Molecule:
     def to_mol(molPath):
         """ Create Molecule object from file path (string) """ 
         mol = getRDKitMolecule(molPath)
-        log.debug(f"{mol} {molPath}")
         m = Molecule(mol, molPath.name)
-        log.debug(f"{m}")
         return m
         
     def getParent(self):
