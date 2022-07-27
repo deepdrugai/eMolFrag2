@@ -1,4 +1,4 @@
-import sys
+# import sys
 from pathlib import Path
 from eMolFrag2.unittests import utilities
 from eMolFrag2.src.utilities.logging import log

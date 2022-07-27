@@ -1,7 +1,7 @@
 from pathlib import Path 
 
-import sys
-from eMolFrag2.src.utilities import tc, constants
+# import sys
+from eMolFrag2.src.utilities import tc #, constants
 from eMolFrag2.src.utilities.logging import log
 from eMolFrag2.src.representation import Molecule 
 from eMolFrag2.unittests import utilities

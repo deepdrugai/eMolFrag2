@@ -1,6 +1,6 @@
-from rdkit import DataStructs # For TC Computations
+# from rdkit import DataStructs # For TC Computations
 
-import sys
+# import sys
 from eMolFrag2.src.utilities import constants 
 from eMolFrag2.src.utilities import tc
 

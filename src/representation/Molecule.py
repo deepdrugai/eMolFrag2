@@ -2,8 +2,8 @@
 # The molecule class will contain the rdkit object, the name of the file it came from, as well as a list of 'equal other fragments'.
 #
 from rdkit import Chem
-from rdkit.Chem import AllChem
-from rdkit import DataStructs
+# from rdkit.Chem import AllChem
+# from rdkit import DataStructs
 from eMolFrag2.src.utilities import constants, tc
 from eMolFrag2.src.utilities.logging import log
 from eMolFrag2.unittests.utilities import getRDKitMolecule # should func this be moved to src?

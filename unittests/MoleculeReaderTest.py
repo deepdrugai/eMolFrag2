@@ -1,4 +1,4 @@
-import sys
+# import sys
 from pathlib import Path
 from eMolFrag2.src.utilities.logging import log
 from eMolFrag2.src.input import MoleculeReader

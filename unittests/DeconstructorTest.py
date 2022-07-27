@@ -1,7 +1,8 @@
 # Files needed for Deconstructor.py 
 from rdkit import Chem
-from eMolFrag2.src.utilities import constants, logging
-from eMolFrag2.src.chopper import BRICS_custom
+# from eMolFrag2.src.utilities import constants
+from eMolFrag2.src.utilities.logging import log
+# from eMolFrag2.src.chopper import BRICS_custom
 
 # Files needed for testing 
 from pathlib import Path

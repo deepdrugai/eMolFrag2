@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from eMolFrag2.src.input import Options
+# from eMolFrag2.src.input import Options
 from eMolFrag2.src.utilities import constants
 from eMolFrag2.src.utilities.logging import log
 

@@ -1,5 +1,5 @@
 from rdkit import Chem
-from eMolFrag2.src.utilities import constants, tc
+from eMolFrag2.src.utilities import constants #, tc
 from eMolFrag2.src.utilities.logging import log
 from eMolFrag2.src.chopper import Preprocessor
 from eMolFrag2.src.chopper import Deconstructor

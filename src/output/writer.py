@@ -1,7 +1,7 @@
-import shutil
+# import shutil
 from pathlib import Path
 
-from eMolFrag2.src.representation import MoleculeDatabase
+# from eMolFrag2.src.representation import MoleculeDatabase
 from eMolFrag2.src.utilities.logging import log
 from eMolFrag2.src.utilities import constants
 

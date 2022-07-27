@@ -5,7 +5,7 @@
 from rdkit import Chem
 from pathlib import Path
 import argparse
-from eMolFrag2.src.utilities import constants
+# from eMolFrag2.src.utilities import constants
 from eMolFrag2.src.input import Options
 
 

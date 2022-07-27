@@ -1,9 +1,9 @@
 from pathlib import Path
 
-import sys
+# import sys
 from eMolFrag2.unittests import utilities
 from eMolFrag2.src.representation import Molecule, MoleculeDatabase
-from eMolFrag2.src.utilities import tc    # _TCEquiv tests
+# from eMolFrag2.src.utilities import tc    # _TCEquiv tests
 
 
 def run_add(md, molPath, expec_result):

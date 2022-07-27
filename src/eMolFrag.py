@@ -1,8 +1,8 @@
-import sys
-from pathlib import Path
+# import sys
+# from pathlib import Path
 from eMolFrag2.src.input import MoleculeFileReader, MoleculeReader, Options
 from eMolFrag2.src.chopper import Chopper
-from eMolFrag2.src.representation import Molecule
+# from eMolFrag2.src.representation import Molecule
 from eMolFrag2.src.output import writer
 from eMolFrag2.src.utilities.logging import log
 
