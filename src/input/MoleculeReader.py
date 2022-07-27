@@ -1,4 +1,4 @@
-from pathlib import Path
+# from pathlib import Path
 
 from rdkit import Chem
 from rdkit import RDLogger
@@ -37,7 +37,7 @@ def convertToRDkit(contents, curr_file):
     if (extension == constants.MOL2_FORMAT_EXT):
         mol = readMol2File(contents)
         if mol is None:
-            logging.log.error(f'Rdkit failed to process mol2 file {curr_file.name}')
+            log.error(f'Rdkit failed to process mol2 file {curr_file.name}')
             return None
         return [(curr_file.name, mol)]
 
@@ -127,7 +127,7 @@ def getMolecules(files):
         try:
             id_mol_list = convertToRDkit(file_contents, current_file)
         except:
-            log.error(f'RDKit failed to read {current_file.name}')
+            log.error(f'RDKit failed to read {current_file.name}', exc_info=True)
 
         # add it to our dataset and update the filenames we have
         if id_mol_list is not None:
