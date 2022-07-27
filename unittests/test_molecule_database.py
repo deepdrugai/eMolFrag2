@@ -10,13 +10,13 @@ from eMolFrag2.src.utilities.logging import log
 # Add to molecule database
 # test if adding worked
 
-def to_mol(molPath):
-  """ Create Molecule object from file path """ 
-  mol = utilities.getRDKitMolecule(molPath)
-  log.debug(f"{mol} {molPath}")
-  m = Molecule(mol, molPath.name)
-  log.debug(f"{m}")
-  return m
+# def to_mol(molPath):
+#   """ Create Molecule object from file path """ 
+#   mol = utilities.getRDKitMolecule(molPath)
+#   log.debug(f"{mol} {molPath}")
+#   m = Molecule(mol, molPath.name)
+#   log.debug(f"{m}")
+#   return m
 
 
 @pytest.mark.parametrize("input, expected", [
@@ -37,7 +37,7 @@ def test_add_mol_to_mdb(input, expected, tc = 1.0):
 
   for m, e in zip(input, expected):
     log.debug(f"{cwd / m}\t{e}")
-    assert mdb.add(to_mol(cwd / m)) is e
+    assert mdb.add(Molecule.to_mol(cwd / m)) is e
 
 
 @pytest.fixture
@@ -49,7 +49,7 @@ def five_mols():
         "uniqueMol(SMI)/DB13499.smi"]
   mols = []
   for m in ms:
-    mols.append(to_mol(Path(__file__).parent / "data" / m))
+    mols.append(Molecule.to_mol(Path(__file__).parent / "data" / m))
   return mols
 
 # return the list of UNIQUE database
