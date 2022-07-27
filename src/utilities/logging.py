@@ -19,7 +19,7 @@ except ImportError as e:
         datefmt="%Y-%m-%d %H:%M:%S"
     )
     log = logging.getLogger(__name__)
-    log.debug('Colorlog not installed.')
+    log.warning('Colorlog not installed.')
 
 log.setLevel("DEBUG")
 
