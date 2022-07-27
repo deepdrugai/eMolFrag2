@@ -11,8 +11,8 @@ from eMolFrag2.src.utilities.logging import log
 # test if adding worked
 
 def to_mol(molPath):
-  # Create rdkit object from file path
-  mol = utilities.getRDKitMolecule(molPath, Path(molPath).suffix)
+  """ Create Molecule object from file path """ 
+  mol = utilities.getRDKitMolecule(molPath)
   log.debug(f"{mol} {molPath}")
   m = Molecule(mol, molPath.name)
   log.debug(f"{m}")
@@ -31,7 +31,8 @@ def to_mol(molPath):
 ])
 def test_add_mol_to_mdb(input, expected, tc = 1.0):
   """ Test adding TC Equivalent molecules to Molecule Database where given_tc = 1"""
-  cwd = Path.cwd() / "eMolFrag2/unittests/data"
+  # cwd = Path.cwd() / "eMolFrag2/unittests/data"
+  cwd = Path(__file__).parent / "data"
   mdb = MoleculeDatabase(given_tc = tc)
 
   for m, e in zip(input, expected):
@@ -48,7 +49,7 @@ def five_mols():
         "uniqueMol(SMI)/DB13499.smi"]
   mols = []
   for m in ms:
-    mols.append(to_mol(Path.cwd() / "eMolFrag2/unittests/data" / m))
+    mols.append(to_mol(Path(__file__).parent / "data" / m))
   return mols
 
 # return the list of UNIQUE database
