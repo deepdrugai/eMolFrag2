@@ -79,6 +79,7 @@ def toRdkitMol(mol_id, mol_smi_str):
         @input: contents -- the file contents as a string
         @output: list of Molecule objects
     """
+    from rdkit import Chem
     rdkit_mol = Chem.MolFromSmiles(mol_smi_str)
 
     try:
