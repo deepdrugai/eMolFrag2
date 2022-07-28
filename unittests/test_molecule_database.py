@@ -13,7 +13,6 @@ from eMolFrag2.src.representation.MoleculeDatabase import MoleculeDatabase
 #   log.debug(f"{m}")
 #   return m
 
-
 @pytest.fixture
 def tc1_mol_pairs():
     ms = [("similarPairSMI/1/DB00452.smi",
@@ -23,9 +22,10 @@ def tc1_mol_pairs():
           ("similarPairSMI/3/DB12447.smi",
           "similarPairSMI/3/DB16219.smi")]
     molpairs = []
+    dir = Path(__file__).parent / "data"
     for a, b in ms:
-        am = Molecule.to_mol(Path(__file__).parent / "data" / a)
-        bm = Molecule.to_mol(Path(__file__).parent / "data" / b)
+        am = Molecule.to_mol(dir / a)
+        bm = Molecule.to_mol(dir / b)
         molpairs.append([am, bm])
     return molpairs
 
@@ -38,8 +38,9 @@ def five_mols():
           "uniqueMol(SMI)/DB11774.smi",
           "uniqueMol(SMI)/DB13499.smi"]
     mols = []
+    dir = Path(__file__).parent / "data"
     for m in ms:
-        mols.append(Molecule.to_mol(Path(__file__).parent / "data" / m))
+        mols.append(Molecule.to_mol(dir / m))
     return mols
 
 
@@ -60,12 +61,12 @@ def five_mols():
 def test_add_mol_to_mdb(input, expected, tc=1.0):
     """ Test adding TC Equivalent molecules to Molecule Database where given_tc = 1"""
 
-    cwd = Path(__file__).parent / "data"
+    dir = Path(__file__).parent / "data"
     mdb = MoleculeDatabase(given_tc=tc)
 
     for m, e in zip(input, expected):
-        log.debug(f"{cwd / m}\t{e}")
-        assert mdb.add(Molecule.to_mol(cwd / m)) is e
+        log.debug(f"{dir / m}\t{e}")
+        assert mdb.add(Molecule.to_mol(dir / m)) is e
 
 
 def test_add_list_to_mdb(five_mols, tc=1.0):
@@ -78,7 +79,6 @@ def test_add_list_to_mdb(five_mols, tc=1.0):
 def test_get_unique_molecules_mdb(five_mols, tc1_mol_pairs):
     """ Test adding a large number of mols to molecules database and get unique """
 
-    cwd = Path(__file__).parent / "data"
     mdb1 = MoleculeDatabase(given_tc=1.0)
 
     # Test 1: Adding 5 unique molecules to mdb1
@@ -111,7 +111,7 @@ def test_get_unique_molecules_mdb(five_mols, tc1_mol_pairs):
 
 def test_get_all_molecules_mdb(five_mols, tc1_mol_pairs):
     """ Test adding a large number of mols to molecules database and get total molecules """
-    cwd = Path(__file__).parent / "data"
+
     mdb1 = MoleculeDatabase(given_tc=1.0)
 
     # Test 1: Adding 5 unique molecules to mdb1
