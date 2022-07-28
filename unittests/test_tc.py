@@ -8,30 +8,30 @@ from eMolFrag2.src.input.MoleculeReader import getRDKitMolecule
 rel_path = "data"
 
 
-# @pytest.mark.parametrize("mol1_path, mol2_path, expected", (
-#     # Pair of molecules (.smi) with tc = 1.0
-#     (["similarPairSMI/1/DB00452.smi", "similarPairSMI/2/DB01137.smi", "similarPairSMI/3/DB12447.smi"],
-#      ["similarPairSMI/1/DB01421.smi", "similarPairSMI/2/DB01165.smi", "similarPairSMI/3/DB16219.smi"], [1.0]*3),
-# ))
-# def test_tc_private(mol1_path, mol2_path, expected):
-#     """
-#     Test tanimoto coefficient calculation from two rdkit molecules
-#     mol1_path string Molecule1 path
-#     mol2_path string Molecule2 path
-#     expected float expected tanimoto coefficient
-#     """
-#     cwd = Path(__file__).parent / rel_path
+@pytest.mark.parametrize("mol1_path, mol2_path, expected", (
+    # Pair of molecules (.smi) with tc = 1.0
+    (["similarPairSMI/1/DB00452.smi", "similarPairSMI/2/DB01137.smi", "similarPairSMI/3/DB12447.smi"],
+     ["similarPairSMI/1/DB01421.smi", "similarPairSMI/2/DB01165.smi", "similarPairSMI/3/DB16219.smi"], [1.0]*3),
+))
+def test_tc_private(mol1_path, mol2_path, expected):
+    """
+    Test tanimoto coefficient calculation from two rdkit molecules
+    mol1_path string Molecule1 path
+    mol2_path string Molecule2 path
+    expected float expected tanimoto coefficient
+    """
+    cwd = Path(__file__).parent / rel_path
 
-#     for m1, m2, e in zip(mol1_path, mol2_path, expected):
-#         log.debug(f"Input: {cwd / m1}\t{m2} \nExpected = {e}")
-#         rdkit_mol1 = getRDKitMolecule(
-#             cwd / m1, Path(cwd / m1).suffix)
-#         rdkit_mol2 = getRDKitMolecule(
-#             cwd / m2, Path(cwd / m2).suffix)
-#         tanimoto = tc.TC(rdkit_mol1, rdkit_mol2)
-#         log.debug(
-#             f'TC value for {m1} and {m2} is: {tanimoto}')
-#         assert tanimoto == e
+    for m1, m2, e in zip(mol1_path, mol2_path, expected):
+        log.debug(f"Input: {cwd / m1}\t{m2} \nExpected = {e}")
+        rdkit_mol1 = getRDKitMolecule(
+            cwd / m1, Path(cwd / m1).suffix)
+        rdkit_mol2 = getRDKitMolecule(
+            cwd / m2, Path(cwd / m2).suffix)
+        tanimoto = tc.TC(rdkit_mol1, rdkit_mol2)
+        log.debug(
+            f'TC value for {m1} and {m2} is: {tanimoto}')
+        assert tanimoto == e
 
 
 @ pytest.fixture
@@ -68,25 +68,25 @@ def tc_eval(mol1, mol2, expected_result):
     assert abs(tc.TC(mol1, mol2) - expected_result) <= 0.001
 
 
-# def test_tc(rdkit_mols, mols):
-#     """
-#     Test if two molecules match types and calculate tc vale
-#     rdkit_mols list List of RDKIT molecules
-#     mols list List of Local molecules
-#     """
-#     # Test different molecule type (1 rdkit molecule, 1 local molecule)
-#     tc_eval(rdkit_mols[0], mols[1], -1)
-#     tc_eval(mols[0], rdkit_mols[1], -1)
+def test_tc(rdkit_mols, mols):
+    """
+    Test if two molecules match types and calculate tc vale
+    rdkit_mols list List of RDKIT molecules
+    mols list List of Local molecules
+    """
+    # Test different molecule type (1 rdkit molecule, 1 local molecule)
+    tc_eval(rdkit_mols[0], mols[1], -1)
+    tc_eval(mols[0], rdkit_mols[1], -1)
 
-#     # Test 2: two rdkit molecules
-#     tc_eval(rdkit_mols[0], rdkit_mols[1], 0.444)
-#     tc_eval(rdkit_mols[0], rdkit_mols[2], 0.293)
-#     tc_eval(rdkit_mols[1], rdkit_mols[2], 0.311)
+    # Test 2: two rdkit molecules
+    tc_eval(rdkit_mols[0], rdkit_mols[1], 0.444)
+    tc_eval(rdkit_mols[0], rdkit_mols[2], 0.293)
+    tc_eval(rdkit_mols[1], rdkit_mols[2], 0.311)
 
-#     # Test 3: two local molecules
-#     tc_eval(mols[0], mols[1], 0.444)
-#     tc_eval(mols[0], mols[2], 0.293)
-#     tc_eval(mols[1], mols[2], 0.311)
+    # Test 3: two local molecules
+    tc_eval(mols[0], mols[1], 0.444)
+    tc_eval(mols[0], mols[2], 0.293)
+    tc_eval(mols[1], mols[2], 0.311)
 
 
 @ pytest.mark.parametrize("mol1_path, mol2_path, expected", [
@@ -97,20 +97,20 @@ def tc_eval(mol1, mol2, expected_result):
             "similarPairSMI/2/DB01165.smi",
             "similarPairSMI/3/DB16219.smi"],
         [True, True, True]),
-    # (["uniqueMol(SMI)/DB00415.smi",
-    #     "uniqueMol(SMI)/DB00415.smi",
-    #     "uniqueMol(SMI)/DB01208.smi"],
-    #  ["uniqueMol(SMI)/DB01208.smi",
-    #     "uniqueMol(SMI)/DB04626.smi",
-    #     "uniqueMol(SMI)/DB04626.smi"],
-    #     [False, False, False],
-    #  ),
-    # (["uniqueMol(SMI)/DB01208.smi",
-    #     "uniqueMol(SMI)/DB04626.smi",
-    #     "uniqueMol(SMI)/DB11774.smi",
-    #     "uniqueMol(SMI)/DB13499.smi"],
-    #     ["uniqueMol(SMI)/DB00415.smi"]*4,
-    #     [False]*4)
+    (["uniqueMol(SMI)/DB00415.smi",
+        "uniqueMol(SMI)/DB00415.smi",
+        "uniqueMol(SMI)/DB01208.smi"],
+     ["uniqueMol(SMI)/DB01208.smi",
+        "uniqueMol(SMI)/DB04626.smi",
+        "uniqueMol(SMI)/DB04626.smi"],
+        [False, False, False],
+     ),
+    (["uniqueMol(SMI)/DB01208.smi",
+        "uniqueMol(SMI)/DB04626.smi",
+        "uniqueMol(SMI)/DB11774.smi",
+        "uniqueMol(SMI)/DB13499.smi"],
+        ["uniqueMol(SMI)/DB00415.smi"]*4,
+        [False]*4)
 ])
 def test_tc_equiv(mol1_path, mol2_path, expected):
     """
