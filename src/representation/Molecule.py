@@ -5,8 +5,9 @@ from rdkit import Chem
 # from rdkit.Chem import AllChem
 # from rdkit import DataStructs
 from eMolFrag2.src.utilities import constants, tc
-from eMolFrag2.src.utilities.logging import log
-from eMolFrag2.unittests.utilities import getRDKitMolecule # should func this be moved to src?
+# from eMolFrag2.src.utilities.logging import log
+from eMolFrag2.src.input.MoleculeReader import getRDKitMolecule
+
 
 class Molecule:
     def __init__(self, rdkit_mol,  file_name = None, parentMol = None):

@@ -4,7 +4,7 @@ from eMolFrag2.src.utilities.logging import log
 from eMolFrag2.src.representation.Molecule import Molecule
 from eMolFrag2.src.representation.MoleculeDatabase import MoleculeDatabase
 
-# Moved to Molecule file
+### Moved to Molecule file
 # def to_mol(molPath):
 #   """ Create Molecule object from file path """
 #   mol = utilities.getRDKitMolecule(molPath)
@@ -69,10 +69,10 @@ def test_add_mol_to_mdb(input, expected, tc=1.0):
 
 
 def test_add_list_to_mdb(five_mols, tc=1.0):
-    """ Test adding a list to molecule database """
-    mdb = MoleculeDatabase(tc)
-    log.debug(f"test ||| {len(five_mols)}")
-    assert len(mdb.addAll(five_mols)) == len(five_mols)
+  """ Test adding a list to molecule database """
+  mdb = MoleculeDatabase(tc)
+  log.debug(f"{len(five_mols) = }")
+  assert len(mdb.addAll(five_mols)) == len(five_mols)
 
 
 def test_get_unique_molecules_mdb(five_mols, tc1_mol_pairs):

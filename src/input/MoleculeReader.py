@@ -1,4 +1,4 @@
-# from pathlib import Path
+from pathlib import Path
 
 from rdkit import Chem
 from rdkit import RDLogger
@@ -20,6 +20,15 @@ def fileToString(file):
 
     return contents
 
+def getRDKitMolecule(path, extension=None):
+    """
+        Given a path object, return the corresponding RDKit molecule object
+        This simplified functionality is for testing only
+    """
+    if extension is None:
+       extension = Path(path).suffix
+    content = fileToString(path)
+    return convertToRDkit(content, extension)
 
 def convertToRDkit(contents, curr_file):
     """
