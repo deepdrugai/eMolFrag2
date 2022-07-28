@@ -6,40 +6,25 @@ from eMolFrag2.src.input.MoleculeReader import getMolecules
 from eMolFrag2.unittests import utilities
 from eMolFrag2.src.representation import Molecule
 
-#TODO described below
-
-@pytest.mark.parametrize("input, expected", [
-    (["mol2"], [5]),
-    (["smi"], [5]),
-    (["sdf"], [0]),
-    (["pbd"], [5]),
-    (["mol"], [5]),
+@pytest.mark.parametrize("input", [
+    (["mol2"]),
+    (["smi"]),
+    (["sdf"]),
+    (["pbd"]),
+    (["mol"]),
 ])
-def test_get_files(input, expected):
+
+#Read files in from unittests/data/db-files for mol2, smi, sdf, pbd, mol (5 tests)
+#For each test, if one of those objects returns a None rdkitObject, test fails
+def test_get_files(input):
     cwd = Path(__file__).parent / "data/db-files"
-    for m, e in zip(input, expected):
+    for suffix in input:
         files = []
-        file_path = cwd.joinpath(m)
+        file_path = cwd.joinpath(suffix)
         for current_file in file_path.iterdir():
-            #if the file extension is not a supportedd format, add the file to the bad file list, otherwise add it to the file list
             files.append(file_path / current_file.name)
-            log.debug(f"{file_path / current_file.name}")
-        assert len(getMolecules(files)) == e
+        mols = getMolecules(files)
+        #If any of the returned mols have rdkitObject==None, then the file was not read properly
+        assert all(mol.rdkitObject != None for mol in mols)
 
         # TODO #7 Get SmilesReader.py working, otherwise we have to use the other utilities file to import @wcatykid
-        #Until MoleculeReader works with SmilesReader.py, use this below
-        #SmilesReader.py was not compiling
-        #So I remade MoleculeReader.py using the utilities in unittest folder
-        #If SmilesReader.py compiles, you can uncomment the assert statement above and remove this below
-        # mols = []
-        # for current_file in files:
-        #     file_contents = utilities.fileToString(current_file)
-        #     extension = current_file.suffix
-        #     id_mol_list = None
-        #     try:
-        #         id_mol_list = utilities.convertToRDkit(file_contents, extension)
-        #     except:
-        #         log.error(f'RDKit failed to read {current_file.name}')
-        #     if id_mol_list is not None:
-        #         mols.append(id_mol_list)
-        # assert len(mols) == e
