@@ -45,8 +45,7 @@ def convertToRDkit(contents, curr_file):
     """
     #Chem.doKekule = False
 
-    #extension = curr_file.suffix
-    extension = curr_file
+    extension = curr_file.suffix
 
     if (extension == constants.MOL2_FORMAT_EXT):
         mol = readMol2File(contents)
