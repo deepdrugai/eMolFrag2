@@ -2,7 +2,7 @@ import sys
 import pytest
 from pathlib import Path
 from eMolFrag2.src.utilities.logging import log
-from eMolFrag2.src.input import MoleculeReader
+from eMolFrag2.src.input.MoleculeReader import getMolecules
 from eMolFrag2.unittests import utilities
 from eMolFrag2.src.representation import Molecule
 
@@ -12,7 +12,7 @@ from eMolFrag2.src.representation import Molecule
     (["mol2"], [5]),
     (["smi"], [5]),
     (["sdf"], [0]),
-    (["pbd"], [4]),
+    (["pbd"], [5]),
     (["mol"], [5]),
 ])
 def test_get_files(input, expected):
@@ -23,7 +23,8 @@ def test_get_files(input, expected):
         for current_file in file_path.iterdir():
             #if the file extension is not a supportedd format, add the file to the bad file list, otherwise add it to the file list
             files.append(file_path / current_file.name)
-        assert len(MoleculeReader.getMolecules(files)) == e
+            log.debug(f"{file_path / current_file.name}")
+        assert len(getMolecules(files)) == e
 
         # TODO #7 Get SmilesReader.py working, otherwise we have to use the other utilities file to import @wcatykid
         #Until MoleculeReader works with SmilesReader.py, use this below
