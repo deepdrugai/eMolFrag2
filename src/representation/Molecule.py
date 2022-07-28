@@ -6,8 +6,9 @@ from rdkit import Chem
 # from rdkit import DataStructs
 from eMolFrag2.src.utilities import constants, tc
 # from eMolFrag2.src.utilities.logging import log
-# from eMolFrag2.src.input.MoleculeReader import getRDKitMolecule
-from eMolFrag2.unittests.utilities import getRDKitMolecule
+#from eMolFrag2.src.input.MoleculeReader import getRDKitMolecule
+#from eMolFrag2.unittests.utilities import getRDKitMolecule
+#switch these two
 
 class Molecule:
     def __init__(self, rdkit_mol,  file_name = None, parentMol = None):
@@ -25,12 +26,13 @@ class Molecule:
         self.parent = parentMol
         self.similar = []
 
-    @staticmethod
-    def to_mol(molPath):
-        """ Create Molecule object from file path (string) """ 
-        mol = getRDKitMolecule(molPath)
-        m = Molecule(mol, molPath.name)
-        return m
+
+    # @staticmethod
+    # def to_mol(molPath):
+    #     """ Create Molecule object from file path (string) """ 
+    #     mol = getRDKitMolecule(molPath)
+    #     m = Molecule(mol, molPath.name)
+    #     return m
         
     def getParent(self):
         return self.parent
