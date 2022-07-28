@@ -12,7 +12,7 @@ from eMolFrag2.src.representation import Molecule
     (["mol2"], [5]),
     (["smi"], [5]),
     (["sdf"], [0]),
-    (["pbd"], [5]),
+    (["pbd"], [4]),
     (["mol"], [5]),
 ])
 def test_get_files(input, expected):
@@ -23,22 +23,22 @@ def test_get_files(input, expected):
         for current_file in file_path.iterdir():
             #if the file extension is not a supportedd format, add the file to the bad file list, otherwise add it to the file list
             files.append(file_path / current_file.name)
-        #assert len(MoleculeReader.getMolecules(files)) == e
+        assert len(MoleculeReader.getMolecules(files)) == e
 
-        #TODO 
+        # TODO #7 Get SmilesReader.py working, otherwise we have to use the other utilities file to import @wcatykid
         #Until MoleculeReader works with SmilesReader.py, use this below
         #SmilesReader.py was not compiling
         #So I remade MoleculeReader.py using the utilities in unittest folder
         #If SmilesReader.py compiles, you can uncomment the assert statement above and remove this below
-        mols = []
-        for current_file in files:
-            file_contents = utilities.fileToString(current_file)
-            extension = current_file.suffix
-            id_mol_list = None
-            try:
-                id_mol_list = utilities.convertToRDkit(file_contents, extension)
-            except:
-                log.error(f'RDKit failed to read {current_file.name}')
-            if id_mol_list is not None:
-                mols.append(id_mol_list)
-        assert len(mols) == e
+        # mols = []
+        # for current_file in files:
+        #     file_contents = utilities.fileToString(current_file)
+        #     extension = current_file.suffix
+        #     id_mol_list = None
+        #     try:
+        #         id_mol_list = utilities.convertToRDkit(file_contents, extension)
+        #     except:
+        #         log.error(f'RDKit failed to read {current_file.name}')
+        #     if id_mol_list is not None:
+        #         mols.append(id_mol_list)
+        # assert len(mols) == e
