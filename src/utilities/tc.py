@@ -17,7 +17,7 @@ def TC_private(rdkit_mol1, rdkit_mol2):
 
 def TC(mol1, mol2):
 
-    if isinstance(mol1, Molecule.Molecule) != isinstance(mol2, Molecule.Molecule):
+    if type(mol1) != type(mol2):
         log.error(f'Molecule objects of different type in TC computation')
         return -1
 

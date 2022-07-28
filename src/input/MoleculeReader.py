@@ -3,7 +3,7 @@ from pathlib import Path
 from rdkit import Chem
 from rdkit import RDLogger
 
-from eMolFrag2.src.representation import Molecule
+from eMolFrag2.src.representation.Molecule import Molecule
 from eMolFrag2.src.utilities import constants
 from eMolFrag2.src.utilities.logging import log
 
@@ -21,6 +21,13 @@ def fileToString(file):
         contents = f.read()
 
     return contents
+
+
+def to_mol(molPath):
+    """ Create Molecule object from file path (string) """
+    mol = getRDKitMolecule(molPath)
+    m = Molecule(mol, molPath.name)
+    return m
 
 
 def getRDKitMolecule(path, extension=None):
@@ -44,8 +51,10 @@ def convertToRDkit(contents, curr_file):
         @output: list of tuples: [(id, rdkit_mol)]
     """
     #Chem.doKekule = False
-
-    extension = curr_file.suffix
+    if curr_file is Path:
+        extension = curr_file.suffix
+    else:
+        extension = curr_file
 
     if (extension == constants.MOL2_FORMAT_EXT):
         mol = readMol2File(contents)
@@ -55,8 +64,9 @@ def convertToRDkit(contents, curr_file):
         return [(curr_file.name, mol)]
 
     elif (extension == constants.SMILES_FORMAT_EXT):
-        from eMolFrag2.src.input import SmilesReader
-        return SmilesReader.readSmilesFile(contents)
+        #from eMolFrag2.src.input import SmilesReader
+        return Chem.MolFromSmiles(contents)
+        # return SmilesReader.readSmilesFile(contents)
 
     #
     # Other file formats that do not support AtomTypes
@@ -74,6 +84,16 @@ def convertToRDkit(contents, curr_file):
 
     elif (extension == constants.PDB_FORMAT_EXT):
         mol = Chem.MolFromPDBBlock(contents)
+        # rdkit.Chem.rdmolfiles.MolFromPDBBlock((AtomPairsParameters)molBlock[, (bool)sanitize=True[, (bool)removeHs=True[, (int)flavor=0[, (bool)proximityBonding=True]]]]) → Mol :
+        #     Construct a molecule from a PDB block.
+        #     ARGUMENTS:
+        #     molBlock: string containing the PDB block
+        #     sanitize: (optional) toggles sanitization of the molecule. Defaults to True.
+        #     removeHs: (optional) toggles removing hydrogens from the molecule. This only make sense when sanitization is done. Defaults to true.
+        #     flavor: (optional)
+        #     proximityBonding: (optional) toggles automatic proximity bonding
+        #     RETURNS:
+        #     a Mol object, None on failure.
 
     elif (extension == constants.SMARTS_FORMAT_EXT):
         mol = Chem.MolFromSmarts(contents)
@@ -82,11 +102,16 @@ def convertToRDkit(contents, curr_file):
         mol = Chem.MolFromTPLBlock(contents)
 
     else:
-        log.error(f'Input file type with extension {extension} not supported.')
+        log.error(
+            f'Input file type with extension {extension} ({curr_file.name}) not supported.')
+        return None
 
-    if mol is not None:
+    if curr_file:
         log.warning(
-            f'Input file type {extension} will not preserve molecule SYBL atom types')
+            f'Input file type {extension} ({curr_file.name}) will not preserve molecule SYBL atom types.')
+        if not mol:
+            log.error(
+                f'Molecule file ({curr_file.name}) was not read in due to RDKit Error.')
         return [(curr_file.name, mol)]
 
     return None
@@ -94,7 +119,7 @@ def convertToRDkit(contents, curr_file):
 
 def readMol2File(contents):
     # Turn off rdkit error messages
-    RDLogger.DisableLog('rdApp.*')
+    # RDLogger.DisableLog('rdApp.*')
 
     try:
         return Chem.MolFromMol2Block(contents)
@@ -149,6 +174,6 @@ def getMolecules(files):
         # add it to our dataset and update the filenames we have
         if id_mol_list is not None:
             for mol_id, mol in id_mol_list:
-                mols.append(Molecule.Molecule(mol, mol_id))
+                mols.append(Molecule(mol, mol_id))
 
     return mols

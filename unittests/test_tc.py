@@ -3,7 +3,7 @@ import pytest
 from eMolFrag2.src.utilities import tc
 from eMolFrag2.src.utilities.logging import log
 from eMolFrag2.src.representation.Molecule import Molecule
-# from eMolFrag2.src.input.MoleculeReader import getRDKitMolecule
+from eMolFrag2.src.input.MoleculeReader import getRDKitMolecule, to_mol
 from eMolFrag2.unittests.utilities import getRDKitMolecule
 
 rel_path = "data"
@@ -39,7 +39,7 @@ def test_tc_private(mol1_path, mol2_path, expected):
 def mols(tc_mols_list):
     mols = []
     for m in tc_mols_list:
-        mols.append(Molecule.to_mol(m))
+        mols.append(to_mol(m))
     return mols
 
 
@@ -125,10 +125,7 @@ def test_tc_equiv(mol1_path, mol2_path, expected):
 
     for m1, m2, r in zip(mol1_path, mol2_path, expected):
         log.debug(f"Input: {cwd / m1}\t{m2} \nassert = {r}")
-        rdkit1 = getRDKitMolecule(cwd / m1)
-        rdkit2 = getRDKitMolecule(cwd / m2)
-        m1 = Molecule(rdkit1, (cwd/m1).name)
-        m2 = Molecule(rdkit2, (cwd/m2).name)
-        log.debug(f"RDKit Object: {m1.getRDKitObject()}")
-        assert tc.TCEquiv(m1.getRDKitObject(),
-                          m2.getRDKitObject()) == r
+        mol_obj1 = to_mol(cwd / m1)
+        mol_obj2 = to_mol(cwd / m2)
+        assert tc.TCEquiv(mol_obj1,
+                          mol_obj2) == r
