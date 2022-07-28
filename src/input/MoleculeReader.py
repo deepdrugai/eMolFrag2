@@ -94,7 +94,7 @@ def convertToRDkit(contents, curr_file):
     if curr_file:
         log.warning(f'Input file type {extension} ({curr_file.name}) will not preserve molecule SYBL atom types.')
         if not mol:
-            log.error(f'Molecule file ({curr_file.name}) was not read in.')
+            log.error(f'Molecule file ({curr_file.name}) was not read in due to RDKit Error.')
         return [(curr_file.name, mol)]
 
     return None

@@ -1,10 +1,6 @@
-import sys
 import pytest
 from pathlib import Path
-from eMolFrag2.src.utilities.logging import log
 from eMolFrag2.src.input.MoleculeReader import getMolecules
-from eMolFrag2.unittests import utilities
-from eMolFrag2.src.representation import Molecule
 
 @pytest.mark.parametrize("input", [
     (["mol2"]),
