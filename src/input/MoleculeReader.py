@@ -3,7 +3,7 @@ from pathlib import Path
 from rdkit import Chem
 from rdkit import RDLogger
 
-from eMolFrag2.src.representation import Molecule
+from eMolFrag2.src.representation.Molecule import Molecule
 from eMolFrag2.src.utilities import constants
 from eMolFrag2.src.utilities.logging import log
 
@@ -19,6 +19,12 @@ def fileToString(file):
         contents = f.read()
 
     return contents
+
+def to_mol(molPath):
+    """ Create Molecule object from file path (string) """ 
+    mol = getRDKitMolecule(molPath)
+    m = Molecule(mol, molPath.name)
+    return m
 
 def getRDKitMolecule(path, extension=None):
     """
@@ -40,8 +46,10 @@ def convertToRDkit(contents, curr_file):
         @output: list of tuples: [(id, rdkit_mol)]
     """
     #Chem.doKekule = False
-
-    extension = curr_file.suffix
+    if curr_file is Path:
+        extension = curr_file.suffix
+    else:
+        extension = curr_file  
 
     if (extension == constants.MOL2_FORMAT_EXT):
         mol = readMol2File(contents)
@@ -51,8 +59,9 @@ def convertToRDkit(contents, curr_file):
         return [(curr_file.name, mol)]
 
     elif (extension == constants.SMILES_FORMAT_EXT):
-        from eMolFrag2.src.input import SmilesReader
-        return SmilesReader.readSmilesFile(contents)
+        #from eMolFrag2.src.input import SmilesReader
+        return Chem.MolFromSmiles(contents)
+        #return SmilesReader.readSmilesFile(contents)
 
     #
     # Other file formats that do not support AtomTypes
@@ -154,6 +163,6 @@ def getMolecules(files):
         # add it to our dataset and update the filenames we have
         if id_mol_list is not None:
             for mol_id, mol in id_mol_list:
-                mols.append(Molecule.Molecule(mol, mol_id))
+                mols.append(Molecule(mol, mol_id))
    
     return mols
