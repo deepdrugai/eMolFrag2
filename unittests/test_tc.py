@@ -3,7 +3,7 @@ import pytest
 from eMolFrag2.src.utilities import tc
 from eMolFrag2.src.utilities.logging import log
 from eMolFrag2.src.representation.Molecule import Molecule
-from eMolFrag2.unittests import utilities
+from eMolFrag2.src.input.MoleculeReader import getRDKitMolecule
 
 rel_path = "data"
 
@@ -24,9 +24,9 @@ def test_tc_private(mol1_path, mol2_path, expected):
 
     for m1, m2, e in zip(mol1_path, mol2_path, expected):
         log.debug(f"Input: {cwd / m1}\t{m2} \nExpected = {e}")
-        rdkit_mol1 = utilities.getRDKitMolecule(
+        rdkit_mol1 = getRDKitMolecule(
             cwd / m1, Path(cwd / m1).suffix)
-        rdkit_mol2 = utilities.getRDKitMolecule(
+        rdkit_mol2 = getRDKitMolecule(
             cwd / m2, Path(cwd / m2).suffix)
         tanimoto = tc.TC(rdkit_mol1, rdkit_mol2)
         log.debug(
@@ -46,7 +46,7 @@ def mols(tc_mols_list):
 def rdkit_mols(tc_mols_list):
     rdkit_list = []
     for m in tc_mols_list:
-        rdkit_list.append(utilities.getRDKitMolecule(m, Path(m).suffix))
+        rdkit_list.append(getRDKitMolecule(m, Path(m).suffix))
     return rdkit_list
 
 
