@@ -69,7 +69,17 @@ def convertToRDkit(contents, curr_file):
         mol = Chem.MolFromMolBlock(contents)
 
     elif (extension == constants.PDB_FORMAT_EXT):
-        mol = Chem.MolFromPDBBlock(contents) 
+        mol = Chem.MolFromPDBBlock(contents)
+        # rdkit.Chem.rdmolfiles.MolFromPDBBlock((AtomPairsParameters)molBlock[, (bool)sanitize=True[, (bool)removeHs=True[, (int)flavor=0[, (bool)proximityBonding=True]]]]) → Mol :
+        #     Construct a molecule from a PDB block.
+        #     ARGUMENTS:
+        #     molBlock: string containing the PDB block
+        #     sanitize: (optional) toggles sanitization of the molecule. Defaults to True.
+        #     removeHs: (optional) toggles removing hydrogens from the molecule. This only make sense when sanitization is done. Defaults to true.
+        #     flavor: (optional)
+        #     proximityBonding: (optional) toggles automatic proximity bonding
+        #     RETURNS:
+        #     a Mol object, None on failure.
 
     elif (extension == constants.SMARTS_FORMAT_EXT):
         mol = Chem.MolFromSmarts(contents) 
@@ -78,17 +88,20 @@ def convertToRDkit(contents, curr_file):
         mol = Chem.MolFromTPLBlock(contents)
 
     else:
-        log.error(f'Input file type with extension {extension} not supported.')
+        log.error(f'Input file type with extension {extension} ({curr_file.name}) not supported.')
+        return None
 
-    if mol is not None:
-        log.warning(f'Input file type {extension} will not preserve molecule SYBL atom types')
+    if curr_file:
+        log.warning(f'Input file type {extension} ({curr_file.name}) will not preserve molecule SYBL atom types.')
+        if not mol:
+            log.error(f'Molecule file ({curr_file.name}) was not read in due to RDKit Error.')
         return [(curr_file.name, mol)]
 
     return None
 
 def readMol2File(contents):
     # Turn off rdkit error messages 
-    RDLogger.DisableLog('rdApp.*')
+    # RDLogger.DisableLog('rdApp.*')
 
     try: 
         return Chem.MolFromMol2Block(contents)
