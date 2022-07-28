@@ -80,7 +80,7 @@ class Options:
 
         parser.add_argument("-d", 
                             dest = "debug", 
-                            action=argparse.BooleanOptionalAction,
+                            action='store_true',
                             help = "Quick flag to set logging level to debug.")
 
         parser.add_argument("-l", 
