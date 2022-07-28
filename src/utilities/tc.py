@@ -3,7 +3,7 @@ import math
 from rdkit import Chem
 from rdkit import DataStructs # For TC Computations
 from eMolFrag2.src.utilities.logging import log
-from eMolFrag2.src.representation.Molecule import Molecule
+from eMolFrag2.src.representation import Molecule
 
 #
 # A utility function to compute the Tanimoto Coefficient
@@ -22,7 +22,7 @@ def TC(mol1, mol2):
         return -1
 
     return (TC_private(mol1.getRDKitObject(), mol2.getRDKitObject()) \
-            if isinstance(mol1, Molecule) else TC_private(mol1, mol2))
+            if isinstance(mol1, Molecule.Molecule) else TC_private(mol1, mol2))
             
 
 def TCEquiv(mol1, mol2, tc_threshold = 1.0):

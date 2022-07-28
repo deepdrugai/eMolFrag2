@@ -1,7 +1,7 @@
 import pytest
 from pathlib import Path
 from eMolFrag2.src.utilities.logging import log
-from eMolFrag2.src.representation.Molecule import Molecule
+from eMolFrag2.src.input.MoleculeReader import to_mol
 from eMolFrag2.src.representation.MoleculeDatabase import MoleculeDatabase
 
 ### Moved to Molecule file
@@ -24,8 +24,8 @@ def tc1_mol_pairs():
     molpairs = []
     dir = Path(__file__).parent / "data"
     for a, b in ms:
-        am = Molecule.to_mol(dir / a)
-        bm = Molecule.to_mol(dir / b)
+        am = to_mol(dir / a)
+        bm = to_mol(dir / b)
         molpairs.append([am, bm])
     return molpairs
 
@@ -40,7 +40,7 @@ def five_mols():
     mols = []
     dir = Path(__file__).parent / "data"
     for m in ms:
-        mols.append(Molecule.to_mol(dir / m))
+        mols.append(to_mol(dir / m))
     return mols
 
 
@@ -66,7 +66,7 @@ def test_add_mol_to_mdb(input, expected, tc=1.0):
 
     for m, e in zip(input, expected):
         log.debug(f"{dir / m}\t{e}")
-        assert mdb.add(Molecule.to_mol(dir / m)) is e
+        assert mdb.add(to_mol(dir / m)) is e
 
 
 def test_add_list_to_mdb(five_mols, tc=1.0):
