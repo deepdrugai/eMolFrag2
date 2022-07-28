@@ -221,8 +221,8 @@ def runtests(printlevel):
               "addAll" : run_addAllTests,
               "GetUniqueMolecules" : run_GetUniqueMoleculesTests,
               "GetAllMolecules" : run_GetAllMoleculesTests,
-              "numUnique" : run_numUniqueTests, 
-              "numAllMolecules" : run_numAllMolecules 
+              # "numUnique" : run_numUniqueTests, 
+              # "numAllMolecules" : run_numAllMolecules 
             }
     #
     # Run 
