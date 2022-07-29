@@ -4,7 +4,7 @@ from rdkit import Chem
 from eMolFrag2.src.utilities.logging import log
 
 #import os
-from eMolFrag2.unittests import utilities
+from eMolFrag2.src.input import MoleculeReader
 from eMolFrag2.src.chopper import Deconstructor
 
 rel_path = "mol2-test"
@@ -35,7 +35,7 @@ def test_deconstruct(kekulize_files):
         log.debug(f"file path: {file_path}")
 
         # create rdkit molecule from molPath
-        rdkit_mol = utilities.getRDKitMolecule(
+        rdkit_mol = MoleculeReader.getRDKitMolecule(
             file_path, Path(file_path).suffix)
 
         if rdkit_mol is None:

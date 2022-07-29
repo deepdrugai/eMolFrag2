@@ -59,7 +59,8 @@ def convertToRDkit(contents, curr_file):
     if (extension == constants.MOL2_FORMAT_EXT):
         mol = readMol2File(contents)
         if mol is None:
-            log.error(f'Rdkit failed to process mol2 file {curr_file.name}')
+            log.error(
+                f'Rdkit failed to process file: {curr_file.name if curr_file is Path else "extension is " + curr_file}')
             return None
         return [(curr_file.name, mol)]
 
