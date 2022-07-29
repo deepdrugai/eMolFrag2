@@ -24,11 +24,11 @@ def test_tc_private(mol1_path, mol2_path, expected):
     cwd = Path(__file__).parent / rel_path
 
     for m1, m2, e in zip(mol1_path, mol2_path, expected):
-        log.debug(f"Input: {cwd / m1}\t{m2} \nExpected = {e}")
         rdkit_mol1 = getRDKitMolecule(cwd / m1)
         rdkit_mol2 = getRDKitMolecule(cwd / m2)
         tanimoto = tc.TC(rdkit_mol1, rdkit_mol2)
-        log.debug(f'TC value for {m1} and {m2} is: {tanimoto}')
+        log.debug(f"Input: {m1}\t{m2}\t Expected vs Actual = {e} | {tanimoto}")
+        # log.debug(f'TC Similiarity of {m1} and {m2}: {tanimoto}.')
         assert tanimoto == e
 
 
@@ -44,7 +44,6 @@ def mols(tc_mols_list):
 def rdkit_mols(tc_mols_list):
     rdkit_list = []
     for m in tc_mols_list:
-        log.debug(f"M value: {m}")
         rdkit_list.append(getRDKitMolecule(m))
     return rdkit_list
 
@@ -62,8 +61,10 @@ def tc_mols_list():
 
 
 def tc_eval(mol1, mol2, expected_result):
-    log.debug(f"Input: \t{mol1}\t{mol2} \nexpected = {expected_result}")
-    assert abs(tc.TC(mol1, mol2) - expected_result) <= 0.001
+    # log.debug(f"Input: \t{mol1}\t{mol2} \nexpected = {expected_result}")
+    tc_diff = abs(tc.TC(mol1, mol2) - expected_result)
+    log.debug(f"Distance from Expected TC: {tc_diff:.4f}")
+    assert tc_diff <= 0.001
 
 
 def test_tc(rdkit_mols, mols):
@@ -110,7 +111,7 @@ def test_tc_equiv(mol1_path, mol2_path, expected):
     cwd = Path(__file__).parent / rel_path
 
     for m1, m2, r in zip(mol1_path, mol2_path, expected):
-        log.debug(f"Input: {cwd / m1}\t{m2} \nassert = {r}")
+        log.debug(f"Compare TC: {m1}\t{m2}\t Expected Equivalence = {r}")
         mol_obj1 = to_mol(cwd / m1)
         mol_obj2 = to_mol(cwd / m2)
         assert tc.TCEquiv(mol_obj1, mol_obj2) == r
