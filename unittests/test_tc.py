@@ -11,7 +11,8 @@ rel_path = "data"
 @pytest.mark.parametrize("mol1_path, mol2_path, expected", (
     # Pair of molecules (.smi) with tc = 1.0
     (["similarPairSMI/1/DB00452.smi", "similarPairSMI/2/DB01137.smi", "similarPairSMI/3/DB12447.smi"],
-     ["similarPairSMI/1/DB01421.smi", "similarPairSMI/2/DB01165.smi", "similarPairSMI/3/DB16219.smi"], [1.0]*3),
+     ["similarPairSMI/1/DB01421.smi", "similarPairSMI/2/DB01165.smi", "similarPairSMI/3/DB16219.smi"], 
+     [1.0]*3),
 ))
 def test_tc_private(mol1_path, mol2_path, expected):
     """
@@ -27,8 +28,7 @@ def test_tc_private(mol1_path, mol2_path, expected):
         rdkit_mol1 = getRDKitMolecule(cwd / m1)
         rdkit_mol2 = getRDKitMolecule(cwd / m2)
         tanimoto = tc.TC(rdkit_mol1, rdkit_mol2)
-        log.debug(
-            f'TC value for {m1} and {m2} is: {tanimoto}')
+        log.debug(f'TC value for {m1} and {m2} is: {tanimoto}')
         assert tanimoto == e
 
 
@@ -88,27 +88,16 @@ def test_tc(rdkit_mols, mols):
 
 
 @ pytest.mark.parametrize("mol1_path, mol2_path, expected", [
-    (["similarPairSMI/1/DB00452.smi",
-        "similarPairSMI/2/DB01137.smi",
-        "similarPairSMI/3/DB12447.smi"],
-        ["similarPairSMI/1/DB01421.smi",
-            "similarPairSMI/2/DB01165.smi",
-            "similarPairSMI/3/DB16219.smi"],
-        [True, True, True]),
-    (["uniqueMol(SMI)/DB00415.smi",
-        "uniqueMol(SMI)/DB00415.smi",
-        "uniqueMol(SMI)/DB01208.smi"],
-     ["uniqueMol(SMI)/DB01208.smi",
-        "uniqueMol(SMI)/DB04626.smi",
-        "uniqueMol(SMI)/DB04626.smi"],
-        [False, False, False],
+    (["similarPairSMI/1/DB00452.smi", "similarPairSMI/2/DB01137.smi", "similarPairSMI/3/DB12447.smi"],
+     ["similarPairSMI/1/DB01421.smi", "similarPairSMI/2/DB01165.smi", "similarPairSMI/3/DB16219.smi"],
+     [True]*3),
+    (["uniqueMol(SMI)/DB00415.smi", "uniqueMol(SMI)/DB00415.smi", "uniqueMol(SMI)/DB01208.smi"],
+     ["uniqueMol(SMI)/DB01208.smi", "uniqueMol(SMI)/DB04626.smi", "uniqueMol(SMI)/DB04626.smi"],
+     [False]*3,
      ),
-    (["uniqueMol(SMI)/DB01208.smi",
-        "uniqueMol(SMI)/DB04626.smi",
-        "uniqueMol(SMI)/DB11774.smi",
-        "uniqueMol(SMI)/DB13499.smi"],
-        ["uniqueMol(SMI)/DB00415.smi"]*4,
-        [False]*4)
+    (["uniqueMol(SMI)/DB01208.smi", "uniqueMol(SMI)/DB04626.smi", "uniqueMol(SMI)/DB11774.smi", "uniqueMol(SMI)/DB13499.smi"],
+     ["uniqueMol(SMI)/DB00415.smi"]*4,
+     [False]*4)
 ])
 def test_tc_equiv(mol1_path, mol2_path, expected):
     """
@@ -124,5 +113,4 @@ def test_tc_equiv(mol1_path, mol2_path, expected):
         log.debug(f"Input: {cwd / m1}\t{m2} \nassert = {r}")
         mol_obj1 = to_mol(cwd / m1)
         mol_obj2 = to_mol(cwd / m2)
-        assert tc.TCEquiv(mol_obj1,
-                          mol_obj2) == r
+        assert tc.TCEquiv(mol_obj1, mol_obj2) == r
