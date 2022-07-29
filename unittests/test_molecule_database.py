@@ -4,14 +4,9 @@ from eMolFrag2.src.utilities.logging import log
 from eMolFrag2.src.input.MoleculeReader import to_mol
 from eMolFrag2.src.representation.MoleculeDatabase import MoleculeDatabase
 
-# Moved to Molecule file
-# def to_mol(molPath):
-#   """ Create Molecule object from file path """
-#   mol = utilities.getRDKitMolecule(molPath)
-#   log.debug(f"{mol} {molPath}")
-#   m = Molecule(mol, molPath.name)
-#   log.debug(f"{m}")
-#   return m
+
+dir = Path(__file__).parent / "data"
+
 
 @pytest.fixture
 def tc1_mol_pairs():
@@ -22,7 +17,7 @@ def tc1_mol_pairs():
           ("similarPairSMI/3/DB12447.smi",
           "similarPairSMI/3/DB16219.smi")]
     molpairs = []
-    dir = Path(__file__).parent / "data"
+
     for a, b in ms:
         am = to_mol(dir / a)
         bm = to_mol(dir / b)
@@ -38,7 +33,7 @@ def five_mols():
           "uniqueMol(SMI)/DB11774.smi",
           "uniqueMol(SMI)/DB13499.smi"]
     mols = []
-    dir = Path(__file__).parent / "data"
+
     for m in ms:
         mols.append(to_mol(dir / m))
     return mols
@@ -61,7 +56,6 @@ def five_mols():
 def test_add_mol_to_mdb(input, expected, tc=1.0):
     """ Test adding TC Equivalent molecules to Molecule Database where given_tc = 1"""
 
-    dir = Path(__file__).parent / "data"
     mdb = MoleculeDatabase(given_tc=tc)
 
     for m, e in zip(input, expected):

@@ -86,7 +86,7 @@ def combineAdjLinkerSequences(linkers, snips):
             snips_r.add((x, y)) # Add snip to removelist
 
             log.debug(f"All Linkers: {linkers}")
-            log.debug(f"snips_r: {snips_r}")
+            # log.debug(f"snips_r: {snips_r}")
 
     return linkers, snips_r
 
@@ -109,19 +109,19 @@ def computeFragmentsAndSnips(nxfrags, snips):
   
     # split linkers & bricks (populate sets)
     [linkers.add(tuple(x)) if len(x) <= constants.LINKER_MAXIMUM_NUM_ATOMS else bricks.add(tuple(x)) for x in nxfrags]
-    log.debug(f"(Before) All Bricks: {bricks}")
-    log.debug(f"(Before) All Linkers: {linkers}")
-    log.debug(f"(Before) Snips: {snips}")
+    # log.debug(f"(Before) All Bricks: {bricks}")
+    # log.debug(f"(Before) All Linkers: {linkers}")
+    # log.debug(f"(Before) Snips: {snips}")
 
     # Handle sequences of linkers
     linkers, snips_r = combineAdjLinkerSequences(linkers, snips)
 
-    log.debug(f"(After) All Linkers: {linkers}")
+    # log.debug(f"(After) All Linkers: {linkers}")
 
     # Remove snip removelist from snip list
     snips -= snips_r
     
-    log.debug(f"Final Snips: {snips}")
+    # log.debug(f"Final Snips: {snips}")
 
     return bricks, linkers, snips
     

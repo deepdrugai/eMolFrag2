@@ -1,13 +1,11 @@
 from pathlib import Path
 
 from rdkit import Chem
-from rdkit import RDLogger
+# from rdkit import RDLogger
 
 from eMolFrag2.src.representation.Molecule import Molecule
 from eMolFrag2.src.utilities import constants
 from eMolFrag2.src.utilities.logging import log
-
-# TODO: move to utilities
 
 
 def fileToString(file):
@@ -35,46 +33,48 @@ def getRDKitMolecule(path, extension=None):
         Given a path object, return the corresponding RDKit molecule object
         This simplified functionality is for testing only
     """
-    if extension is None:
-        extension = Path(path).suffix
     content = fileToString(path)
-    return convertToRDkit(content, extension)
+    path = path if isinstance(path, Path) else Path(path)
+    return convertToRDkit(content, path)
 
 
-def convertToRDkit(contents, curr_file):
+def convertToRDkit(contents, path):
     """
         Attempt to read and convert the input file into an RdKit.Mol object
 
         @input: contents -- string contents of a file
         @input: mol)file -- input molecule file name
 
-        @output: list of tuples: [(id, rdkit_mol)]
+        @output: tuples: id, rdkit_mol
     """
     #Chem.doKekule = False
-    if curr_file is Path:
-        extension = curr_file.suffix
-    else:
-        extension = curr_file
+    extension = path.suffix
+    # log.debug(f"Running {path}, with extension: {extension}.")
 
-    if (extension == constants.MOL2_FORMAT_EXT):
+    if extension not in constants.ACCEPTED_FORMATS:
+        log.error(
+            f'Input file type with extension {extension} ({path.name}) not supported.')
+        return None
+
+    elif (extension == constants.MOL2_FORMAT_EXT):
         mol = readMol2File(contents)
         if mol is None:
-            log.error(
-                f'Rdkit failed to process file: {curr_file.name if curr_file is Path else "extension is " + curr_file}')
+            print()
+            log.error(f"Rdkit failed to process file {path.name}.")
             return None
-        return [(curr_file.name, mol)]
+        return mol
 
     elif (extension == constants.SMILES_FORMAT_EXT):
-        #from eMolFrag2.src.input import SmilesReader
         return Chem.MolFromSmiles(contents)
+
+        # TODO Fix SmilesReader
+        # from eMolFrag2.src.input import SmilesReader
         # return SmilesReader.readSmilesFile(contents)
 
     #
     # Other file formats that do not support AtomTypes
     #
-    mol = None
-
-    if (extension == constants.FASTA_FORMAT_EXT):
+    elif (extension == constants.FASTA_FORMAT_EXT):
         mol = Chem.MolFromFASTA(contents)
 
     elif (extension == constants.YAML_FORMAT_EXT):
@@ -85,16 +85,6 @@ def convertToRDkit(contents, curr_file):
 
     elif (extension == constants.PDB_FORMAT_EXT):
         mol = Chem.MolFromPDBBlock(contents)
-        # rdkit.Chem.rdmolfiles.MolFromPDBBlock((AtomPairsParameters)molBlock[, (bool)sanitize=True[, (bool)removeHs=True[, (int)flavor=0[, (bool)proximityBonding=True]]]]) → Mol :
-        #     Construct a molecule from a PDB block.
-        #     ARGUMENTS:
-        #     molBlock: string containing the PDB block
-        #     sanitize: (optional) toggles sanitization of the molecule. Defaults to True.
-        #     removeHs: (optional) toggles removing hydrogens from the molecule. This only make sense when sanitization is done. Defaults to true.
-        #     flavor: (optional)
-        #     proximityBonding: (optional) toggles automatic proximity bonding
-        #     RETURNS:
-        #     a Mol object, None on failure.
 
     elif (extension == constants.SMARTS_FORMAT_EXT):
         mol = Chem.MolFromSmarts(contents)
@@ -102,20 +92,15 @@ def convertToRDkit(contents, curr_file):
     elif (extension == constants.TPL_FORMAT_EXT):
         mol = Chem.MolFromTPLBlock(contents)
 
-    else:
+    if not mol:
         log.error(
-            f'Input file type with extension {extension} ({curr_file.name}) not supported.')
+            f'Molecule file ({path.name}) was not read in due to RDKit Error.')
         return None
 
-    if curr_file:
+    if path:
         log.warning(
-            f'Input file type {extension} ({curr_file.name}) will not preserve molecule SYBL atom types.')
-        if not mol:
-            log.error(
-                f'Molecule file ({curr_file.name}) was not read in due to RDKit Error.')
-        return [(curr_file.name, mol)]
-
-    return None
+            f'Input file type {extension} ({path.name}) will not preserve molecule SYBL atom types.')
+        return mol
 
 
 def readMol2File(contents):
@@ -165,16 +150,19 @@ def getMolecules(files):
         file_contents = fileToString(current_file)
 
         # Attempt to interpret the molecule
-        id_mol_list = None
         try:
-            id_mol_list = convertToRDkit(file_contents, current_file)
+            mol = convertToRDkit(file_contents, current_file)
         except:
             log.error(
                 f'RDKit failed to read {current_file.name}', exc_info=True)
+            break
 
         # add it to our dataset and update the filenames we have
-        if id_mol_list is not None:
-            for mol_id, mol in id_mol_list:
-                mols.append(Molecule(mol, mol_id))
+        if mol is not None:
+            mols.append(Molecule(mol, current_file.name))
+
+    if mols is None:
+        log.error(
+            f"No molecules generated from files list: {[x.name for x in files]}.")
 
     return mols

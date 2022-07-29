@@ -1,6 +1,7 @@
 import pytest
 from pathlib import Path
 from eMolFrag2.src.input.MoleculeReader import getMolecules
+from eMolFrag2.src.utilities.logging import log
 
 @pytest.mark.parametrize("input", [
     (["mol2"]),
@@ -18,6 +19,7 @@ def test_get_files(input):
         files = []
         file_path = cwd.joinpath(suffix)
         for current_file in file_path.iterdir():
+            log.info(f"{current_file}")
             files.append(file_path / current_file.name)
         mols = getMolecules(files)
         #If any of the returned mols have rdkitObject==None, then the file was not read properly

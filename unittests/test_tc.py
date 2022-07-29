@@ -4,7 +4,6 @@ from eMolFrag2.src.utilities import tc
 from eMolFrag2.src.utilities.logging import log
 from eMolFrag2.src.representation.Molecule import Molecule
 from eMolFrag2.src.input.MoleculeReader import getRDKitMolecule, to_mol
-from eMolFrag2.unittests.utilities import getRDKitMolecule
 
 rel_path = "data"
 
@@ -12,7 +11,9 @@ rel_path = "data"
 @pytest.mark.parametrize("mol1_path, mol2_path, expected", (
     # Pair of molecules (.smi) with tc = 1.0
     (["similarPairSMI/1/DB00452.smi", "similarPairSMI/2/DB01137.smi", "similarPairSMI/3/DB12447.smi"],
-     ["similarPairSMI/1/DB01421.smi", "similarPairSMI/2/DB01165.smi", "similarPairSMI/3/DB16219.smi"], [1.0]*3),
+     ["similarPairSMI/1/DB01421.smi", "similarPairSMI/2/DB01165.smi",
+         "similarPairSMI/3/DB16219.smi"],
+     [1.0]*3),
 ))
 def test_tc_private(mol1_path, mol2_path, expected):
     """
@@ -24,14 +25,11 @@ def test_tc_private(mol1_path, mol2_path, expected):
     cwd = Path(__file__).parent / rel_path
 
     for m1, m2, e in zip(mol1_path, mol2_path, expected):
-        log.debug(f"Input: {cwd / m1}\t{m2} \nExpected = {e}")
-        rdkit_mol1 = getRDKitMolecule(
-            cwd / m1, Path(cwd / m1).suffix)
-        rdkit_mol2 = getRDKitMolecule(
-            cwd / m2, Path(cwd / m2).suffix)
+        rdkit_mol1 = getRDKitMolecule(cwd / m1)
+        rdkit_mol2 = getRDKitMolecule(cwd / m2)
         tanimoto = tc.TC(rdkit_mol1, rdkit_mol2)
-        log.debug(
-            f'TC value for {m1} and {m2} is: {tanimoto}')
+        log.debug(f"Input: {m1}\t{m2}\t Expected vs Actual = {e} | {tanimoto}")
+        # log.debug(f'TC Similiarity of {m1} and {m2}: {tanimoto}.')
         assert tanimoto == e
 
 
@@ -47,8 +45,7 @@ def mols(tc_mols_list):
 def rdkit_mols(tc_mols_list):
     rdkit_list = []
     for m in tc_mols_list:
-        log.debug(f"M value: {m}")
-        rdkit_list.append(getRDKitMolecule(m, Path(m).suffix))
+        rdkit_list.append(getRDKitMolecule(m))
     return rdkit_list
 
 
@@ -65,8 +62,10 @@ def tc_mols_list():
 
 
 def tc_eval(mol1, mol2, expected_result):
-    log.debug(f"Input: \t{mol1}\t{mol2} \nexpected = {expected_result}")
-    assert abs(tc.TC(mol1, mol2) - expected_result) <= 0.001
+    # log.debug(f"Input: \t{mol1}\t{mol2} \nexpected = {expected_result}")
+    tc_diff = abs(tc.TC(mol1, mol2) - expected_result)
+    log.debug(f"Distance from Expected TC: {tc_diff:.4f}")
+    assert tc_diff <= 0.001
 
 
 def test_tc(rdkit_mols, mols):
@@ -91,27 +90,18 @@ def test_tc(rdkit_mols, mols):
 
 
 @ pytest.mark.parametrize("mol1_path, mol2_path, expected", [
-    (["similarPairSMI/1/DB00452.smi",
-        "similarPairSMI/2/DB01137.smi",
-        "similarPairSMI/3/DB12447.smi"],
-        ["similarPairSMI/1/DB01421.smi",
-            "similarPairSMI/2/DB01165.smi",
-            "similarPairSMI/3/DB16219.smi"],
-        [True, True, True]),
-    (["uniqueMol(SMI)/DB00415.smi",
-        "uniqueMol(SMI)/DB00415.smi",
-        "uniqueMol(SMI)/DB01208.smi"],
-     ["uniqueMol(SMI)/DB01208.smi",
-        "uniqueMol(SMI)/DB04626.smi",
-        "uniqueMol(SMI)/DB04626.smi"],
-        [False, False, False],
+    (["similarPairSMI/1/DB00452.smi", "similarPairSMI/2/DB01137.smi", "similarPairSMI/3/DB12447.smi"],
+     ["similarPairSMI/1/DB01421.smi", "similarPairSMI/2/DB01165.smi",
+         "similarPairSMI/3/DB16219.smi"],
+     [True]*3),
+    (["uniqueMol(SMI)/DB00415.smi", "uniqueMol(SMI)/DB00415.smi", "uniqueMol(SMI)/DB01208.smi"],
+     ["uniqueMol(SMI)/DB01208.smi", "uniqueMol(SMI)/DB04626.smi",
+      "uniqueMol(SMI)/DB04626.smi"],
+     [False]*3,
      ),
-    (["uniqueMol(SMI)/DB01208.smi",
-        "uniqueMol(SMI)/DB04626.smi",
-        "uniqueMol(SMI)/DB11774.smi",
-        "uniqueMol(SMI)/DB13499.smi"],
-        ["uniqueMol(SMI)/DB00415.smi"]*4,
-        [False]*4)
+    (["uniqueMol(SMI)/DB01208.smi", "uniqueMol(SMI)/DB04626.smi", "uniqueMol(SMI)/DB11774.smi", "uniqueMol(SMI)/DB13499.smi"],
+     ["uniqueMol(SMI)/DB00415.smi"]*4,
+     [False]*4)
 ])
 def test_tc_equiv(mol1_path, mol2_path, expected):
     """
@@ -124,8 +114,7 @@ def test_tc_equiv(mol1_path, mol2_path, expected):
     cwd = Path(__file__).parent / rel_path
 
     for m1, m2, r in zip(mol1_path, mol2_path, expected):
-        log.debug(f"Input: {cwd / m1}\t{m2} \nassert = {r}")
+        log.debug(f"Compare TC: {m1}\t{m2}\t Expected Equivalence = {r}")
         mol_obj1 = to_mol(cwd / m1)
         mol_obj2 = to_mol(cwd / m2)
-        assert tc.TCEquiv(mol_obj1,
-                          mol_obj2) == r
+        assert tc.TCEquiv(mol_obj1, mol_obj2) == r
