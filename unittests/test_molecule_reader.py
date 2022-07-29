@@ -3,6 +3,8 @@ from pathlib import Path
 from eMolFrag2.src.input.MoleculeReader import getMolecules, to_mol
 from eMolFrag2.src.utilities.logging import log
 
+cwd = Path(__file__).parent / "data/db-files"
+
 @pytest.mark.parametrize("input, expected", [
     (["mol2"], [5]),
     (["smi"], [5]),
@@ -14,7 +16,6 @@ from eMolFrag2.src.utilities.logging import log
 #Read files in from unittests/data/db-files for mol2, smi, sdf, pbd, mol (5 tests)
 #For each test, if one of those objects returns a None rdkitObject, test fails
 def test_get_files(input, expected):
-    cwd = Path(__file__).parent / "data/db-files"
     for suffix, e in zip(input, expected):
         files = []
         file_path = cwd.joinpath(suffix)
@@ -34,7 +35,6 @@ def test_get_files(input, expected):
     (["mol"], [5]),
 ])
 def test_to_mol(input, expected):
-    cwd = Path(__file__).parent / "data/db-files"
     for suffix, e in zip(input, expected):
         mols = []
         file_path = cwd.joinpath(suffix)
