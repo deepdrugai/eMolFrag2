@@ -71,7 +71,7 @@ def chopall(mols):
 
     for mol in mols:
 
-        log.debug(f'Processing molecule{mol.getFileName()}')
+        log.info(f'Processing molecule {mol.getFileName()}.')
 
         #
         # Chop
@@ -83,10 +83,10 @@ def chopall(mols):
         #
         results = brick_db.addAll([Brick.Brick(b, mol, suffix = index) for index, b in enumerate(bricks)])
     
-        log.debug(f'Added {len(results)} TC-unique bricks; \t{len(bricks) - len(results)} were TC-redundant')
+        log.debug(f'Added {len(results)} TC-unique brick(s); \t{len(bricks) - len(results)} were TC-redundant')
 
         results = linker_db.addAll([Linker.Linker(ell, mol, suffix = index) for index, ell in enumerate(linkers)])
 
-        log.debug(f'Added {len(results)} TC-unique linkers; \t{len(linkers) - len(results)} were TC-redundant')
+        log.debug(f'Added {len(results)} TC-unique linker(s); \t{len(linkers) - len(results)} were TC-redundant')
 
     return brick_db, linker_db
