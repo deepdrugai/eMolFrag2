@@ -24,10 +24,8 @@ def test_tc_private(mol1_path, mol2_path, expected):
 
     for m1, m2, e in zip(mol1_path, mol2_path, expected):
         log.debug(f"Input: {cwd / m1}\t{m2} \nExpected = {e}")
-        rdkit_mol1 = getRDKitMolecule(
-            cwd / m1, Path(cwd / m1).suffix)
-        rdkit_mol2 = getRDKitMolecule(
-            cwd / m2, Path(cwd / m2).suffix)
+        rdkit_mol1 = getRDKitMolecule(cwd / m1)
+        rdkit_mol2 = getRDKitMolecule(cwd / m2)
         tanimoto = tc.TC(rdkit_mol1, rdkit_mol2)
         log.debug(
             f'TC value for {m1} and {m2} is: {tanimoto}')
@@ -47,7 +45,7 @@ def rdkit_mols(tc_mols_list):
     rdkit_list = []
     for m in tc_mols_list:
         log.debug(f"M value: {m}")
-        rdkit_list.append(getRDKitMolecule(m, Path(m).suffix))
+        rdkit_list.append(getRDKitMolecule(m))
     return rdkit_list
 
 
