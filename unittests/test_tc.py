@@ -4,7 +4,6 @@ from eMolFrag2.src.utilities import tc
 from eMolFrag2.src.utilities.logging import log
 from eMolFrag2.src.representation.Molecule import Molecule
 from eMolFrag2.src.input.MoleculeReader import getRDKitMolecule, to_mol
-from eMolFrag2.unittests.utilities import getRDKitMolecule
 
 rel_path = "data"
 
