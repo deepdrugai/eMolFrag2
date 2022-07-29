@@ -32,7 +32,7 @@ class MoleculeDatabase(Molecule):
          # print("Adding", molecule.getFileName())
       
         tc_equiv = [db_mol for db_mol in self.database.keys() \
-                    if tc.TCEquiv(molecule, db_mol, tc_threshold  = self.TC_THRESH)]
+                    if tc.TCEquiv(molecule, db_mol, tc_threshold=self.TC_THRESH)]
 
         if len(tc_equiv) > 1:
             print(f'Internal MoleculeDatabase error; {len(tc_equiv)}-TC equivalent molecules')            

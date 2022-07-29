@@ -25,7 +25,6 @@ class Options:
     def __init__(self):
         self.INPUT_PATH = None
         self.OUTPUT_PATH = None
-        self.LOGGING_LEVEL = "DEBUG"
         self.CONFIGURATION_FILE = None
         
         self.INDIVIDUAL = False
@@ -88,6 +87,7 @@ class Options:
                             choices = ['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'], 
                             # default = 'INFO',
                             default = 'DEBUG', # NOTE set to DEBUG until we decide to move to production
+                            type = str.upper,
                             help = "Set the logging level to print to console.")
 
         parser.add_argument('-' + CONFIGURATION_FILE_ARG,
