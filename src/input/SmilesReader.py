@@ -83,7 +83,7 @@ def toRdkitMol(mol_id, mol_smi_str):
     rdkit_mol = Chem.MolFromSmiles(mol_smi_str)
 
     try:
-        import pybel
+        from openbabel import pybel
     except:
         print (f'OpenBabel has not been installed; atom types of input SMILES molecules will not be preserved.')
         return mol_id, rdkit_mol
