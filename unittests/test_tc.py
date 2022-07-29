@@ -35,7 +35,7 @@ def test_tc_private(mol1_path, mol2_path, expected):
         assert tanimoto == e
 
 
-@pytest.fixture
+@ pytest.fixture
 def mols(tc_mols_list):
     mols = []
     for m in tc_mols_list:
@@ -43,15 +43,16 @@ def mols(tc_mols_list):
     return mols
 
 
-@pytest.fixture
+@ pytest.fixture
 def rdkit_mols(tc_mols_list):
     rdkit_list = []
     for m in tc_mols_list:
+        log.debug(f"M value: {m}")
         rdkit_list.append(getRDKitMolecule(m, Path(m).suffix))
     return rdkit_list
 
 
-@pytest.fixture
+@ pytest.fixture
 def tc_mols_list():
     global rel_path
     ms = ["uniqueMol(SMI)/DB00415.smi",

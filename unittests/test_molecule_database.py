@@ -70,10 +70,10 @@ def test_add_mol_to_mdb(input, expected, tc=1.0):
 
 
 def test_add_list_to_mdb(five_mols, tc=1.0):
-  """ Test adding a list to molecule database """
-  mdb = MoleculeDatabase(tc)
-  log.debug(f"{len(five_mols) = }")
-  assert len(mdb.addAll(five_mols)) == len(five_mols)
+    """ Test adding a list to molecule database """
+    mdb = MoleculeDatabase(tc)
+    log.debug(f"{len(five_mols) = }")
+    assert len(mdb.addAll(five_mols)) == len(five_mols)
 
 
 def test_get_unique_molecules_mdb(five_mols, tc1_mol_pairs):
