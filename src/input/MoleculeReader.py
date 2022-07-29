@@ -151,7 +151,8 @@ def getMolecules(files):
             mol = convertToRDkit(file_contents, current_file)
         except:
             log.error(f'RDKit failed to read {current_file.name}', exc_info=True)
-            break
+            # break # TODO change this to continue
+            continue
 
         # add it to our dataset and update the filenames we have
         if mol is not None:
