@@ -4,7 +4,7 @@ from eMolFrag2.src.utilities.logging import log
 from eMolFrag2.src.input.MoleculeReader import to_mol
 from eMolFrag2.src.representation.MoleculeDatabase import MoleculeDatabase
 
-# Moved to Molecule file
+### Moved to Molecule file
 # def to_mol(molPath):
 #   """ Create Molecule object from file path """
 #   mol = utilities.getRDKitMolecule(molPath)

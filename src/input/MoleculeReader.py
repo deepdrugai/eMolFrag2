@@ -59,8 +59,7 @@ def convertToRDkit(contents, curr_file):
     if (extension == constants.MOL2_FORMAT_EXT):
         mol = readMol2File(contents)
         if mol is None:
-            log.error(
-                f'Rdkit failed to process file: {curr_file.name if curr_file is Path else "extension is " + curr_file}')
+            log.error(f'Rdkit failed to process file{f": {curr_file.name}" if curr_file is Path else " with extension " + curr_file}')
             return None
         return [(curr_file.name, mol)]
 
@@ -103,16 +102,13 @@ def convertToRDkit(contents, curr_file):
         mol = Chem.MolFromTPLBlock(contents)
 
     else:
-        log.error(
-            f'Input file type with extension {extension} ({curr_file.name}) not supported.')
+        log.error(f'Input file type with extension {extension} ({curr_file.name}) not supported.')
         return None
 
     if curr_file:
-        log.warning(
-            f'Input file type {extension} ({curr_file.name}) will not preserve molecule SYBL atom types.')
+        log.warning(f'Input file type {extension} ({curr_file.name}) will not preserve molecule SYBL atom types.')
         if not mol:
-            log.error(
-                f'Molecule file ({curr_file.name}) was not read in due to RDKit Error.')
+            log.error(f'Molecule file ({curr_file.name}) was not read in due to RDKit Error.')
         return [(curr_file.name, mol)]
 
     return None
@@ -169,8 +165,7 @@ def getMolecules(files):
         try:
             id_mol_list = convertToRDkit(file_contents, current_file)
         except:
-            log.error(
-                f'RDKit failed to read {current_file.name}', exc_info=True)
+            log.error(f'RDKit failed to read {current_file.name}', exc_info=True)
 
         # add it to our dataset and update the filenames we have
         if id_mol_list is not None:
