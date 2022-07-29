@@ -18,7 +18,7 @@ def TC_private(rdkit_mol1, rdkit_mol2):
 def TC(mol1, mol2):
 
     if type(mol1) != type(mol2):
-        log.error(f'Molecule objects of different type in TC computation')
+        log.error(f'Molecule objects of different type in TC computation.')
         return -1
 
     return (TC_private(mol1.getRDKitObject(), mol2.getRDKitObject()) \
