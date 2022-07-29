@@ -25,7 +25,6 @@ class Options:
     def __init__(self):
         self.INPUT_PATH = None
         self.OUTPUT_PATH = None
-        self.LOGGING_LEVEL = "DEBUG"
         self.CONFIGURATION_FILE = None
         
         self.INDIVIDUAL = False
