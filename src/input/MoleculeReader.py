@@ -106,27 +106,27 @@ def readMol2File(contents):
 
     try:
         return Chem.MolFromMol2Block(contents)
-    except:
+    except Exception:
         pass
     try:
         return Chem.MolFromMol2Block(contents, kekulize=False)
-    except:
+    except Exception:
         pass
     try:
         return Chem.MolFromMol2Block(contents, kekulize=False, sanitize=False)
-    except:
+    except Exception:
         pass
     try:
         return Chem.MolFromMol2Block(contents, sanitize=False)
-    except:
+    except Exception:
         pass
     try:
         return Chem.MolFromMol2Block(contents, sanitize=False, removeHs=False)
-    except:
+    except Exception:
         pass
     try:
         return Chem.MolFromMol2Block(contents, sanitize=False, removeHs=False, cleanupSubstructures=False)
-    except:
+    except Exception:
         pass
 
 
