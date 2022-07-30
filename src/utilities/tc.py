@@ -1,4 +1,4 @@
-import math 
+from math import isclose
 
 from rdkit import Chem
 from rdkit import DataStructs # For TC Computations
@@ -38,4 +38,4 @@ def TCEquiv(mol1, mol2, tc_threshold = 1.0):
         return True
   
     # =                                         # 4-decimal place equality 
-    return math.isclose(tanimoto, tc_threshold, rel_tol = 1e-5)
+    return isclose(tanimoto, tc_threshold, rel_tol = 1e-5)

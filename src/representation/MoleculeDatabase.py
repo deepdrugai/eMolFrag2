@@ -3,6 +3,7 @@
 # import sys
 from eMolFrag2.src.utilities import constants 
 from eMolFrag2.src.utilities import tc
+from eMolFrag2.src.utilities.logging import log
 
 from eMolFrag2.src.representation.Molecule import Molecule
 
@@ -17,7 +18,7 @@ class MoleculeDatabase(Molecule):
         self.database = {}
         
         if given_tc < 0 or given_tc > 1:
-            print(f'Tanimoto coefficient constant {given_tc} is not in allowable range 0 <= tc <= 1.0')
+            log.error(f'Tanimoto coefficient constant {given_tc} is not in allowable range 0 <= tc <= 1.0')
             raise RuntimeError
 
         self.TC_THRESH = given_tc
@@ -66,17 +67,7 @@ class MoleculeDatabase(Molecule):
     # Return all Molecule objects stored
     #
     def GetAllMolecules(self):
-        all_mols = []
-        for mol, tc_mols in self.database.items():
-            all_mols.append(mol)
-            all_mols += tc_mols
-
-        return all_mols
-    
-        #return [mol, *tc_mols for mol, tc_mols in self.database.items()]
-    
-    def numUnique(self):
-        return len(self.database.keys())
+        return [*self.database.keys()] + [mol for lst in self.database.values() for mol in lst]
         
     def numAllMolecules(self):
         return len(self.GetAllMolecules())
@@ -89,6 +80,6 @@ class MoleculeDatabase(Molecule):
             Output of the equivalences classes represented in this database
         """
         string = ""
-        for mol, equivalent in self.database.items():        
-            string += f'{mol.getFileName()}: [{", ".join([eq_mol.getFileName() for eq_mol in equivalent])}]\n'      
+        for mol, equivalent in self.database.items():
+            string += f'\n{mol.getFileName()}: [{", ".join([eq_mol.getFileName() for eq_mol in equivalent])}]'
         return string
