@@ -8,7 +8,7 @@ from eMolFrag2.src.input import Options, MoleculeFileReader
     (["mol2"], [5]),
     (["smi"], [5]),
     (["sdf"], [0]),
-    (["pbd"], [5]),
+    (["pbd"], [4]),
     (["mol"], [5]),
     (["path_not_exists"], [0]),#test if directory doesn't exist
     (["mol/DB00415.mol"], [0]) #test if not a directory
