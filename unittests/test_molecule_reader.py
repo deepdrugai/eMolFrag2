@@ -25,17 +25,16 @@ def test_to_mol(input): #single file to mol
         else: #checking if all mols in supported format test folders return a conversion
             for current_file in file_path.iterdir():
                 mol = to_mol(file_path / current_file)
-                if suffix == "sdf": #tesing for an unsupported format
-                    assert mol.rdkitObject == None
-                else:
-                    assert mol.rdkitObject != None
+                
+                #tesing for an unsupported format
+                assert mol.rdkitObject == None if suffix == ("sdf") else mol.rdkitObject != None
 
 
 @pytest.mark.parametrize("input, expected", [
     (["mol2"], [5]),
     (["smi"], [5]),
     (["sdf"], [0]),
-    (["pbd"], [5]),
+    (["pbd"], [4]),
     (["mol"], [5]),
 ])
 def test_get_files(input, expected): #multiple files to mol
@@ -46,14 +45,12 @@ def test_get_files(input, expected): #multiple files to mol
             files.append(file_path / current_file.name)
         mols = getMolecules(files)
         log.debug(mols)
-        if suffix == "sdf": #unsupported format, so should return an empty list
-            assert len(mols) == e
-        #If any of the returned mols have rdkitObject==None, then the file was not read properly
-        else:
-            assert all(mol.rdkitObject != None for mol in mols) and len(mols) == e
-
-        # TODO #7 Get SmilesReader.py working, otherwise we have to use the other utilities file to import @wcatykid
-
-
+        
+        # Assert that length of mols == e
+        assert len(mols) == e
+        
+        if not suffix == "sdf": #unsupported format, so should return an empty list
+            #If any of the returned mols have rdkitObject==None, then the file was not read properly
+            assert all(mol.rdkitObject != None for mol in mols)
 
 #test nonexistent file, test direct instead of file, test failed mol2s?
