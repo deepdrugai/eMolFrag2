@@ -37,8 +37,8 @@ def main():
     brick_db, linker_db = Chopper.chopall(molecules)
     
     # Output fragments
-    log.info(f'{brick_db.numUnique()} unique bricks among {brick_db.numAllMolecules()} bricks')
-    log.info(f'{linker_db.numUnique()} unique linkers among {linker_db.numAllMolecules()} linkers')
+    log.info(f'{len(brick_db)} unique bricks among {brick_db.numAllMolecules()} bricks')
+    log.info(f'{len(linker_db)} unique linkers among {linker_db.numAllMolecules()} linkers')
 
     writer.write(options, brick_db, linker_db)
 
