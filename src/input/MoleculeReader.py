@@ -28,14 +28,15 @@ def to_mol(molPath):
     return m
 
 
-def getRDKitMolecule(path, extension=None):
+def getRDKitMolecule(path):
     """
         Given a path object, return the corresponding RDKit molecule object
-        This simplified functionality is for testing only
+        WARNING: If file contains multiple molecules getRDKitMolecule only returns first mol.
     """
     content = fileToString(path)
     path = path if isinstance(path, Path) else Path(path)
-    return convertToRDkit(content, path)
+    mol = convertToRDkit(content, path)
+    return mol[0][1] if isinstance(mol, list) else mol
 
 
 def convertToRDkit(contents, path):
@@ -45,7 +46,7 @@ def convertToRDkit(contents, path):
         @input: contents -- string contents of a file
         @input: mol)file -- input molecule file name
 
-        @output: tuples: id, rdkit_mol
+        @output: rdkit_mol -- rdkit molecule object
     """
     #Chem.doKekule = False
     extension = path.suffix
@@ -53,7 +54,7 @@ def convertToRDkit(contents, path):
 
     if extension not in constants.ACCEPTED_FORMATS:
         log.error(f'Input file type with extension {extension} ({path.name}) not supported.')
-        return None
+        raise NotImplementedError
 
     elif (extension == constants.MOL2_FORMAT_EXT):
         mol = readMol2File(contents)
@@ -64,11 +65,8 @@ def convertToRDkit(contents, path):
         return mol
 
     elif (extension == constants.SMILES_FORMAT_EXT):
-        return Chem.MolFromSmiles(contents)
-
-        # TODO Fix SmilesReader
-        # from eMolFrag2.src.input import SmilesReader
-        # return SmilesReader.readSmilesFile(contents)
+        from eMolFrag2.src.input import SmilesReader
+        return SmilesReader.readSmilesFile(contents)
 
     #
     # Other file formats that do not support AtomTypes
@@ -149,14 +147,17 @@ def getMolecules(files):
         # Attempt to interpret the molecule
         try:
             mol = convertToRDkit(file_contents, current_file)
-        except:
-            log.error(f'RDKit failed to read {current_file.name}', exc_info=True)
-            # break # TODO change this to continue
+        except Exception:
             continue
-
-        # add it to our dataset and update the filenames we have
-        if mol is not None:
-            mols.append(Molecule(mol, current_file.name))
+        else:
+            # add it to our dataset and update the filenames we have
+            if mol is None:
+                log.warning(f"Molecule {current_file} empty.")
+                continue
+            elif isinstance(mol, list):
+                mols += [Molecule(mol, f"{current_file.name}") if name is None else Molecule(mol, f"{current_file.name}-{name}") for name, mol in mol]
+            else:
+                mols += [Molecule(mol, current_file.name)]
 
     if mols is None:
         log.error(f"No molecules generated from files list: {[x.name for x in files]}.")
