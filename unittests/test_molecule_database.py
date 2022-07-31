@@ -70,7 +70,7 @@ def test_add_list_to_mdb(five_mols, tc=1.0):
     assert len(mdb.addAll(five_mols)) == len(five_mols)
 
 
-def test_get_unique_molecules_mdb(five_mols, tc1_mol_pairs):
+def test_length_unique_molecules_mdb(five_mols, tc1_mol_pairs):
     """ Test adding a large number of mols to molecules database and get unique """
 
     mdb1 = MoleculeDatabase(given_tc=1.0)
@@ -134,3 +134,48 @@ def test_get_all_molecules_mdb(five_mols, tc1_mol_pairs):
     mdb3.addAll([x for xs in tc1_mol_pairs for x in xs] + five_mols)
     log.debug(f"{len(mdb3) = }, {mdb3.numAllMolecules() = }")
     assert mdb3.numAllMolecules() == 11
+
+
+def test_get_uniq_molecules_mdb(five_mols, tc1_mol_pairs):
+    """ Test adding a large number of mols to molecules database and get unique """
+
+    mdb1 = MoleculeDatabase(given_tc=1.0)
+
+    # Test 1: Adding 5 unique molecules to mdb1
+    mdb1.addAll(five_mols)
+    log.debug(f"{len(mdb1) = }")
+    assert len(mdb1.GetUniqueMolecules()) == 5
+
+    # Test 2: Add pairs of similar molecules (tc = 1.0) to mdb1
+    mdb1.addAll(tc1_mol_pairs[0])
+    log.debug(f"{len(mdb1) = }")
+    assert len(mdb1.GetUniqueMolecules()) == 6
+
+    # Test 3: add 2nd pair of similar molecules to mdb1
+    mdb1.addAll(tc1_mol_pairs[1])
+    log.debug(f"{len(mdb1) = }")
+    assert len(mdb1.GetUniqueMolecules()) == 7
+
+    # Test 4: add 3 sets of 2 similar molecules to mdb2
+    mdb2 = MoleculeDatabase()
+    mdb2.addAll([x for xs in tc1_mol_pairs for x in xs])
+    log.debug(f"{len(mdb2) = }")
+    assert len(mdb2.GetUniqueMolecules()) == 3
+
+    # Test 5: create a new database and add all 11 molecules at once
+    mdb3 = MoleculeDatabase()
+    mdb3.addAll([x for xs in tc1_mol_pairs for x in xs] + five_mols)
+    log.debug(f"{len(mdb3) = }")
+    assert len(mdb3.GetUniqueMolecules()) == 8
+
+    log.debug(f"{str(mdb1) = !s}")
+    log.debug(f"{str(mdb2) = !s}")
+    log.debug(f"{str(mdb3) = !s}")
+
+    
+def test_mdb_fail():
+    with pytest.raises(RuntimeError):
+        mdb = MoleculeDatabase(given_tc = -1)
+
+    with pytest.raises(RuntimeError):
+        mdb = MoleculeDatabase(given_tc = 1.5)
