@@ -1,9 +1,7 @@
 from pathlib import Path
-
 from rdkit import Chem
 
-# from rdkit import RDLogger
-
+from eMolFrag2.src.output.Mol2Writer import _sybyl_atom_type
 from eMolFrag2.src.representation.Molecule import Molecule
 from eMolFrag2.src.utilities import constants
 from eMolFrag2.src.utilities.logging import log
@@ -49,7 +47,7 @@ def convertToRDkit(contents, path):
 
     @output: rdkit_mol -- rdkit molecule object
     """
-    # Chem.doKekule = False
+
     extension = path.suffix
     # log.debug(f"Running {path}, with extension: {extension}.")
 
@@ -70,9 +68,6 @@ def convertToRDkit(contents, path):
 
         return SmilesReader.readSmilesFile(contents)
 
-    #
-    # Other file formats that do not support AtomTypes
-    #
     elif extension == constants.FASTA_FORMAT_EXT:
         mol = Chem.MolFromFASTA(contents)
 
@@ -102,6 +97,7 @@ def convertToRDkit(contents, path):
 
 def readMol2File(contents):
     # Turn off rdkit error messages
+    # from rdkit import RDLogger
     # RDLogger.DisableLog('rdApp.*')
 
     # 80 unique bricks among 162 bricks - 11 unique linkers among 78 linkers ||| Chem.MolFromMol2Block(contents)
@@ -119,31 +115,6 @@ def readMol2File(contents):
         # or Chem.MolFromMol2Block(contents, sanitize=False, removeHs=False)
         # or Chem.MolFromMol2Block(contents, sanitize=False, removeHs=False, cleanupSubstructures=False)
     )
-
-    # try:
-    #     return Chem.MolFromMol2Block(contents)
-    # except Exception:
-    #     pass
-    # try:
-    #     return Chem.MolFromMol2Block(contents, kekulize=False)
-    # except Exception:
-    #     pass
-    # try:
-    #     return Chem.MolFromMol2Block(contents, kekulize=False, sanitize=False)
-    # except Exception:
-    #     pass
-    # try:
-    #     return Chem.MolFromMol2Block(contents, sanitize=False)
-    # except Exception:
-    #     pass
-    # try:
-    #     return Chem.MolFromMol2Block(contents, sanitize=False, removeHs=False)
-    # except Exception:
-    #     pass
-    # try:
-    #     return Chem.MolFromMol2Block(contents, sanitize=False, removeHs=False, cleanupSubstructures=False)
-    # except Exception:
-    #     pass
 
 
 def getMolecules(files):
@@ -165,24 +136,34 @@ def getMolecules(files):
         # Attempt to interpret the molecule
         try:
             mol = convertToRDkit(file_contents, current_file)
-        except Exception:
+        except Exception as e:
             continue
         else:
-            # add it to our dataset and update the filenames we have
+            # To Mol2Block and Back to Mol Object (to get TriposAtomType)
+            # mol = MolToMol2Block(mol)
+            # mol = Chem.MolFromMol2Block(mol)
             if mol is None:
                 log.warning(f"Molecule {current_file} empty.")
                 continue
             elif isinstance(mol, list):
                 mols += [
-                    Molecule(mol, f"{current_file.name}")
+                    Molecule(setAtomTypes(mol), f"{current_file.name}")
                     if name is None
-                    else Molecule(mol, f"{current_file.name}-{name}")
+                    else Molecule(setAtomTypes(mol), f"{current_file.name}-{name}")
                     for name, mol in mol
                 ]
             else:
-                mols += [Molecule(mol, current_file.name)]
+                mols += [Molecule(setAtomTypes(mol), current_file.name)]
 
     if mols is None:
         log.error(f"No molecules generated from files list: {[x.name for x in files]}.")
 
     return mols
+
+
+def setAtomTypes(mol):
+    # Use _sybyl_atom_type to set atom types
+    for idx, atom in enumerate(mol.GetAtoms()):
+        mol.GetAtomWithIdx(idx).SetProp("_TriposAtomType", _sybyl_atom_type(atom))
+
+    return mol
