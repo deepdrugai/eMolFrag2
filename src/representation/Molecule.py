@@ -1,9 +1,11 @@
 #
 # The molecule class will contain the rdkit object, the name of the file it came from, as well as a list of 'equal other fragments'.
 #
+from tkinter import E
 from rdkit import Chem
 
 from eMolFrag2.src.utilities import constants, tc
+from eMolFrag2.src.utilities.logging import log
 
 
 class Molecule:
@@ -96,7 +98,12 @@ class Molecule:
 
         sio = StringIO()
         writer = Chem.SDWriter(sio)
-        writer.write(self.rdkitObject)
+        try:
+            writer.write(self.rdkitObject)
+        except Chem.rdchem.KekulizeException:
+            log.error("Can't kekulize mol, SDWriter can't write unkekulized mol to file.")
+        except Exception:
+            log.error("Can't write mol to file.")
         writer.close()
 
         return sio.getvalue()
