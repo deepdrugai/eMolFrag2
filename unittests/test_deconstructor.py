@@ -37,7 +37,7 @@ def test_deconstruct(mol2_files):
         rdkit_mol = MoleculeReader.getRDKitMolecule(file)
 
         # Check that all files load properly
-        if rdkit_mol is None:
+        if rdkit_mol is None: # pragma: no cover
             assert False
 
         # remove hydrogen

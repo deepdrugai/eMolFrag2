@@ -11,7 +11,7 @@ cwd = Path(__file__).parent / "data/db-files"
 @pytest.mark.parametrize("input", [
     (["mol2"]),
     (["smi"]),
-    (["sdf"]),
+    (pytest.param(["sdf"],marks=pytest.mark.xfail(raises=NotImplementedError))),
     (["pbd"]),
     (["mol"]),
     (["failed"])
@@ -32,7 +32,7 @@ def test_to_mol(input): #single file to mol
 
 @pytest.mark.parametrize("input, expected", [
     (["mol2"], [5]),
-    (["smi"], [5]),
+    (["smi"], [6]),
     (["sdf"], [0]),
     (["pbd"], [4]),
     (["mol"], [5]),

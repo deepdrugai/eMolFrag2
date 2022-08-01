@@ -12,7 +12,7 @@ try: # if colorlog is installed, get colored log files
         # filemode = "w"
     )
     log = colorlog.getLogger(__name__)
-except ImportError as e:
+except ImportError as e: # pragma: no cover
     logging.basicConfig(
         format="%(asctime)s [%(levelname)s: %(pathname)s:%(lineno)d::%(funcName)s] - %(message)s",
         # format="%(log_color)s%(asctime)s [%(levelname)s: %(filename)s::%(funcName)s:%(lineno)d] - %(message)s%(reset)s",
