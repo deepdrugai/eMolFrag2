@@ -10,12 +10,9 @@ dir = Path(__file__).parent / "data"
 
 @pytest.fixture
 def tc1_mol_pairs():
-    ms = [("similarPairSMI/1/DB00452.smi",
-          "similarPairSMI/1/DB01421.smi"),
-          ("similarPairSMI/2/DB01137.smi",
-          "similarPairSMI/2/DB01165.smi"),
-          ("similarPairSMI/3/DB12447.smi",
-          "similarPairSMI/3/DB16219.smi")]
+    ms = [("similarPairSMI/1/DB00452.smi", "similarPairSMI/1/DB01421.smi"),
+          ("similarPairSMI/2/DB01137.smi", "similarPairSMI/2/DB01165.smi"),
+          ("similarPairSMI/3/DB12447.smi", "similarPairSMI/3/DB16219.smi"),]  # fmt: skip
     molpairs = []
 
     for a, b in ms:
@@ -31,7 +28,7 @@ def five_mols():
           "uniqueMol(SMI)/DB01208.smi",
           "uniqueMol(SMI)/DB04626.smi",
           "uniqueMol(SMI)/DB11774.smi",
-          "uniqueMol(SMI)/DB13499.smi"]
+          "uniqueMol(SMI)/DB13499.smi",]  # fmt: skip
     mols = []
 
     for m in ms:
@@ -43,18 +40,17 @@ def five_mols():
     # Single Molecules
     (["similarPairSMI/3/DB12447.smi"], [True]),
     (["similarPairSMI/3/DB16219.smi"], [True]),
-    # Molecules with tc = 1.0
-    (["similarPairSMI/3/DB12447.smi", "similarPairSMI/3/DB12447.smi"],
-        [True, False]),  # Same molecule
-    (["similarPairSMI/3/DB12447.smi", "similarPairSMI/3/DB16219.smi"],
-        [True, False]),  # Two molecules of TC = 1.0
+    # Same molecule
+    (["similarPairSMI/3/DB12447.smi", "similarPairSMI/3/DB12447.smi"], [True, False]),  
+    # Two molecules of TC = 1.0
+    (["similarPairSMI/3/DB12447.smi", "similarPairSMI/3/DB16219.smi"], [True, False]),  
     # Five Molecules with tc < 1.0
     (["uniqueMol(SMI)/DB00415.smi", "uniqueMol(SMI)/DB01208.smi",
       "uniqueMol(SMI)/DB04626.smi", "uniqueMol(SMI)/DB11774.smi",
-      "uniqueMol(SMI)/DB13499.smi"], [True] * 5)
-])
+      "uniqueMol(SMI)/DB13499.smi"], [True] * 5),
+])  # fmt: skip
 def test_add_mol_to_mdb(input, expected, tc=1.0):
-    """ Test adding TC Equivalent molecules to Molecule Database where given_tc = 1"""
+    """Test adding TC Equivalent molecules to Molecule Database where given_tc = 1"""
 
     mdb = MoleculeDatabase(given_tc=tc)
 
@@ -64,14 +60,14 @@ def test_add_mol_to_mdb(input, expected, tc=1.0):
 
 
 def test_add_list_to_mdb(five_mols, tc=1.0):
-    """ Test adding a list to molecule database """
+    """Test adding a list to molecule database"""
     mdb = MoleculeDatabase(tc)
     log.debug(f"{len(five_mols) = }")
     assert len(mdb.addAll(five_mols)) == len(five_mols)
 
 
 def test_length_unique_molecules_mdb(five_mols, tc1_mol_pairs):
-    """ Test adding a large number of mols to molecules database and get unique """
+    """Test adding a large number of mols to molecules database and get unique"""
 
     mdb1 = MoleculeDatabase(given_tc=1.0)
 
@@ -104,7 +100,7 @@ def test_length_unique_molecules_mdb(five_mols, tc1_mol_pairs):
 
 
 def test_get_all_molecules_mdb(five_mols, tc1_mol_pairs):
-    """ Test adding a large number of mols to molecules database and get total molecules """
+    """Test adding a large number of mols to molecules database and get total molecules"""
 
     mdb1 = MoleculeDatabase(given_tc=1.0)
 
@@ -137,7 +133,7 @@ def test_get_all_molecules_mdb(five_mols, tc1_mol_pairs):
 
 
 def test_get_uniq_molecules_mdb(five_mols, tc1_mol_pairs):
-    """ Test adding a large number of mols to molecules database and get unique """
+    """Test adding a large number of mols to molecules database and get unique"""
 
     mdb1 = MoleculeDatabase(given_tc=1.0)
 
@@ -172,10 +168,10 @@ def test_get_uniq_molecules_mdb(five_mols, tc1_mol_pairs):
     log.debug(f"{str(mdb2) = !s}")
     log.debug(f"{str(mdb3) = !s}")
 
-    
+
 def test_mdb_fail():
     with pytest.raises(RuntimeError):
-        mdb = MoleculeDatabase(given_tc = -1)
+        mdb = MoleculeDatabase(given_tc=-1)
 
     with pytest.raises(RuntimeError):
-        mdb = MoleculeDatabase(given_tc = 1.5)
+        mdb = MoleculeDatabase(given_tc=1.5)
