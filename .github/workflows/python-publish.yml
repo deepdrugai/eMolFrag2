@@ -1,0 +1,63 @@
+# This workflow will upload a Python Package using Twine when a release is created
+# For more information see: https://help.github.com/en/actions/language-and-framework-guides/using-python-with-github-actions#publishing-to-package-registries
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: eMolFrag Automated Tests with PyPI
+
+on: 
+  - push
+  - pull_request
+
+jobs:
+  eMolFrag:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: ['ubuntu-latest', 'windows-latest', 'macos-latest']
+        python-version: ['3.8', '3.9', '3.10']
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v3
+      with:
+        python-version: ${{ matrix.python-version }}
+        cache: pip
+    - name: Upgrade pip
+      run: |
+        python -m pip install --upgrade pip
+        pip install build
+    - name: Windows Dependencies
+      if: startsWith(matrix.os, 'windows')
+      run: |
+        echo ("$" + "env:PYTHONPATH=" + (get-item $pwd ).parent.fullname + ":$PYTHONPATH") >> $env:GITHUB_ENV
+        echo ("PYTHONPATH=" + (get-item $pwd ).parent.fullname + ":$PYTHONPATH") >> $env:GITHUB_ENV
+        echo "$PYTHONPATH"
+        Get-ChildItem Env:PYTHONPATH
+        echo $env:GITHUB_ENV
+        # echo "PYTHONPATH=${PWD%/*}:${PYTHONPATH}" >> $GITHUB_ENV
+        echo $GITHUB_ENV
+        echo $PYTHONPATH
+    - name: Unix Dependencies
+      if: startsWith(matrix.os, 'windows') != true
+      run: |
+        echo "PYTHONPATH=${PWD%/*}:${PYTHONPATH}" >> $GITHUB_ENV
+        echo $GITHUB_ENV
+        echo $PYTHONPATH
+    - name: Install eMolFrag Dependencies
+      run: |
+        # pip install --upgrade pip
+        pip install rdkit networkx flake8 pytest
+    - name: Lint with flake8
+      run: |
+        # stop the build if there are Python syntax errors or undefined names
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    - name: Test with pytest
+      run: |
+        pytest -v
