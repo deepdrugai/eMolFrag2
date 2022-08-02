@@ -4,7 +4,9 @@ from eMolFrag2.src.input.MoleculeReader import getMolecules, to_mol
 from eMolFrag2.src.utilities.logging import log
 
 cwd = Path(__file__).parent / "data/db-files"
+
 failed_mol_path = Path(__file__).parent.parent / "test/mol2-test"
+
 @pytest.mark.parametrize("input", [
     (["mol2"]),
     (["smi"]),
@@ -18,6 +20,7 @@ def test_to_mol(input):  # single file to mol
         file_path = cwd.joinpath(suffix)
         if suffix == "failed":  # testing for a failed mol that has a supported format
             failed_mol = to_mol(failed_mol_path / "DB01059.mol2")
+            # failed_mol = to_mol(failed_mol_path / "DB01051.mol2")
             assert failed_mol.rdkitObject == None
         else:  # checking if all mols in supported format test folders return a conversion
             for current_file in file_path.iterdir():
