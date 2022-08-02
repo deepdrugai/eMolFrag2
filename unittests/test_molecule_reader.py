@@ -6,7 +6,6 @@ from eMolFrag2.src.utilities.logging import log
 cwd = Path(__file__).parent / "data/db-files"
 
 failed_mol_path = Path(__file__).parent.parent / "test/mol2-test"
-
 @pytest.mark.parametrize("input", [
     (["mol2"]),
     (["smi"]),
@@ -39,7 +38,7 @@ def test_to_mol(input):  # single file to mol
     (["failed"], [0]),
 ])  # fmt: skip
 def test_get_files(input, expected):  # multiple files to mol
-    failed_mols = ["DB01059.mol2", "DB01326.mol2", "DB00229.mol2", "DB00779.mol2", "DB00355.mol2", "DB00430.mol2"]
+    failed_mols = ["DB01059.mol2", "DB01326.mol2", "DB00229.mol2", "DB00779.mol2", "DB00430.mol2"]
     for suffix, e in zip(input, expected):
         files = []
         if suffix == "failed":
@@ -60,6 +59,3 @@ def test_get_files(input, expected):  # multiple files to mol
             if not suffix == "sdf":  # unsupported format, so should return an empty list
                 # If any of the returned mols have rdkitObject==None, then the file was not read properly
                 assert all(mol.rdkitObject != None for mol in mols)
-
-
-# test nonexistent file, test direct instead of file, test failed mol2s?
