@@ -1,7 +1,6 @@
 #
 # The molecule class will contain the rdkit object, the name of the file it came from, as well as a list of 'equal other fragments'.
 #
-from tkinter import E
 from rdkit import Chem
 
 from eMolFrag2.src.utilities import constants, tc
