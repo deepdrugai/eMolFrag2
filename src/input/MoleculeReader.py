@@ -182,7 +182,7 @@ def getMolecules(files):
             else:
                 mols += [Molecule(mol, current_file.name)]
 
-    if mols is None:
+    if not mols:
         log.error(f"No molecules generated from files list: {[x.name for x in files]}.")
 
     return mols
