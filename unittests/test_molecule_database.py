@@ -7,6 +7,7 @@ from eMolFrag2.src.representation.MoleculeDatabase import MoleculeDatabase
 
 dir = Path(__file__).parent / "data"
 
+
 @pytest.fixture
 def tc1_mol_pairs():
     ms = [("similarPairSMI/1/DB00452.smi",
@@ -32,7 +33,7 @@ def five_mols():
           "uniqueMol(SMI)/DB11774.smi",
           "uniqueMol(SMI)/DB13499.smi"]
     mols = []
-    
+
     for m in ms:
         mols.append(to_mol(dir / m))
     return mols
@@ -54,7 +55,7 @@ def five_mols():
 ])
 def test_add_mol_to_mdb(input, expected, tc=1.0):
     """ Test adding TC Equivalent molecules to Molecule Database where given_tc = 1"""
-    
+
     mdb = MoleculeDatabase(given_tc=tc)
 
     for m, e in zip(input, expected):
