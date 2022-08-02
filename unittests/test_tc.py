@@ -6,15 +6,12 @@ from eMolFrag2.src.representation.Molecule import Molecule
 from eMolFrag2.src.input.MoleculeReader import getRDKitMolecule, to_mol
 
 rel_path = "data"
-
-
 @pytest.mark.parametrize("mol1_path, mol2_path, expected", (
-    # Pair of molecules (.smi) with tc = 1.0
-    (["similarPairSMI/1/DB00452.smi", "similarPairSMI/2/DB01137.smi", "similarPairSMI/3/DB12447.smi"],
-     ["similarPairSMI/1/DB01421.smi", "similarPairSMI/2/DB01165.smi",
-         "similarPairSMI/3/DB16219.smi"],
-     [1.0]*3),
-))
+        # Pair of molecules (.smi) with tc = 1.0
+       (["similarPairSMI/1/DB00452.smi", "similarPairSMI/2/DB01137.smi", "similarPairSMI/3/DB12447.smi"],
+        ["similarPairSMI/1/DB01421.smi", "similarPairSMI/2/DB01165.smi", "similarPairSMI/3/DB16219.smi"],
+        [1.0] * 3),
+))  # fmt: skip
 def test_tc_private(mol1_path, mol2_path, expected):
     """
     Test tanimoto coefficient calculation from two rdkit molecules
@@ -33,7 +30,7 @@ def test_tc_private(mol1_path, mol2_path, expected):
         assert tanimoto == e
 
 
-@ pytest.fixture
+@pytest.fixture
 def mols(tc_mols_list):
     mols = []
     for m in tc_mols_list:
@@ -41,7 +38,7 @@ def mols(tc_mols_list):
     return mols
 
 
-@ pytest.fixture
+@pytest.fixture
 def rdkit_mols(tc_mols_list):
     rdkit_list = []
     for m in tc_mols_list:
@@ -49,12 +46,10 @@ def rdkit_mols(tc_mols_list):
     return rdkit_list
 
 
-@ pytest.fixture
+@pytest.fixture
 def tc_mols_list():
     global rel_path
-    ms = ["uniqueMol(SMI)/DB00415.smi",
-          "uniqueMol(SMI)/DB01208.smi",
-          "uniqueMol(SMI)/DB04626.smi"]
+    ms = ["uniqueMol(SMI)/DB00415.smi", "uniqueMol(SMI)/DB01208.smi", "uniqueMol(SMI)/DB04626.smi"]
     mols_list = []
     for m in ms:
         mols_list.append(Path(__file__).parent / rel_path / m)
@@ -91,18 +86,16 @@ def test_tc(rdkit_mols, mols):
 
 @ pytest.mark.parametrize("mol1_path, mol2_path, expected", [
     (["similarPairSMI/1/DB00452.smi", "similarPairSMI/2/DB01137.smi", "similarPairSMI/3/DB12447.smi"],
-     ["similarPairSMI/1/DB01421.smi", "similarPairSMI/2/DB01165.smi",
-         "similarPairSMI/3/DB16219.smi"],
-     [True]*3),
+     ["similarPairSMI/1/DB01421.smi", "similarPairSMI/2/DB01165.smi", "similarPairSMI/3/DB16219.smi"],
+     [True] * 3),
     (["uniqueMol(SMI)/DB00415.smi", "uniqueMol(SMI)/DB00415.smi", "uniqueMol(SMI)/DB01208.smi"],
-     ["uniqueMol(SMI)/DB01208.smi", "uniqueMol(SMI)/DB04626.smi",
-      "uniqueMol(SMI)/DB04626.smi"],
-     [False]*3,
+     ["uniqueMol(SMI)/DB01208.smi", "uniqueMol(SMI)/DB04626.smi", "uniqueMol(SMI)/DB04626.smi"],
+     [False] * 3,
      ),
     (["uniqueMol(SMI)/DB01208.smi", "uniqueMol(SMI)/DB04626.smi", "uniqueMol(SMI)/DB11774.smi", "uniqueMol(SMI)/DB13499.smi"],
-     ["uniqueMol(SMI)/DB00415.smi"]*4,
-     [False]*4)
-])
+     ["uniqueMol(SMI)/DB00415.smi"] * 4,
+     [False] * 4)
+])  # fmt: skip
 def test_tc_equiv(mol1_path, mol2_path, expected):
     """
     Test to check the TC value given two molecules

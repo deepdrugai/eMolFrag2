@@ -49,8 +49,5 @@ coverage.xml
 # Sphinx documentation
 docs/_build/
 
-# Coverage
-.coveragerc
-
-#VS code
+# MacOS Desktop Services
 .DS_Store
