@@ -18,7 +18,7 @@ jobs:
     strategy:
       matrix:
         os: ['ubuntu-latest'] # 'ubuntu-latest', 'windows-latest', 'macos-latest'
-        python-version: ['3.10', 'pypy3.9'] #'3.8', '3.9', 
+        python-version: ['3.10'] #'3.8', '3.9'
     steps:
     - uses: actions/checkout@v3.0.2
     - name: Set up Python ${{ matrix.python-version }}
@@ -45,7 +45,7 @@ jobs:
         echo "PYTHONPATH=${PWD%/*}:${PYTHONPATH}" >> $GITHUB_ENV
     - name: Install eMolFrag Dependencies
       run: |
-        pip install rdkit networkx flake8  pytest-xdist coverage
+        pip install rdkit networkx flake8 pytest-xdist coverage
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
