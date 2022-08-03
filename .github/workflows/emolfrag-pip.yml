@@ -38,7 +38,6 @@ jobs:
       continue-on-error: true
       with: 
         script: | 
-          set PYTHONPATH=%PYTHONPATH%
           Write-Host $env:PYTHONPATH
     - name: Unix Dependencies
       if: startsWith(matrix.os, 'windows') != true
