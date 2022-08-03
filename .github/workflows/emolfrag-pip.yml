@@ -19,21 +19,18 @@ jobs:
       matrix:
         os: ['windows-latest'] # 'ubuntu-latest', 'windows-latest', 'macos-latest'
         python-version: ['3.10'] #'3.8', '3.9', 
-    
     steps:
     - uses: actions/checkout@v3.0.2
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Upgrade pip
-      run: |
-        python -m pip install --upgrade pip
-        pip install build
     - name: Windows Dependencies
       if: startsWith(matrix.os, 'windows')
       run: |
         echo ("PYTHONPATH=" + (get-item $pwd ).parent.FullName + ":$PYTHONPATH")
+        echo ("PYTHONPATH=D:\a:$PYTHONPATH")
+        echo ("PYTHONPATH=D:\a:$PYTHONPATH") >> $GITHUB_ENV
         echo ("PYTHONPATH=" + (get-item $pwd ).parent.FullName + ":$PYTHONPATH") >> $GITHUB_ENV
         echo ("PYTHONPATH=" + (get-item $pwd ).parent.parent.FullName + ":$PYTHONPATH") >> $GITHUB_ENV
         echo $PYTHONPATH
@@ -43,6 +40,7 @@ jobs:
       continue-on-error: true
       with: 
         script: | 
+          set PYTHONPATH=%PYTHONPATH%
           Write-Host $env:PYTHONPATH
     - name: Unix Dependencies
       if: startsWith(matrix.os, 'windows') != true
@@ -52,7 +50,6 @@ jobs:
         echo $PYTHONPATH
     - name: Install eMolFrag Dependencies
       run: |
-        # pip install --upgrade pip
         pip install rdkit networkx flake8 pytest
     - name: Lint with flake8
       run: |
