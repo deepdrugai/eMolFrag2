@@ -37,7 +37,6 @@ jobs:
         echo ("PYTHONPATH=" + (get-item $pwd ).parent.fullname + ":$PYTHONPATH") >> $GITHUB_ENV
         echo ("PYTHONPATH=" + (get-item $pwd ).parent.parent.fullname + ":$PYTHONPATH") >> $GITHUB_ENV
         echo $PYTHONPATH
-
     - name: Is variable exported?
       if: startsWith(matrix.os, 'windows')
       uses: Amadevus/pwsh-script@v2.0.0
@@ -45,9 +44,6 @@ jobs:
       with: 
         script: | 
           Write-Host $env:PYTHONPATH
-    - name: Windows Dependencies
-      
-
     - name: Unix Dependencies
       if: startsWith(matrix.os, 'windows') != true
       run: |
