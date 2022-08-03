@@ -1,0 +1,13 @@
+# .coveragerc to control coverage.py
+[run]
+concurrency = multiprocessing
+parallel = true
+branch = False
+omit =
+    *BRICS_custom.py
+    *Mol2Writer.py
+
+[report]
+omit =
+    *BRICS_custom.py
+    *Mol2Writer.py
