@@ -33,9 +33,9 @@ jobs:
     - name: Windows Dependencies
       if: startsWith(matrix.os, 'windows')
       run: |
-        echo ("PYTHONPATH=" + (get-item $pwd ).parent.fullname + ":$PYTHONPATH")
-        echo ("PYTHONPATH=" + (get-item $pwd ).parent.fullname + ":$PYTHONPATH") >> $GITHUB_ENV
-        echo ("PYTHONPATH=" + (get-item $pwd ).parent.parent.fullname + ":$PYTHONPATH") >> $GITHUB_ENV
+        echo ("PYTHONPATH=" + (get-item $pwd ).parent.FullName + ":$PYTHONPATH")
+        echo ("PYTHONPATH=" + (get-item $pwd ).parent.FullName + ":$PYTHONPATH") >> $GITHUB_ENV
+        echo ("PYTHONPATH=" + (get-item $pwd ).parent.parent.FullName + ":$PYTHONPATH") >> $GITHUB_ENV
         echo $PYTHONPATH
     - name: Is variable exported?
       if: startsWith(matrix.os, 'windows')
