@@ -70,7 +70,7 @@ def MolFromCommonMol2Block(block, sanitize=True, removeHs=True):
                 raise ValueError("Too many lines in @<TRIPOS>MOLECULE block")
         # 1. Add atoms
         elif mode == 1:
-            data = re.split("\s+", line.strip())
+            data = re.split(r"\s+", line.strip())  # change to raw string
             idx = int(data[0]) - 1
             symbol = data[1]
             x, y, z = float(data[2]), float(data[3]), float(data[4])
@@ -82,7 +82,7 @@ def MolFromCommonMol2Block(block, sanitize=True, removeHs=True):
             conf.SetAtomPosition(idx, (x, y, z))
         # 2. Add bonds
         elif mode == 2:
-            data = re.split("\s+", line.strip())
+            data = re.split(r"\s+", line.strip())  # change to raw string
             idx = int(data[0]) - 1
             begin_atom = int(data[1]) - 1
             end_atom = int(data[2]) - 1
