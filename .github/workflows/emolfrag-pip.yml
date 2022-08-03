@@ -56,4 +56,4 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Pytest and Coverage
       run: |
-        run -m pytest -n auto -v --cov --cov-report=term-missing
+        pytest -n auto -v --cov --cov-report=term-missing
