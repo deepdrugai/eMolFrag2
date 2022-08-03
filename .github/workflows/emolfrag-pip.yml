@@ -18,7 +18,7 @@ jobs:
     strategy:
       matrix:
         os: ['ubuntu-latest'] # 'ubuntu-latest', 'windows-latest', 'macos-latest'
-        python-version: ['3.10'] #'3.8', '3.9'
+        python-version: ['3.8', '3.9', '3.10']
     steps:
     - uses: actions/checkout@v3.0.2
     - name: Set up Python ${{ matrix.python-version }}
@@ -42,7 +42,6 @@ jobs:
     - name: Unix Dependencies
       if: startsWith(matrix.os, 'windows') != true
       run: |
-        echo "COVERAGE_PROCESS_START=${PWD%/*}/eMolFrag2/.coveragerc"
         echo "PYTHONPATH=${PWD%/*}:${PYTHONPATH}" >> $GITHUB_ENV
         echo "COVERAGE_PROCESS_START=${PWD%/*}/eMolFrag2/.coveragerc" >> $GITHUB_ENV
     - name: Install eMolFrag Dependencies
