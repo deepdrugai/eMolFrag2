@@ -29,10 +29,8 @@ jobs:
       if: startsWith(matrix.os, 'windows')
       run: |
         echo ("PYTHONPATH=" + (get-item $pwd ).parent.FullName + ";$PYTHONPATH")
-        echo ("PYTHONPATH=D:\a;D:\a\eMolFrag2;$PYTHONPATH")
-        echo ("PYTHONPATH=D:\a;D:\a\eMolFrag2;$PYTHONPATH") >> $GITHUB_ENV
-        echo ("PYTHONPATH=" + (get-item $pwd ).parent.FullName + ";$PYTHONPATH") >> $GITHUB_ENV
-        # echo ("PYTHONPATH=" + (get-item $pwd ).parent.parent.FullName + ";$PYTHONPATH") >> $GITHUB_ENV
+        echo ("PYTHONPATH=D:\a;D:\a\eMolFrag2;D:\a\eMolFrag2\eMolFrag2;$PYTHONPATH")
+        echo ("PYTHONPATH=D:\a;D:\a\eMolFrag2;D:\a\eMolFrag2\eMolFrag2;$PYTHONPATH") >> $GITHUB_ENV
         echo $PYTHONPATH
     - name: Is variable exported?
       if: startsWith(matrix.os, 'windows')
