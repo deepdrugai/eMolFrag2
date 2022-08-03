@@ -17,8 +17,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: ['windows-latest'] # 'ubuntu-latest', 'windows-latest', 'macos-latest'
-        python-version: ['3.10'] #'3.8', '3.9', 
+        os: ['ubuntu-latest'] # 'ubuntu-latest', 'windows-latest', 'macos-latest'
+        python-version: ['3.10', 'pypy3.9'] #'3.8', '3.9', 
     steps:
     - uses: actions/checkout@v3.0.2
     - name: Set up Python ${{ matrix.python-version }}
@@ -43,11 +43,9 @@ jobs:
       if: startsWith(matrix.os, 'windows') != true
       run: |
         echo "PYTHONPATH=${PWD%/*}:${PYTHONPATH}" >> $GITHUB_ENV
-        echo $GITHUB_ENV
-        echo $PYTHONPATH
     - name: Install eMolFrag Dependencies
       run: |
-        pip install rdkit networkx flake8 pytest
+        pip install rdkit networkx flake8 pytest coverage
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
@@ -56,4 +54,7 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
       run: |
-        pytest -v
+        coverage run -m pytest -v
+    - name: Pytest Coverage
+      run: |
+        coverage report
