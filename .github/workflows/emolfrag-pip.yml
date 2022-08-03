@@ -45,7 +45,7 @@ jobs:
         echo "PYTHONPATH=${PWD%/*}:${PYTHONPATH}" >> $GITHUB_ENV
     - name: Install eMolFrag Dependencies
       run: |
-        pip install rdkit networkx flake8 pytest coverage
+        pip install rdkit networkx flake8  pytest-xdist coverage
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
@@ -54,7 +54,7 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
       run: |
-        coverage run -m pytest -v
+        coverage run -m pytest -v -n 4
     - name: Pytest Coverage
       run: |
         coverage report
