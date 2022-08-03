@@ -47,13 +47,13 @@ jobs:
     - name: Windows Dependencies
       if: startsWith(matrix.os, 'windows')
       run: |
-        echo ("$" + "env:PYTHONPATH=" + (get-item $pwd ).parent.fullname + ":$PYTHONPATH") >> $env:GITHUB_ENV
-        echo ("PYTHONPATH=" + (get-item $pwd ).parent.fullname + ":$PYTHONPATH") >> $env:GITHUB_ENV
-        echo "$PYTHONPATH"
-        Get-ChildItem Env:PYTHONPATH
-        echo $env:GITHUB_ENV
-        # echo "PYTHONPATH=${PWD%/*}:${PYTHONPATH}" >> $GITHUB_ENV
-        echo $GITHUB_ENV
+        # echo ("$" + "env:PYTHONPATH=" + (get-item $pwd ).parent.fullname + ":$PYTHONPATH") >> $env:GITHUB_ENV
+        # echo ("PYTHONPATH=" + (get-item $pwd ).parent.fullname + ":$PYTHONPATH") >> $env:GITHUB_ENV
+        # echo "$PYTHONPATH"
+        # Get-ChildItem Env:PYTHONPATH
+        # echo $env:GITHUB_ENV
+        # # echo "PYTHONPATH=${PWD%/*}:${PYTHONPATH}" >> $GITHUB_ENV
+        # echo $GITHUB_ENV
         echo $PYTHONPATH
     - name: Unix Dependencies
       if: startsWith(matrix.os, 'windows') != true
