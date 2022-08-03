@@ -1,6 +1,6 @@
 # eMolFrag-2.0
 
-[![eMolFrag Tests (PyPI)](https://github.com/deepdrugai/eMolFrag2/actions/workflows/emolfrag-pip.yml/badge.svg?branch=main)](https://github.com/deepdrugai/eMolFrag2/actions/workflows/emolfrag-pip.yml)
+[![eMolFrag Tests (PyPI)](https://github.com/deepdrugai/eMolFrag2/actions/workflows/emolfrag-pip.yml/badge.svg)](https://github.com/deepdrugai/eMolFrag2/actions/workflows/emolfrag-pip.yml)
 
 ## (Temp) Fix for Missing Path
 Navigate to folder one level above eMolFrag2 and run:
