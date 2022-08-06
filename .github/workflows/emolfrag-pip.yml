@@ -46,7 +46,7 @@ jobs:
         echo "COVERAGE_PROCESS_START=${PWD%/*}/eMolFrag2/.coveragerc" >> $GITHUB_ENV
     - name: Install eMolFrag Dependencies
       run: |
-        pip install rdkit networkx flake8 pytest-xdist pytest-cov
+        pip install rdkit networkx flake8 pytest-xdist pytest-cov colorlog
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
