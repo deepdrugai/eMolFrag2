@@ -1,41 +1,57 @@
 import pytest
 from pathlib import Path
+from itertools import product
+
+from rdkit.DataStructs import FingerprintSimilarity
+from rdkit.Chem import SDMolSupplier, RDKFingerprint
 
 from eMolFrag2.src.utilities.logging import log
-from eMolFrag2.src.chopper import Chopper
+from eMolFrag2.src.chopper.Chopper import chopall
 from eMolFrag2.src.input.MoleculeReader import to_mol
 
-cwd = Path(__file__).parent / "data/9070-non-c2-c2-double-bond"
+
+dir = Path(__file__).parent / "data/chopper"
 
 
-@pytest.fixture
-def output():
-    expectedLinks = ["l-CHEMBL9070.mol2-000.sdf"]
+@pytest.mark.parametrize("cwd, cwdex", [(dir / f"mol2-{n}", dir / f"mol2-{n}-out") for n in range(1, 4)])
+def test_chopall(cwd, cwdex):
 
-    expectedBricks = [
-        "b-CHEMBL9070.mol2-000.sdf",
-        "b-CHEMBL9070.mol2-001.sdf",
-        "b-CHEMBL9070.mol2-002.sdf",
-        "b-CHEMBL9070.mol2-003.sdf",
-        "b-CHEMBL9070.mol2-004.sdf",
-    ]
-    return expectedBricks, expectedLinks
+    elinks = [file for file in cwdex.iterdir() if str(file.name).startswith("l-")]
+    ebricks = [file for file in cwdex.iterdir() if str(file.name).startswith("b-")]
+    elinks = [SDMolSupplier(str(cwdex / x)) for x in elinks]
+    ebricks = [SDMolSupplier(str(cwdex / x)) for x in ebricks]
 
+    input = [file for file in cwd.iterdir()]
+    bricks, links = chopall([to_mol(x) for x in input])
+    links = [x.getRDKitObject() for x in links.GetAllMolecules()]
+    bricks = [x.getRDKitObject() for x in bricks.GetAllMolecules()]
 
-@pytest.mark.parametrize("input", [[to_mol(cwd / "CHEMBL9070.mol2")]])
-def test_chopall(input, output):
-    # get bricks and linkers from input
-    bricks, links = Chopper.chopall(input)
-    eBrick, eLink = output
-    log.info(f"{[x for x in bricks.GetAllMolecules()] = }")
-    log.info(f"{links.GetAllMolecules() = }")
-    log.info(f"{eBrick = }, {eLink = }")
-    # compare if expected links are equal to actual links
-    for line in links.GetAllMolecules():
-        log.info(f"links {line = }")
-        assert eLink.__contains__(line.toSDF()[0:25])
+    linker_tc = []
+    for sdf_set in elinks:
+        mols = [mol for mol in sdf_set if mol is not None]
 
-    # compare if expected bricks are equal to actual bricks
-    for line in bricks.GetAllMolecules():
-        log.info(f"bricks {line = }")
-        assert eBrick.__contains__(line.toSDF()[0:25])
+        for x, y in list(product(links, mols)):
+            fp_x = RDKFingerprint(x)
+            fp_y = RDKFingerprint(y)
+            tc = FingerprintSimilarity(fp_x, fp_y)
+
+            if tc > 0.999:
+                linker_tc.append((x, y, tc))
+
+    brick_tc = []
+    for sdf_set in ebricks:
+        mols = [mol for mol in sdf_set if mol is not None]
+
+        for x, y in list(product(bricks, mols)):
+            fp_x = RDKFingerprint(x)
+            fp_y = RDKFingerprint(y)
+            tc = FingerprintSimilarity(fp_x, fp_y)
+
+            if tc > 0.999:
+                brick_tc.append((x, y, tc))
+
+    log.debug(f"{len(linker_tc) = } == {len(links) = } is {len(linker_tc) == len(links)}")
+    log.debug(f"{len(brick_tc) = } == {len(bricks) = } is {len(brick_tc) == len(bricks)}")
+
+    assert len(brick_tc) == len(bricks)
+    assert len(linker_tc) == len(links)
