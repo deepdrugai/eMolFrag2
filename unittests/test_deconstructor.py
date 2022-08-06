@@ -14,9 +14,9 @@ failed = ['DB01059.mol2', 'DB01326.mol2', 'DB00229.mol2', 'DB00779.mol2', 'DB003
           'DB00274.mol2', 'DB00911.mol2', 'DB00467.mol2', 'DB00916.mol2', 'DB01208.mol2', 
           'DB01155.mol2', 'DB00817.mol2', 'DB00698.mol2', 'DB00218.mol2', 'DB00845.mol2', 
           'DB01044.mol2', 'DB00487.mol2', 'DB00978.mol2', 'DB00537.mol2', 'DB00827.mol2', 
-          'DB01405.mol2', 'DB01333.mol2', 'DB00438.mol2', 'DB00760.mol2', 'DB01163.mol2',
-          'DB01413.mol2']  # fmt: skip
-
+          'DB01405.mol2', 'DB01333.mol2', 'DB00438.mol2', 'DB01163.mol2', 'DB01413.mol2',
+          # 'DB00760.mol2', # Linker Merging
+          ]  # fmt: skip
 
 
 @pytest.fixture
