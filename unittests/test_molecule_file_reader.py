@@ -10,9 +10,9 @@ from eMolFrag2.src.input import Options, MoleculeFileReader
     (["sdf"], [0]),
     (["pbd"], [4]),
     (["mol"], [5]),
-    (["path_not_exists"], [0]),#test if directory doesn't exist
-    (["mol/DB00415.mol"], [0]) #test if not a directory
-])
+    (["path_not_exists"], [0]), #test if directory doesn't exist
+    (["mol/DB00415.mol"], [0]), #test if not a directory
+]) # fmt: skip
 
 def test_get_files(input, expected):
     cwd = Path(__file__).parent / "data/db-files"
