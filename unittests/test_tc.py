@@ -1,9 +1,9 @@
-from pathlib import Path
 import pytest
-from eMolFrag2.src.utilities import tc
-from eMolFrag2.src.utilities.logging import log
-from eMolFrag2.src.representation.Molecule import Molecule
+from pathlib import Path
+
+from eMolFrag2.src.utilities.tc import TC, TCEquiv
 from eMolFrag2.src.input.MoleculeReader import getRDKitMolecule, to_mol
+from eMolFrag2.src.utilities.logging import log
 
 rel_path = "data"
 @pytest.mark.parametrize("mol1_path, mol2_path, expected", (
@@ -24,7 +24,7 @@ def test_tc_private(mol1_path, mol2_path, expected):
     for m1, m2, e in zip(mol1_path, mol2_path, expected):
         rdkit_mol1 = getRDKitMolecule(cwd / m1)
         rdkit_mol2 = getRDKitMolecule(cwd / m2)
-        tanimoto = tc.TC(rdkit_mol1, rdkit_mol2)
+        tanimoto = TC(rdkit_mol1, rdkit_mol2)
         log.debug(f"Input: {m1}\t{m2}\t Expected vs Actual = {e} | {tanimoto}")
         # log.debug(f'TC Similiarity of {m1} and {m2}: {tanimoto}.')
         assert tanimoto == e
@@ -56,11 +56,11 @@ def tc_mols_list():
     return mols_list
 
 
-def tc_eval(mol1, mol2, expected_result):
-    # log.debug(f"Input: \t{mol1}\t{mol2} \nexpected = {expected_result}")
-    tc_diff = abs(tc.TC(mol1, mol2) - expected_result)
-    log.debug(f"Distance from Expected TC: {tc_diff:.4f}")
-    assert tc_diff <= 0.001
+# def tc_eval(mol1, mol2, expected_result):
+#     # log.debug(f"Input: \t{mol1}\t{mol2} \nexpected = {expected_result}")
+#     tc_diff = abs(TC(mol1, mol2) - expected_result)
+#     log.debug(f"Distance from Expected TC: {tc_diff:.4f}")
+#     assert tc_diff <= 0.001
 
 
 def test_tc(rdkit_mols, mols):
@@ -70,18 +70,18 @@ def test_tc(rdkit_mols, mols):
     mols list List of Local molecules
     """
     # Test different molecule type (1 rdkit molecule, 1 local molecule)
-    tc_eval(rdkit_mols[0], mols[1], -1)
-    tc_eval(mols[0], rdkit_mols[1], -1)
+    TCEquiv(rdkit_mols[0], mols[1], -1)
+    TCEquiv(mols[0], rdkit_mols[1], -1)
 
     # Test 2: two rdkit molecules
-    tc_eval(rdkit_mols[0], rdkit_mols[1], 0.444)
-    tc_eval(rdkit_mols[0], rdkit_mols[2], 0.293)
-    tc_eval(rdkit_mols[1], rdkit_mols[2], 0.311)
+    TCEquiv(rdkit_mols[0], rdkit_mols[1], 0.444)
+    TCEquiv(rdkit_mols[0], rdkit_mols[2], 0.293)
+    TCEquiv(rdkit_mols[1], rdkit_mols[2], 0.311)
 
     # Test 3: two local molecules
-    tc_eval(mols[0], mols[1], 0.444)
-    tc_eval(mols[0], mols[2], 0.293)
-    tc_eval(mols[1], mols[2], 0.311)
+    TCEquiv(mols[0], mols[1], 0.444)
+    TCEquiv(mols[0], mols[2], 0.293)
+    TCEquiv(mols[1], mols[2], 0.311)
 
 
 @ pytest.mark.parametrize("mol1_path, mol2_path, expected", [
@@ -110,4 +110,4 @@ def test_tc_equiv(mol1_path, mol2_path, expected):
         log.debug(f"Compare TC: {m1}\t{m2}\t Expected Equivalence = {r}")
         mol_obj1 = to_mol(cwd / m1)
         mol_obj2 = to_mol(cwd / m2)
-        assert tc.TCEquiv(mol_obj1, mol_obj2) == r
+        assert TCEquiv(mol_obj1, mol_obj2) == r
