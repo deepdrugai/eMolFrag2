@@ -1,7 +1,3 @@
-from pathlib import Path
-
-# from eMolFrag2.src.representation import Molecule
-# from eMolFrag2.src.utilities import constants
 from eMolFrag2.src.utilities.logging import log
 
 #
@@ -18,12 +14,12 @@ from eMolFrag2.src.utilities.logging import log
 #
 def parse(contents):
     """
-        @input: contents -- the file contents as a string
-        @output: a list of tuples of the form [(id, SMILES)]
+    @input: contents -- the file contents as a string
+    @output: a list of tuples of the form [(id, SMILES)]
     """
     mols = []
 
-    for line in contents.split('\n'):
+    for line in contents.split("\n"):
 
         # Tokenize while trimming whitespace
         tokens = [token.strip() for token in line.split()]
@@ -35,73 +31,49 @@ def parse(contents):
         # An ID has been specified
         elif len(tokens) == 2:
             mols.append((tokens[1], tokens[0]))
-        
+
         elif len(tokens) > 2:
-            log.error(f'Expected SMILES file format. Either MOL\n or "smi id" expected, not {line}')        
+            log.error(f'Expected SMILES file format. Either MOL\n or "smi id" expected, not {line}')
 
         else:
-            pass # Ignore blank lines
+            pass  # Ignore blank lines
 
     return mols
 
-# def toRdkitMol(mol_id, mol_smi_str):
-#     """
-#         In order to compute and preserve AtomTypes, we use
-#         OpenBabel's conversion code to acquire and write those types.
-
-#         @input: contents -- the file contents as a string
-#         @output: list of Molecule objects
-#     """
-#     from rdkit import Chem
-#     rdkit_mol = Chem.MolFromSmiles(mol_smi_str)
-
-#     try:
-#         import pybel
-#     except:
-#         log.error(f'OpenBabel has not been installed; atom types of input SMILES molecules will not be preserved.')
-#         return mol_id, rdkit_mol
-
-#     # Convert SMI -> Mol2 to acquire AtomTypes
-#     obabel_mol = pybel.readstring('smi', mol_smi_str)
-
-#     # Associate the OpenBabel atom types with our Rdkit molecule    
-#     for index, obabel_atom in enumerate(obabel_mol.atoms):
-#         # BREAKING here: 
-#         rdkit_mol.GetAtomWithIdx(index - 1).SetProp(constants.ATOMTYPE_PROP, obabel_atom.type)
-        
-#     return mol_id, rdkit_mol
 
 def toRdkitMol(mol_id, mol_smi_str):
     """
-        In order to compute and preserve AtomTypes, we use
-        OpenBabel's conversion code to acquire and write those types.
+    In order to compute and preserve AtomTypes, we use
+    OpenBabel's conversion code to acquire and write those types.
 
-        @input: contents -- the file contents as a string
-        @output: list of Molecule objects
+    @input: contents -- the file contents as a string
+    @output: list of Molecule objects
     """
     from rdkit import Chem
+
     rdkit_mol = Chem.MolFromSmiles(mol_smi_str)
 
-    try:
-        from openbabel import pybel
-    except:
-        print (f'OpenBabel has not been installed; atom types of input SMILES molecules will not be preserved.')
-        return mol_id, rdkit_mol
+    # try:
+    #     from openbabel import pybel
+    # except Exception:
+    #     print(f"OpenBabel has not been installed; atom types of input SMILES molecules will not be preserved.")
+    #     return mol_id, rdkit_mol
 
-    obabel_mol = pybel.readstring('smi', mol_smi_str)
-    
-    for index, obabel_atom in enumerate(obabel_mol.atoms):
-        rdkit_mol.GetAtomWithIdx(index).SetProp('_TriposAtomType', obabel_atom.type)
-        log.debug(obabel_atom.type, obabel_atom.atomicnum)
+    # obabel_mol = pybel.readstring("smi", mol_smi_str)
+
+    # for index, obabel_atom in enumerate(obabel_mol.atoms):
+    #     rdkit_mol.GetAtomWithIdx(index).SetProp("_TriposAtomType", obabel_atom.type)
+    #     log.debug(obabel_atom.type, obabel_atom.atomicnum)
 
     return mol_id, rdkit_mol
 
+
 def readSmilesFile(contents):
     """
-        In order to compute and preserve AtomTypes, we use
-        OpenBabel's conversion code to acquire and write those types.
+    In order to compute and preserve AtomTypes, we use
+    OpenBabel's conversion code to acquire and write those types.
 
-        @input: contents -- the file contents as a string
-        @output: list of Molecule objects
+    @input: contents -- the file contents as a string
+    @output: list of Molecule objects
     """
     return [toRdkitMol(mol_id, mol_str) for mol_id, mol_str in parse(contents)]

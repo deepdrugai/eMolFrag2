@@ -43,7 +43,7 @@ def getFiles(options):
 #
 # Given a configuration file, return the file path
 #
-def acquireConfigurationFile(usr_file):
+def acquireConfigurationFile(usr_file):  # pragma: no cover
     filePath = Path(usr_file)
 
     #if the folder path doesnt exist, exit processing
