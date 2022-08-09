@@ -18,14 +18,8 @@ failed_mol_path = Path(__file__).parent.parent / "test/mol2-test"
 def test_to_mol(input):  # single file to mol
     for suffix in input:
         file_path = cwd.joinpath(suffix)
-<<<<<<< HEAD
         if suffix == "failed": #testing for a failed mol that has a supported format
             failed_mol = to_mol(failed_mol_path /"DB01059.mol2")
-=======
-        if suffix == "failed":  # testing for a failed mol that has a supported format
-            failed_mol = to_mol(failed_mol_path / "DB01059.mol2")
-            # failed_mol = to_mol(failed_mol_path / "DB01051.mol2")
->>>>>>> c00146e214cf358aad3d7a6e6c0ef3d18387c999
             assert failed_mol.rdkitObject == None
         else:  # checking if all mols in supported format test folders return a conversion
             for current_file in file_path.iterdir():
@@ -41,17 +35,11 @@ def test_to_mol(input):  # single file to mol
     (["sdf"], [0]),
     (["pbd"], [4]),
     (["mol"], [5]),
-<<<<<<< HEAD
     (["failed"], [0])
 ])
 def test_get_files(input, expected): #multiple files to mol
     failed_mols = ['DB01059.mol2', 'DB01326.mol2', 'DB00229.mol2', 'DB00779.mol2', 'DB00355.mol2', 'DB00430.mol2'] 
-=======
-    (["failed"], [0]),
-])  # fmt: skip
-def test_get_files(input, expected):  # multiple files to mol
-    failed_mols = ["DB01059.mol2", "DB01326.mol2", "DB00229.mol2", "DB00779.mol2", "DB00430.mol2"]
->>>>>>> c00146e214cf358aad3d7a6e6c0ef3d18387c999
+
     for suffix, e in zip(input, expected):
         files = []
         if suffix == "failed":
@@ -65,7 +53,6 @@ def test_get_files(input, expected):  # multiple files to mol
                 files.append(file_path / current_file.name)
             mols = getMolecules(files)
             log.debug(mols)
-<<<<<<< HEAD
             
             # Assert that length of mols == e
             assert len(mols) == e
@@ -73,9 +60,6 @@ def test_get_files(input, expected):  # multiple files to mol
             if not suffix == "sdf": #unsupported format, so should return an empty list
                 #If any of the returned mols have rdkitObject==None, then the file was not read properly
                 assert all(mol.rdkitObject != None for mol in mols)
-=======
->>>>>>> c00146e214cf358aad3d7a6e6c0ef3d18387c999
-
             # Assert that length of mols == e
             assert len(mols) == e
 
