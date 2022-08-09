@@ -4,6 +4,7 @@ import seaborn as sns
 import math
 from eMolFrag2.src.output.draw import draw_mol
 import matplotlib.image as mpimg
+import numpy as np
 
 
 #order most to least common
@@ -14,19 +15,24 @@ def histogram(brick_db, linker_db, out_dir):
         #key = frags in database, value = num of mols in frag's value list (I'm not sure what they represent)
         mols = []
         width = 0.8
+        new_dict = {}
         for key, value in db.database.items():
             if len(value) > 0:
                 draw_mol(key.getRDKitObject(), out_dir / (str(key)[:str(key).index('.')] + '.png'))
                 mols.append(out_dir / (str(key)[:str(key).index('.')] + '.png'))
+                new_dict[str(key)[:str(key).index('.')]] = len(value)
+        #dict = {str(key.getFileName()[:str(key).index('.')]):len(value) for key, value in db.database.items()}
+        #dict_filt = {key:value for key,value in dict.items() if value!=0}
         mols = list(set(mols))
-        dict = {str(key.getFileName()[:str(key).index('.')]): len(value) for key, value in db.database.items()}
-        dict_filt = {key:value for key,value in dict.items() if value!=0}
-        labels = dict_filt.keys()
-        values = dict_filt.values()
+        sorted_order = np.argsort(list(new_dict.values()))
+        mols_sorted = list(np.array(mols)[sorted_order])
+        dict_sorted = {key:value for key, value in sorted(new_dict.items(), key=lambda item: item[1], reverse=True)}
+        labels = dict_sorted.keys()
+        values = dict_sorted.values()
         ax = plt.bar(labels, values, width = width)
         #plt.bar_label(ax, labels=labels, rotation=90, padding=10)
         for i, (label, value) in enumerate(zip(labels, values)):
-            img = mpimg.imread(mols[i])
+            img = mpimg.imread(mols_sorted[i])
             plt.imshow(img, extent=[i - width / 2, i + width / 2,value, value+1], aspect='auto', zorder=2)
         plt.xlim(-0.5, len(labels)+1)
         plt.ylim(0, max(values)+1)
