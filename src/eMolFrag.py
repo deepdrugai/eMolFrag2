@@ -42,6 +42,5 @@ def main():
 
     writer.write(options, brick_db, linker_db)
 
-
 if __name__ == '__main__':
     main()
