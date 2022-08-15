@@ -42,17 +42,22 @@ def draw_grid_img2(mol, out_dir):
 
 
 def highlight_cleave_sights(mol, out_dir):
-    # mol = Chem.MolFromSmiles('[H][C@]12SC(C)(C)[C@@H](N1C(=O)[C@H]2NC(=O)[C@H](N)C1=CC=C(O)C=C1)C(O)=O')
+    mol = Chem.MolFromSmiles('[H][C@]12SC(C)(C)[C@@H](N1C(=O)[C@H]2NC(=O)[C@H](N)C1=CC=C(O)C=C1)C(O)=O')
     bricks, linkers, snips = deconstruct(mol)
-    log.debug(bricks, linkers, snips)
     cleavesites = [x for xs in snips for x in xs]
+    bond_indices = []
+    for snip in snips:
+        atom1, atom2 = snip
+        bond = mol.GetBondBetweenAtoms(atom1, atom2)
+        bond_indice = bond.GetIdx()
+        bond_indices.append(bond_indice)
     cp = Chem.Mol(mol)
     d2d = rdMolDraw2D.MolDraw2DSVG(600, 400)
     d2d.drawOptions().addAtomIndices = True
     d2d.drawOptions().addBondIndices = False
-    # Test this line to make sure it properly highlights cleaved bonds?
-    d2d.DrawMolecule(cp, highlightAtoms=cleavesites, highlightBonds=sorted(cleavesites)[::2])
+    d2d.DrawMolecule(cp, highlightAtoms=cleavesites, highlightBonds=bond_indices)
+    log.debug(cleavesites)
     d2d.FinishDrawing()
-    img = SVG(d2d.GetDrawingText())
+    img = d2d.GetDrawingText()   
     with open(out_dir, "wb+") as outfile:
-        outfile.write(img.data.encode("utf-8"))
+        outfile.write(img.encode("utf-8"))
