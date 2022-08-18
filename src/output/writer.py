@@ -6,9 +6,11 @@ from eMolFrag2.src.utilities.logging import log
 from eMolFrag2.src.utilities import constants
 from eMolFrag2.src.output import stats, draw
 
+
 def writeMolImgsFromDB(db, out_dir):
     for key, value in db.database.items():
         draw.draw_mol(key.getRDKitObject(), out_dir / (str(key)[: str(key).index(".sdf")] + ".png"))
+
 
 def prepareDirectory(out_path):
     """
@@ -121,6 +123,11 @@ def write(options, brick_db, linker_db, molecules=False):
     # draw.draw_grid_img(brick_dict[0], out_dir / 'test2.svg')
     # draw.draw_grid_img2(brick_dict[0], out_dir / 'test3.svg')
     # draw.highlight_cleave_sights(brick_dict[0], out_dir / 'test4.svg')
-    writeMolImgsFromDB(brick_db, out_dir)
-    writeMolImgsFromDB(linker_db, out_dir)
-    stats.histogram(brick_db, linker_db, out_dir)
+
+    # Draw Images
+    img_dir = out_dir / "images"
+    img_dir.mkdir(exist_ok=True)
+
+    writeMolImgsFromDB(brick_db, img_dir)
+    writeMolImgsFromDB(linker_db, img_dir)
+    stats.histogram(brick_db, linker_db, img_dir)
