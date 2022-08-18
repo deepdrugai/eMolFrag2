@@ -38,7 +38,7 @@ def main():
     log.info(f"{len(brick_db)} unique bricks among {brick_db.numAllMolecules()} bricks")
     log.info(f"{len(linker_db)} unique linkers among {linker_db.numAllMolecules()} linkers")
 
-    writer.write(options, brick_db, linker_db)
+    writer.write(options, brick_db, linker_db, molecules)
 
 
 if __name__ == "__main__":
