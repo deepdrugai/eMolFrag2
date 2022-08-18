@@ -115,16 +115,12 @@ def write(options, brick_db, linker_db, molecules=False):
         writeSingleFile(indicator, constants.BRICK_SINGLE_FILE_OUTPUT_NAME, out_dir, bricks_to_write)
         writeSingleFile(indicator, constants.LINKER_SINGLE_FILE_OUTPUT_NAME, out_dir, linkers_to_write)
 
-    # Run stats functions
-    brick_dict = [key.getRDKitObject() for key, value in brick_db.database.items()]
+    # test draw functions
+    # brick_dict = [key.getRDKitObject() for key, value in brick_db.database.items()]
     # draw.draw_mol(brick_dict[0], out_dir / 'test1.png')
     # draw.draw_grid_img(brick_dict[0], out_dir / 'test2.svg')
     # draw.draw_grid_img2(brick_dict[0], out_dir / 'test3.svg')
-    draw.highlight_cleave_sights(brick_dict[0], out_dir / 'test4.svg')
+    # draw.highlight_cleave_sights(brick_dict[0], out_dir / 'test4.svg')
     writeMolImgsFromDB(brick_db, out_dir)
     writeMolImgsFromDB(linker_db, out_dir)
     stats.histogram(brick_db, linker_db, out_dir)
-    # log.debug(next(iter(brick_db.database.items())).rdkitObject())
-    # log.debug(list(brick_db.database.items())[0].rdkitObject())
-    # brick_dict = [key.getRDKitObject() for key, value in brick_db.database.items()]
-    # draw.draw_mol(brick_dict[0], out_dir)
