@@ -80,12 +80,6 @@ def write(options, brick_db, linker_db, molecules=False):
     The focus is what fragments (unique OR all) and format how to
     output it (many files OR a single file).
     """
-    # TODO #21 Draw the input molecules @haydengemeinhardt
-    # add molecules to writer
-
-    if molecules:
-        # drawing stuff here
-        pass
 
     out_dir = Path(options.OUTPUT_PATH)
     out_dir = prepareDirectory(out_dir)
