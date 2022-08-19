@@ -12,6 +12,7 @@ def writeMolImgsFromDB(db, out_dir):
         draw.draw_mol(key.getRDKitObject(), out_dir / (str(key)[: str(key).index(".sdf")] + ".png"))
 
 
+
 def prepareDirectory(out_path):
     """
     If the directory does not exist, create it.
