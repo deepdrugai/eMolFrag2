@@ -4,6 +4,13 @@ from pathlib import Path
 # from eMolFrag2.src.representation import MoleculeDatabase
 from eMolFrag2.src.utilities.logging import log
 from eMolFrag2.src.utilities import constants
+from eMolFrag2.src.output import stats, draw
+
+
+def writeMolImgsFromDB(db, out_dir):
+    for key, value in db.database.items():
+        draw.draw_mol(key.getRDKitObject(), out_dir / (str(key)[: str(key).index(".sdf")] + ".png"))
+
 
 
 def prepareDirectory(out_path):
@@ -68,12 +75,13 @@ def writeIndividualFiles(out_dir, mols, extension=constants.SDF_FORMAT_EXT):
             f.write(mol.toSDF())
 
 
-def write(options, brick_db, linker_db):
+def write(options, brick_db, linker_db, molecules=False):
     """
     Main output routine
     The focus is what fragments (unique OR all) and format how to
     output it (many files OR a single file).
     """
+
     out_dir = Path(options.OUTPUT_PATH)
     out_dir = prepareDirectory(out_dir)
 
@@ -103,3 +111,18 @@ def write(options, brick_db, linker_db):
     else:
         writeSingleFile(indicator, constants.BRICK_SINGLE_FILE_OUTPUT_NAME, out_dir, bricks_to_write)
         writeSingleFile(indicator, constants.LINKER_SINGLE_FILE_OUTPUT_NAME, out_dir, linkers_to_write)
+
+    # test draw functions
+    # brick_dict = [key.getRDKitObject() for key, value in brick_db.database.items()]
+    # draw.draw_mol(brick_dict[0], out_dir / 'test1.png')
+    # draw.draw_grid_img(brick_dict[0], out_dir / 'test2.svg')
+    # draw.draw_grid_img2(brick_dict[0], out_dir / 'test3.svg')
+    # draw.highlight_cleave_sights(brick_dict[0], out_dir / 'test4.svg')
+
+    # Draw Images
+    img_dir = out_dir / "images"
+    img_dir.mkdir(exist_ok=True)
+
+    writeMolImgsFromDB(brick_db, img_dir)
+    writeMolImgsFromDB(linker_db, img_dir)
+    stats.histogram(brick_db, linker_db, img_dir)
