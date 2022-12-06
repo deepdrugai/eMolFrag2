@@ -74,7 +74,7 @@ def writeIndividualFiles(out_dir, mols, extension=constants.SDF_FORMAT_EXT):
             f.write(mol.toSDF())
 
 
-def write(options, brick_db, linker_db, molecules=False):
+def write(options, brick_db, linker_db, fa_db, molecules=False):
     """
     Main output routine
     The focus is what fragments (unique OR all) and format how to
@@ -88,6 +88,8 @@ def write(options, brick_db, linker_db, molecules=False):
 
     bricks_to_write = []
     linkers_to_write = []
+    fa_to_write = []
+
     indicator = ""
 
     # All fragments wanted
@@ -95,21 +97,24 @@ def write(options, brick_db, linker_db, molecules=False):
         indicator = constants.FILE_OUTPUT_ALL_INDICATOR
         bricks_to_write = brick_db.GetAllMolecules()
         linkers_to_write = linker_db.GetAllMolecules()
+        fa_to_write = fa_db.GetAllMolecules()
 
     # Only unique fragments wanted
     else:
         indicator = constants.FILE_OUTPUT_UNIQUE_INDICATOR
         bricks_to_write = brick_db.GetUniqueMolecules()
         linkers_to_write = linker_db.GetUniqueMolecules()
+        fa_to_write = fa_db.GetUniqueMolecules()
 
     # Write all fragments to their own files
     if options.INDIVIDUAL:
-        writeIndividualFiles(out_dir, bricks_to_write + linkers_to_write)
+        writeIndividualFiles(out_dir, bricks_to_write + linkers_to_write + fa_to_write)
 
     # Write all fragments to a single brick and a signle linker file
     else:
         writeSingleFile(indicator, constants.BRICK_SINGLE_FILE_OUTPUT_NAME, out_dir, bricks_to_write)
         writeSingleFile(indicator, constants.LINKER_SINGLE_FILE_OUTPUT_NAME, out_dir, linkers_to_write)
+        writeSingleFile(indicator, constants.FREEATOM_SINGLE_FILE_OUTPUT_NAME, out_dir, fa_to_write)
 
     # test draw functions
     # brick_dict = [key.getRDKitObject() for key, value in brick_db.database.items()]
@@ -124,4 +129,5 @@ def write(options, brick_db, linker_db, molecules=False):
 
     writeMolImgsFromDB(brick_db, img_dir)
     writeMolImgsFromDB(linker_db, img_dir)
+    writeMolImgsFromDB(fa_db, img_dir)
     stats.histogram(brick_db, linker_db, img_dir)

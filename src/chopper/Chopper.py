@@ -8,6 +8,7 @@ from eMolFrag2.src.chopper import Fragmenter
 from eMolFrag2.src.representation import MoleculeDatabase as MDB
 from eMolFrag2.src.representation import Brick
 from eMolFrag2.src.representation import Linker
+from eMolFrag2.src.representation import FreeAtom
 
 
 def chop(rdkit_mol):
@@ -46,7 +47,7 @@ def chop(rdkit_mol):
     # These are sets of atom indices (bricks, linkers); snips are a set of bonds.
     #    * All such information 'references' the molecule, but does not modify it
     #
-    bricks, linkers, snips = Deconstructor.deconstruct(mol)
+    bricks, linkers, snips, freeatoms = Deconstructor.deconstruct(mol)
 
     #
     # (5): Compute connectivity among free radicals
@@ -56,7 +57,7 @@ def chop(rdkit_mol):
     #
     # (6): Perform the actual chop
     #
-    return Fragmenter.fragmentAll(mol, bricks, linkers)
+    return Fragmenter.fragmentAll(mol, bricks, linkers, freeatoms)
 
 
 def chopall(mols):
@@ -70,6 +71,7 @@ def chopall(mols):
     """
     brick_db = MDB.MoleculeDatabase(constants.DEFAULT_TC_UNIQUENESS)
     linker_db = MDB.MoleculeDatabase(constants.DEFAULT_TC_LINKER_UNIQUENESS)
+    fa_db = MDB.MoleculeDatabase(constants.DEFAULT_TC_LINKER_UNIQUENESS)
 
     for mol in mols:
 
@@ -78,7 +80,7 @@ def chopall(mols):
         #
         # Chop
         #
-        bricks, linkers = chop(mol.getRDKitObject())
+        bricks, linkers, freeatoms = chop(mol.getRDKitObject())
 
         #
         # Process the results
@@ -91,4 +93,8 @@ def chopall(mols):
 
         log.debug(f"Added {len(results)} TC-unique linker(s); \t{len(linkers) - len(results)} were TC-redundant")
 
-    return brick_db, linker_db
+        results = fa_db.addAll([FreeAtom.FreeAtom(ell, mol, suffix=index) for index, ell in enumerate(freeatoms)])
+
+        log.debug(f"Added {len(results)} TC-unique linker(s); \t{len(linkers) - len(results)} were TC-redundant")
+
+    return brick_db, linker_db, fa_db

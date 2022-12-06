@@ -3,138 +3,150 @@ from eMolFrag2.src.utilities import constants
 from eMolFrag2.src.utilities.logging import log
 from eMolFrag2.src.chopper import BRICS_custom
 
+
 def getMolMatrix(mol):
-  """ 
-  Molecule as Adjacency Matrix.
-
-      Parameters: 
-                mol (Rdkit.Mol): Molecule to get Matrix
-
-      Returns: 
-                m (matrix): Molecule Adjacency Matrix
-  """
-  return Chem.GetAdjacencyMatrix(mol)
-
-def molAdjList(m):
-  """ 
-  Sorted Adjacency List
-
-      Parameters:
-                m (matrix): Molecule Adjacency Matrix
-
-      Returns: 
-                a (set of tuples): Adjacency List (sorted)
-  """
-  import numpy as np
-  return {tuple(sorted(item)) for item in [*zip(*np.where(m==1))]} # adj_list as set
-
-def molBRICSBonds(mol):
-  """ 
-  De-Duplicated BRICS Bonds List
-
-      Parameters:
-                mol (Rdkit.Mol): Molecule to get BRICS Bonds for
-
-      Returns: 
-                a (list of tuples): De-Duplicated BRICS Bonds List
-  """
-  snips = [(a, b) for (a, b), (c, d) in list(BRICS_custom.FindBRICSBonds(mol))]
-
-  # reorder tuples as set
-  return {(a, b) if (a < b) else (b, a) for a, b in snips}
-
-def molFragments(l):
-  """ 
-  De-Duplicated BRICS Bonds List
-
-      Parameters:
-                l (matrix): Molecule Adjacency List
-
-      Returns: 
-                a (list of sets): List of Fragment Atom IDs as sets
-  """
-  import networkx as nx
-  g = nx.from_edgelist(l)
-  return list(nx.connected_components(g))
-
-def combineAdjLinkerSequences(linkers, snips):
-    """ 
-        Sequences of adjacent linkers must be combined together to form
-        a single linker.
+    """
+    Molecule as Adjacency Matrix.
 
         Parameters:
-                linkers (set of tuples): atom ids of constituent atoms in fragment
-                snips (set): Set of BRIC snips
+                  mol (Rdkit.Mol): Molecule to get Matrix
 
-        Returns: 
-                linkers (set of tuples): Set of linkers (joined)
-                snips_r (set): Set of snips to remove (we used them in joining)
+        Returns:
+                  m (matrix): Molecule Adjacency Matrix
     """
-    snips_r = set() # snips to remove
+    return Chem.GetAdjacencyMatrix(mol)
+
+
+def molAdjList(m):
+    """
+    Sorted Adjacency List
+
+        Parameters:
+                  m (matrix): Molecule Adjacency Matrix
+
+        Returns:
+                  a (set of tuples): Adjacency List (sorted)
+    """
+    import numpy as np
+
+    return {tuple(sorted(item)) for item in [*zip(*np.where(m == 1))]}  # adj_list as set
+
+
+def molBRICSBonds(mol):
+    """
+    De-Duplicated BRICS Bonds List
+
+        Parameters:
+                  mol (Rdkit.Mol): Molecule to get BRICS Bonds for
+
+        Returns:
+                  a (list of tuples): De-Duplicated BRICS Bonds List
+    """
+    snips = [(a, b) for (a, b), (c, d) in list(BRICS_custom.FindBRICSBonds(mol))]
+
+    # reorder tuples as set
+    return {(a, b) if (a < b) else (b, a) for a, b in snips}
+
+
+def molFragments(l):
+    """
+    De-Duplicated BRICS Bonds List
+
+        Parameters:
+                  l (matrix): Molecule Adjacency List
+
+        Returns:
+                  a (list of sets): List of Fragment Atom IDs as sets
+    """
+    import networkx as nx
+
+    g = nx.from_edgelist(l)
+    return list(nx.connected_components(g))
+
+
+def combineAdjLinkerSequences(linkers, snips):
+    """
+    Sequences of adjacent linkers must be combined together to form
+    a single linker.
+
+    Parameters:
+            linkers (set of tuples): atom ids of constituent atoms in fragment
+            snips (set): Set of BRIC snips
+
+    Returns:
+            linkers (set of tuples): Set of linkers (joined)
+            snips_r (set): Set of snips to remove (we used them in joining)
+    """
+    snips_r = set()  # snips to remove
 
     for x, y in snips:
-        lx = [l for l in linkers if x in l] # List of linkers with x
-        ly = [l for l in linkers if y in l] # List of linkers with y
+        lx = [l for l in linkers if x in l]  # List of linkers with x
+        ly = [l for l in linkers if y in l]  # List of linkers with y
 
         if lx and ly:
             lx, ly = *lx, *ly
 
             log.debug(f"Join linkers: {[lx, ly]} on {(x,y)}.")
 
-            linkers -= {lx, ly} # Remove linkers 
-            linkers.add(lx + ly) # Add merged linker
-            snips_r.add((x, y)) # Add snip to removelist
+            linkers -= {lx, ly}  # Remove linkers
+            linkers.add(lx + ly)  # Add merged linker
+            snips_r.add((x, y))  # Add snip to removelist
 
             log.debug(f"All Linkers: {linkers}")
             # log.debug(f"snips_r: {snips_r}")
 
     return linkers, snips_r
 
-def computeFragmentsAndSnips(nxfrags, snips):
-    """ 
-        Return Final Brick, Linker and Snips Index List
 
-        Parameters:
-                nxfrags (list of sets): List of Fragment Atom IDs as sets
-                snips (set): Set of BRIC snips
+def computeFragmentsAndSnips(nxfrags, snips, freeatoms):
+    """
+    Return Final Brick, Linker and Snips Index List
 
-        Returns: 
-                bricks (set): Set of bricks
-                linkers (set): Set of linkers (joined)
-                snips (set): Set of snips (joined)
+    Parameters:
+            nxfrags (list of sets): List of Fragment Atom IDs as sets
+            snips (set): Set of BRIC snips
+            freeatoms (set): Set of freeatoms
+
+    Returns:
+            bricks (set): Set of bricks
+            linkers (set): Set of linkers (joined)
+            snips (set): Set of snips (joined)
+            freeatoms (set:) Set of freeatoms
     """
     # Check Linker v Bricks
-    linkers = set() # set of linkers
-    bricks = set() # set of bricks
-  
+    linkers = set()  # set of linkers
+    bricks = set()  # set of bricks
+
     # split linkers & bricks (populate sets)
+    # log.info(f"(Before) NXFRAGS: {[tuple(x) for x in nxfrags]}")
     [linkers.add(tuple(x)) if len(x) <= constants.LINKER_MAXIMUM_NUM_ATOMS else bricks.add(tuple(x)) for x in nxfrags]
-    # log.debug(f"(Before) All Bricks: {bricks}")
-    # log.debug(f"(Before) All Linkers: {linkers}")
-    # log.debug(f"(Before) Snips: {snips}")
+    log.debug(f"(Before) All Bricks: {bricks}")
+    log.debug(f"(Before) All Linkers: {linkers}")
+    log.debug(f"(Before) Snips: {snips}")
 
     # Handle sequences of linkers
     linkers, snips_r = combineAdjLinkerSequences(linkers, snips)
 
-    # log.debug(f"(After) All Linkers: {linkers}")
+    log.debug(f"(After) All Linkers: {linkers}")
 
     # Remove snip removelist from snip list
     snips -= snips_r
-    
-    # log.debug(f"Final Snips: {snips}")
 
-    return bricks, linkers, snips
-    
+    log.debug(f"Final Snips: {snips}")
+
+    return bricks, linkers, snips, freeatoms
+
+
 def deconstruct(rdkit_mol):
     """
-        Main deconstruction of an rdkit molecule into brickers, linkers and the
-        BRICS cleave bonds between the fragments
-        
-        @input: molecule (Rdkit.Mol)
-        @output: set of 
-                bricks (set): Set of bricks (as tuples of integers)
-                linkers (set): Set of linkers (joined) (as tuples of integers)
-                snips (set): Set of snips (joined) (set of 2-tuples)
+    Main deconstruction of an rdkit molecule into brickers, linkers and the
+    BRICS cleave bonds between the fragments
+
+    @input: molecule (Rdkit.Mol)
+    @output: set of
+            bricks (set): Set of bricks (as tuples of integers)
+            linkers (set): Set of linkers (joined) (as tuples of integers)
+            snips (set): Set of snips (joined) (set of 2-tuples)
     """
 
     # Acquire an adjacency list of the graph corresponding to the input molecule
@@ -147,7 +159,15 @@ def deconstruct(rdkit_mol):
     # the BRICS snip points; fragments are connected components in the graph
     nxfrags = molFragments(adj_list - snips)
 
-    # logger.setLevel("WARN")
-    #logger.setLevel("DEBUG")
+    # Calculate Free-atoms from sequential snips
+    atomlist = set([i for sl in adj_list for i in sl])
+    atomfraglist = set([i for sl in nxfrags for i in sl])
+    freeatoms = atomlist - atomfraglist
+    # log.info(f"atomlist: {atomlist}")
+    # log.info(f"atomfraglist: {atomfraglist}")
+    # log.info(f"freeatoms: {freeatoms}")
 
-    return computeFragmentsAndSnips(nxfrags, snips)
+    # logger.setLevel("WARN")
+    # logger.setLevel("DEBUG")
+
+    return computeFragmentsAndSnips(nxfrags, snips, freeatoms)
