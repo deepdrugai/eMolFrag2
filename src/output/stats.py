@@ -31,7 +31,7 @@ def histogram(brick_db, linker_db, out_dir):
         plt.ylim(0, max(values) + 1)
         plt.xticks([])
         plt.yticks(range(math.floor(min(values)), math.ceil(max(values)) + 1))
-        plt.title("Hayden's Awesome Graph")
+        plt.title("Histogram of Fragment Frequency")
         plt.tight_layout()
         plt.savefig(out_dir / f"{db_name}_frags.png", dpi=300)
         plt.close()
