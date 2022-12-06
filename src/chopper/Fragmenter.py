@@ -1,5 +1,3 @@
-import numpy as np
-
 from rdkit import Chem
 from eMolFrag2.src.utilities.logging import log
 
@@ -14,6 +12,9 @@ def fragmentToMol(mol, frag_as_set):
 
     @output: mol (Rdkit.RWMol) corresponding to the input fragment
     """
+
+    import numpy as np
+
     # Create copy so we can modify it accordingly
     cp = Chem.RWMol(mol)
 
