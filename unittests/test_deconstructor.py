@@ -45,7 +45,7 @@ def test_deconstruct(mol2_files):
         rdkit_mol = Chem.RemoveAllHs(rdkit_mol, sanitize=True)
 
         # get fragments and sets of chopping points
-        bricks, linkers, snips = Deconstructor.deconstruct(rdkit_mol)
+        bricks, linkers, snips, freeatoms = Deconstructor.deconstruct(rdkit_mol)
 
         # count number of atoms in bricks set
         b_count = sum(len(b) for b in bricks)
@@ -63,7 +63,7 @@ def test_deconstruct(mol2_files):
         uniqueAtoms = set(atoms)
         diff = sum(1 for atom in uniqueAtoms if not atom in fragments)
 
-        log.debug(f"Atoms not in bricks or linkers: {diff}")
+        log.debug(f"Atoms not in bricks or linkers: {diff} ({freeatoms})")
         log.debug(f"Atoms in Final Snips: {atoms}")
         log.debug(f"Unique atoms in final snips: {uniqueAtoms}")
 
