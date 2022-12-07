@@ -28,10 +28,13 @@ def histogram(brick_db, linker_db, out_dir):
             img = mpimg.imread(mols_sorted[i])
             plt.imshow(img, extent=[i - width / 2, i + width / 2, value, value + 1], aspect="auto", zorder=2)
         plt.xlim(-0.5, len(labels) + 1)
+        if max(values, default=0) == 0:
+            log.warning(f"Number of {db_name} fragments is {len(values)}. Unable to create histogram.")
+            continue
         plt.ylim(0, max(values) + 1)
         plt.xticks([])
         plt.yticks(range(math.floor(min(values)), math.ceil(max(values)) + 1))
         plt.title("Histogram of Fragment Frequency")
         plt.tight_layout()
-        plt.savefig(out_dir / f"{db_name}_frags.png", dpi=300)
+        plt.savefig(out_dir / f"hist_{db_name}_frags.png", dpi=300)
         plt.close()
