@@ -129,7 +129,7 @@ def computeFragmentsAndSnips(nxfrags, snips, freeatoms):
 
     # split linkers & bricks (populate sets)
     log.debug(nxfrags)
-    log.info(f"(Before) NXFRAGS: {[tuple(x) for x in nxfrags]}")
+    log.debug(f"(Before) NXFRAGS: {[tuple(x) for x in nxfrags]}")
     [linkers.add(tuple(x)) if len(x) <= constants.LINKER_MAXIMUM_NUM_ATOMS else bricks.add(tuple(x)) for x in nxfrags]  # fmt: skip
     log.debug(f"(Before) All Bricks: {bricks}")
     log.debug(f"(Before) All Linkers: {linkers}")
@@ -169,16 +169,16 @@ def deconstruct(rdkit_mol):
     # NetworkX-based fragment identification over the molecule minus
     # the BRICS snip points; fragments are connected components in the graph
     nxfrags = molFragments(adj_list - snips)
-    log.info(f"nxfrags: {nxfrags}")
+    log.debug(f"nxfrags: {nxfrags}")
 
     # Calculate Free-atoms from sequential snips
     atomlist = set([i for sl in adj_list for i in sl])
     atomfraglist = set([i for sl in nxfrags for i in sl])
     freeatoms = atomlist - atomfraglist
 
-    log.info(f"atomlist: {atomlist}")
-    log.info(f"atomfraglist: {atomfraglist}")
-    log.info(f"freeatoms: {freeatoms}")
+    log.debug(f"atomlist: {atomlist}")
+    log.debug(f"atomfraglist: {atomfraglist}")
+    log.debug(f"freeatoms: {freeatoms}")
 
     # logger.setLevel("WARN")
     # logger.setLevel("DEBUG")
