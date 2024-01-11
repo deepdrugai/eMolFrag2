@@ -81,10 +81,10 @@ def chopall(mols):
         #
         bricks, linkers, freeatoms = chop(mol.getRDKitObject())
 
-        # fmt: off
         #
         # Process the results
         #
+        # fmt: off
         results = brick_db.addAll([Brick.Brick(b, mol, suffix=index) for index, b in enumerate(bricks)])
 
         log.debug(f"Added {len(bricks)} brick(s);\t({len(results)} TC-Unique)")
@@ -96,6 +96,6 @@ def chopall(mols):
         results = fa_db.addAll([FreeAtom.FreeAtom(fa, mol, suffix=index) for index, fa in enumerate(freeatoms)])
 
         log.debug(f"Added {len(freeatoms)} freeatom(s);\t({len(results)} TC-Unique)")
+        # fmt: on
 
-    # fmt: on
     return brick_db, linker_db, fa_db
