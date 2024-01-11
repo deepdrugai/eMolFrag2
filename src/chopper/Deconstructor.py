@@ -117,7 +117,6 @@ def computeFragmentsAndSnips(nxfrags, snips, freeatoms):
     # Check Linker v Bricks
     linkers = set()  # set of linkers
     bricks = set()  # set of bricks
-    freeatoms = set()  # set of freeatoms
 
     # split linkers & bricks (populate sets)
     log.debug(nxfrags)
