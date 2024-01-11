@@ -9,7 +9,10 @@ from eMolFrag2.src.output import stats, draw
 
 def writeMolImgsFromDB(db, out_dir):
     for key, value in db.database.items():
-        draw.draw_mol(key.getRDKitObject(), out_dir / (str(key)[: str(key).index(".sdf")] + ".png"))
+        draw.draw_mol(
+            key.getRDKitObject(),
+            out_dir / (str(key)[: str(key).index(".sdf")] + ".png"),
+        )
 
 
 def prepareDirectory(out_path):
@@ -25,11 +28,13 @@ def prepareDirectory(out_path):
     new_path = out_path
     i = 1
     while new_path.exists():
-        log.warning(f"Output path {str(new_path)} exists; {str(out_path)}-{i} will be used.")
+        log.warning(
+            f"Output path {new_path.resolve()} exists; {out_path.resolve()}-{i} will be used."
+        )
         new_path = out_path.parent / f"{out_path.name}-{i}"
         i += 1
     else:
-        log.info(f"Output path {str(new_path)} does not exist; will be created.")
+        log.info(f"Output path {new_path.resolve()} does not exist; will be created.")
 
     out_path = new_path
     del new_path, i
@@ -84,7 +89,7 @@ def write(options, brick_db, linker_db, fa_db, molecules=False):
     out_dir = Path(options.OUTPUT_PATH)
     out_dir = prepareDirectory(out_dir)
 
-    log.debug(f"Writing to directory {str(out_dir)}")
+    log.debug(f"Writing to directory {out_dir.resolve()}")
 
     bricks_to_write = []
     linkers_to_write = []
@@ -112,9 +117,18 @@ def write(options, brick_db, linker_db, fa_db, molecules=False):
 
     # Write all fragments to a single brick and a signle linker file
     else:
-        writeSingleFile(indicator, constants.BRICK_SINGLE_FILE_OUTPUT_NAME, out_dir, bricks_to_write)
-        writeSingleFile(indicator, constants.LINKER_SINGLE_FILE_OUTPUT_NAME, out_dir, linkers_to_write)
-        writeSingleFile(indicator, constants.FREEATOM_SINGLE_FILE_OUTPUT_NAME, out_dir, fa_to_write)
+        writeSingleFile(
+            indicator, constants.BRICK_SINGLE_FILE_OUTPUT_NAME, out_dir, bricks_to_write
+        )
+        writeSingleFile(
+            indicator,
+            constants.LINKER_SINGLE_FILE_OUTPUT_NAME,
+            out_dir,
+            linkers_to_write,
+        )
+        writeSingleFile(
+            indicator, constants.FREEATOM_SINGLE_FILE_OUTPUT_NAME, out_dir, fa_to_write
+        )
 
     # test draw functions
     # brick_dict = [key.getRDKitObject() for key, value in brick_db.database.items()]
