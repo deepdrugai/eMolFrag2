@@ -65,7 +65,7 @@ def molFragments(l):
     return list(nx.connected_components(g))
 
 
-def combineAdjLinkerSequences(linkers, snips):
+def combineAdjLinkerSequences(linkers, freeatoms, snips):
     """
     Sequences of adjacent linkers must be combined together to form
     a single linker.
@@ -79,10 +79,15 @@ def combineAdjLinkerSequences(linkers, snips):
             snips_r (set): Set of snips to remove (we used them in joining)
     """
     snips_r = set()  # snips to remove
+    log.debug(f"snips: {snips}")
+    log.debug(f"linkers: {linkers}")
+    log.debug(f"freeatoms: {freeatoms}")
 
     for x, y in snips:
-        lx = [l for l in linkers if x in l]  # List of linkers with x
-        ly = [l for l in linkers if y in l]  # List of linkers with y
+        # List of linkers for x tuple-half
+        lx = [l for l in linkers if x in l] + [(f,) for f in freeatoms if x == f]
+        # List of linkers for y tuple-half
+        ly = [l for l in linkers if y in l] + [(f,) for f in freeatoms if y == f]
 
         if lx and ly:
             lx, ly = *lx, *ly
@@ -90,13 +95,17 @@ def combineAdjLinkerSequences(linkers, snips):
             log.debug(f"Join linkers: {[lx, ly]} on {(x,y)}.")
 
             linkers -= {lx, ly}  # Remove linkers
+            freeatoms_r = {f for ft in {lx + ly} for f in ft}  # freeatoms to remove
+            freeatoms -= freeatoms_r  # Remove freeatoms
             linkers.add(lx + ly)  # Add merged linker
             snips_r.add((x, y))  # Add snip to removelist
-
             log.debug(f"All Linkers: {linkers}")
             # log.debug(f"snips_r: {snips_r}")
 
-    return linkers, snips_r
+    log.debug(f"freeatoms: {freeatoms}")
+    log.debug(f"linkers: {linkers}")
+
+    return linkers, snips_r, freeatoms
 
 
 def computeFragmentsAndSnips(nxfrags, snips, freeatoms):
@@ -127,7 +136,7 @@ def computeFragmentsAndSnips(nxfrags, snips, freeatoms):
     log.debug(f"(Before) Snips: {snips}")
 
     # Handle sequences of linkers
-    linkers, snips_r = combineAdjLinkerSequences(linkers, snips)
+    linkers, snips_r, freeatoms = combineAdjLinkerSequences(linkers, freeatoms, snips)
 
     log.debug(f"(After) All Linkers: {linkers}")
 
@@ -160,14 +169,16 @@ def deconstruct(rdkit_mol):
     # NetworkX-based fragment identification over the molecule minus
     # the BRICS snip points; fragments are connected components in the graph
     nxfrags = molFragments(adj_list - snips)
+    log.info(f"nxfrags: {nxfrags}")
 
     # Calculate Free-atoms from sequential snips
     atomlist = set([i for sl in adj_list for i in sl])
     atomfraglist = set([i for sl in nxfrags for i in sl])
     freeatoms = atomlist - atomfraglist
-    # log.info(f"atomlist: {atomlist}")
-    # log.info(f"atomfraglist: {atomfraglist}")
-    # log.info(f"freeatoms: {freeatoms}")
+
+    log.info(f"atomlist: {atomlist}")
+    log.info(f"atomfraglist: {atomfraglist}")
+    log.info(f"freeatoms: {freeatoms}")
 
     # logger.setLevel("WARN")
     # logger.setLevel("DEBUG")
