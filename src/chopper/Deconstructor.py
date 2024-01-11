@@ -29,7 +29,8 @@ def molAdjList(m):
     """
     import numpy as np
 
-    return {tuple(sorted(item)) for item in [*zip(*np.where(m == 1))]}  # adj_list as set
+    # adj_list as set
+    return { tuple(sorted(item)) for item in [*zip(*np.where(m == 1))]}  # fmt: skip
 
 
 def molBRICSBonds(mol):
@@ -116,10 +117,12 @@ def computeFragmentsAndSnips(nxfrags, snips, freeatoms):
     # Check Linker v Bricks
     linkers = set()  # set of linkers
     bricks = set()  # set of bricks
+    freeatoms = set()  # set of freeatoms
 
     # split linkers & bricks (populate sets)
-    # log.info(f"(Before) NXFRAGS: {[tuple(x) for x in nxfrags]}")
-    [linkers.add(tuple(x)) if len(x) <= constants.LINKER_MAXIMUM_NUM_ATOMS else bricks.add(tuple(x)) for x in nxfrags]
+    log.debug(nxfrags)
+    log.info(f"(Before) NXFRAGS: {[tuple(x) for x in nxfrags]}")
+    [linkers.add(tuple(x)) if len(x) <= constants.LINKER_MAXIMUM_NUM_ATOMS else bricks.add(tuple(x)) for x in nxfrags]  # fmt: skip
     log.debug(f"(Before) All Bricks: {bricks}")
     log.debug(f"(Before) All Linkers: {linkers}")
     log.debug(f"(Before) Snips: {snips}")

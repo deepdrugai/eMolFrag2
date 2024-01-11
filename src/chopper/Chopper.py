@@ -74,7 +74,6 @@ def chopall(mols):
     fa_db = MDB.MoleculeDatabase(constants.DEFAULT_TC_LINKER_UNIQUENESS)
 
     for mol in mols:
-
         log.info(f"Processing molecule {mol.getFileName()}.")
 
         #
@@ -82,19 +81,21 @@ def chopall(mols):
         #
         bricks, linkers, freeatoms = chop(mol.getRDKitObject())
 
+        # fmt: off
         #
         # Process the results
         #
         results = brick_db.addAll([Brick.Brick(b, mol, suffix=index) for index, b in enumerate(bricks)])
 
-        log.debug(f"Added {len(results)} TC-unique brick(s); \t{len(bricks) - len(results)} were TC-redundant")
+        log.debug(f"Added {len(bricks)} brick(s);\t({len(results)} TC-Unique)")
 
         results = linker_db.addAll([Linker.Linker(ell, mol, suffix=index) for index, ell in enumerate(linkers)])
 
-        log.debug(f"Added {len(results)} TC-unique linker(s); \t{len(linkers) - len(results)} were TC-redundant")
+        log.debug(f"Added {len(linkers)} linker(s);\t({len(results)} TC-Unique)")
 
-        results = fa_db.addAll([FreeAtom.FreeAtom(ell, mol, suffix=index) for index, ell in enumerate(freeatoms)])
+        results = fa_db.addAll([FreeAtom.FreeAtom(fa, mol, suffix=index) for index, fa in enumerate(freeatoms)])
 
-        log.debug(f"Added {len(results)} TC-unique linker(s); \t{len(linkers) - len(results)} were TC-redundant")
+        log.debug(f"Added {len(freeatoms)} freeatom(s);\t({len(results)} TC-Unique)")
 
+    # fmt: on
     return brick_db, linker_db, fa_db
