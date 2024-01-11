@@ -4,10 +4,10 @@ import matplotlib.image as mpimg
 import numpy as np
 import math
 
-
+# fmt: off
 def histogram(brick_db, linker_db, out_dir):
     dbs = [brick_db, linker_db]
-    db_names = ["brick_bd", "linker_db"]
+    db_names = ["brick_db", "linker_db"]
     for db, db_name in zip(dbs, db_names):
         # key = frags in database, value = num of mols in frag's value list (I'm not sure what they represent)
         mols = []
@@ -38,3 +38,4 @@ def histogram(brick_db, linker_db, out_dir):
         plt.tight_layout()
         plt.savefig(out_dir / f"hist_{db_name}_frags.png", dpi=300)
         plt.close()
+# fmt: on
