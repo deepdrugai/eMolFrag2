@@ -18,9 +18,7 @@ def mol_to_nx(mol):
     G = nx.Graph()
 
     for atom in mol.GetAtoms():
-        G.add_node(
-            atom.GetIdx(), atomic_num=atom.GetAtomicNum(), is_aromatic=atom.GetIsAromatic(), atom_symbol=atom.GetSymbol()
-        )
+        G.add_node(atom.GetIdx(), atomic_num=atom.GetAtomicNum(), is_aromatic=atom.GetIsAromatic(), atom_symbol=atom.GetSymbol())
 
     for bond in mol.GetBonds():
         G.add_edge(bond.GetBeginAtomIdx(), bond.GetEndAtomIdx(), bond_type=bond.GetBondType())
@@ -50,3 +48,7 @@ def example():
 
     nx.draw(mol_nx, labels=atoms, with_labels=True, node_color=atom_colors, node_size=800)
     plt.show()
+
+
+def create_trace(mol):
+    print("trace")
