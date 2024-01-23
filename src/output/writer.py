@@ -28,7 +28,7 @@ def prepareDirectory(out_path):
     new_path = out_path
     i = 1
     while new_path.exists():
-        log.warning(f"Output path {new_path} exists; {str(out_path)}-{i} will be used.")
+        log.warning(f"Output path {new_path} exists; Trying {str(out_path)}-{i}.")
         new_path = out_path.parent / f"{out_path.name}-{i}"
         i += 1
     else:
