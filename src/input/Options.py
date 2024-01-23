@@ -20,6 +20,7 @@ LOGGING_ARG = "l"
 CONFIGURATION_FILE_ARG = "c"
 ALL_FRAGMENTS_ARG = "all"
 INDIVIDUAL_FILE_ARG = "indiv"
+TRACE_ARG = "trace"
 
 
 class Options:
@@ -30,6 +31,8 @@ class Options:
 
         self.INDIVIDUAL = False
         self.ALL_FRAGMENTS = False
+
+        self.TRACE = False
 
         arg_env = self._parseCommandLineArgs()
         if arg_env is None:
@@ -80,7 +83,7 @@ class Options:
         parser.add_argument("-d", dest="debug", action="store_true", help="Quick flag to set logging level to debug.")
 
         parser.add_argument(
-            "-l",
+            "-" + LOGGING_ARG,
             dest="logLevel",
             choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
             # default = 'INFO',
@@ -89,9 +92,7 @@ class Options:
             help="Set the logging level to print to console.",
         )
 
-        parser.add_argument(
-            "-" + CONFIGURATION_FILE_ARG, type=str, help="Configuration file: .emf extension required.)"
-        )
+        parser.add_argument("-" + CONFIGURATION_FILE_ARG, type=str, help="Configuration file: .emf extension required.)")
 
         parser.add_argument(
             "-" + ALL_FRAGMENTS_ARG,
@@ -107,6 +108,13 @@ class Options:
             help="Fragment will be output in their own individual files",
         )
 
+        parser.add_argument(
+            "-" + TRACE_ARG,
+            action="store_true",
+            default=self.TRACE,
+            help="Print trace file for reconstruction.",
+        )
+
         args = parser.parse_args()
 
         if not args.debug:
@@ -116,7 +124,6 @@ class Options:
 
         # Configuration file used for execution
         if args.c is not None:
-
             # Did the user state more than "eMolFrag2 -c *.emf"?
             if len(sys.argv) > 3:
                 log.warning(f"Configuration file specified. All other command-line arguments ignored.")
@@ -131,7 +138,6 @@ class Options:
         Set the user-defined options
         """
         for arg in vars(arg_env):
-
             if arg == INPUT_ARG:
                 self.INPUT_PATH = getattr(arg_env, arg)
 
@@ -146,6 +152,9 @@ class Options:
 
             elif arg == INDIVIDUAL_FILE_ARG:
                 self.INDIVIDUAL = getattr(arg_env, arg)
+
+            elif arg == TRACE_ARG:
+                self.TRACE = getattr(arg_env, arg)
 
     def __str__(self):
         """

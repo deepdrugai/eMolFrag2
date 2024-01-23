@@ -18,7 +18,7 @@ class MoleculeDatabase(Molecule):
         self.database = {}
 
         if given_tc < 0 or given_tc > 1:
-            log.error(f"Tanimoto coefficient constant {given_tc} is not in allowable range 0 <= tc <= 1.0")  # fmt: skip
+            log.error(f"Tanimoto coefficient constant {given_tc} is not in allowable range 0 <= tc <= 1.0")
             raise RuntimeError
 
         self.TC_THRESH = given_tc
@@ -31,14 +31,10 @@ class MoleculeDatabase(Molecule):
     def add(self, molecule):
         # print("Adding", molecule.getFileName())
 
-        tc_equiv = [
-            db_mol
-            for db_mol in self.database.keys()
-            if tc.TCEquiv(molecule, db_mol, tc_threshold=self.TC_THRESH)
-        ]
+        tc_equiv = [db_mol for db_mol in self.database.keys() if tc.TCEquiv(molecule, db_mol, tc_threshold=self.TC_THRESH)]
 
         if len(tc_equiv) > 1:
-            log.debug(f"Internal MoleculeDatabase error; {len(tc_equiv)}-TC equivalent molecules")  # fmt: skip
+            log.debug(f"Internal MoleculeDatabase error; {len(tc_equiv)}-TC equivalent molecules")
 
         # Empty ; we have a unique fragment; a new entry has { molecule, [] }
         if not tc_equiv:
@@ -69,7 +65,7 @@ class MoleculeDatabase(Molecule):
     # Return all Molecule objects stored
     #
     def GetAllMolecules(self):
-        return [*self.database.keys()] + [mol for lst in self.database.values() for mol in lst]  # fmt: skip
+        return [*self.database.keys()] + [mol for lst in self.database.values() for mol in lst]
 
     #
     # Return all TC>1 objects stored
@@ -77,12 +73,8 @@ class MoleculeDatabase(Molecule):
     def GetAllTCEqual(self):
         for mol, equivalent in self.database.items():
             log.error(equivalent)
-            log.error(
-                f'\n{mol.getFileName()}: [{", ".join([eq_mol.getFileName() for eq_mol in equivalent])}]'
-            )
-        return [*self.database.keys()] + [
-            mol for lst in self.database.values() for mol in lst
-        ]
+            log.error(f'\n{mol.getFileName()}: [{", ".join([eq_mol.getFileName() for eq_mol in equivalent])}]')
+        return [*self.database.keys()] + [mol for lst in self.database.values() for mol in lst]
 
     def numAllMolecules(self):
         return len(self.GetAllMolecules())

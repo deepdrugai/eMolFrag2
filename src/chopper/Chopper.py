@@ -84,18 +84,16 @@ def chopall(mols):
         #
         # Process the results
         #
-        # fmt: off
         results = brick_db.addAll([Brick.Brick(b, mol, suffix=index) for index, b in enumerate(bricks)])
 
-        log.debug(f"Added {len(bricks)} brick(s);\t({len(results)} TC-Unique)")
+        log.info(f"Added {len(bricks)} brick{'s'[:len(bricks)^1]};\t({len(results)} TC-Unique)")
 
         results = linker_db.addAll([Linker.Linker(ell, mol, suffix=index) for index, ell in enumerate(linkers)])
 
-        log.debug(f"Added {len(linkers)} linker(s);\t({len(results)} TC-Unique)")
+        log.info(f"Added {len(linkers)} linker{'s'[:len(linkers)^1]};\t({len(results)} TC-Unique)")
 
         results = fa_db.addAll([FreeAtom.FreeAtom(fa, mol, suffix=index) for index, fa in enumerate(freeatoms)])
 
-        log.debug(f"Added {len(freeatoms)} freeatom(s);\t({len(results)} TC-Unique)")
-        # fmt: on
+        log.info(f"Added {len(freeatoms)} freeatom{'s'[:len(freeatoms)^1]};\t({len(results)} TC-Unique)")
 
     return brick_db, linker_db, fa_db

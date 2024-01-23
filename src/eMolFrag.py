@@ -25,11 +25,11 @@ def main():
 
     # Get files
     mol_files = MoleculeFileReader.getFiles(options)
-    log.info(f"{len(mol_files)} files to be processed.")
+    log.info(f"{len(mol_files)} file{'s'[:len(mol_files)^1]} to be processed.")
 
     # Get molecules
     molecules = MoleculeReader.getMolecules(mol_files)
-    log.info(f"{len(molecules)} molecules to be chopped.")
+    log.info(f"{len(molecules)} molecule{'s'[:len(molecules)^1]} to be chopped.")
 
     # CHOP
     brick_db, linker_db, fa_db = Chopper.chopall(molecules)

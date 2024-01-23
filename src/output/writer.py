@@ -28,9 +28,7 @@ def prepareDirectory(out_path):
     new_path = out_path
     i = 1
     while new_path.exists():
-        log.warning(
-            f"Output path {new_path.resolve()} exists; {out_path.resolve()}-{i} will be used."
-        )
+        log.warning(f"Output path {new_path} exists; {str(out_path)}-{i} will be used.")
         new_path = out_path.parent / f"{out_path.name}-{i}"
         i += 1
     else:
@@ -89,7 +87,7 @@ def write(options, brick_db, linker_db, fa_db, molecules=False):
     out_dir = Path(options.OUTPUT_PATH)
     out_dir = prepareDirectory(out_dir)
 
-    log.debug(f"Writing to directory {out_dir.resolve()}")
+    log.info(f"Writing to directory {out_dir.resolve()}")
 
     bricks_to_write = []
     linkers_to_write = []
@@ -117,18 +115,14 @@ def write(options, brick_db, linker_db, fa_db, molecules=False):
 
     # Write all fragments to a single brick and a signle linker file
     else:
-        writeSingleFile(
-            indicator, constants.BRICK_SINGLE_FILE_OUTPUT_NAME, out_dir, bricks_to_write
-        )
+        writeSingleFile(indicator, constants.BRICK_SINGLE_FILE_OUTPUT_NAME, out_dir, bricks_to_write)
         writeSingleFile(
             indicator,
             constants.LINKER_SINGLE_FILE_OUTPUT_NAME,
             out_dir,
             linkers_to_write,
         )
-        writeSingleFile(
-            indicator, constants.FREEATOM_SINGLE_FILE_OUTPUT_NAME, out_dir, fa_to_write
-        )
+        writeSingleFile(indicator, constants.FREEATOM_SINGLE_FILE_OUTPUT_NAME, out_dir, fa_to_write)
 
     # test draw functions
     # brick_dict = [key.getRDKitObject() for key, value in brick_db.database.items()]
@@ -136,6 +130,10 @@ def write(options, brick_db, linker_db, fa_db, molecules=False):
     # draw.draw_grid_img(brick_dict[0], out_dir / 'test2.svg')
     # draw.draw_grid_img2(brick_dict[0], out_dir / 'test3.svg')
     # draw.highlight_cleave_sights(brick_dict[0], out_dir / 'test4.svg')
+
+    # Create Trace File
+    if options.TRACE:
+        log.error("Hi, this is the trace output tree.")
 
     # Draw Images
     img_dir = out_dir / "images"
