@@ -57,7 +57,7 @@ def chop(rdkit_mol):
     #
     # (6): Perform the actual chop
     #
-    return Fragmenter.fragmentAll(mol, bricks, linkers, freeatoms)
+    return Fragmenter.fragmentAll(mol, bricks, linkers, freeatoms), snips
 
 
 def chopall(mols):
@@ -72,6 +72,7 @@ def chopall(mols):
     brick_db = MDB.MoleculeDatabase(constants.DEFAULT_TC_UNIQUENESS)
     linker_db = MDB.MoleculeDatabase(constants.DEFAULT_TC_LINKER_UNIQUENESS)
     fa_db = MDB.MoleculeDatabase(constants.DEFAULT_TC_LINKER_UNIQUENESS)
+    snip_db = MDB.MoleculeDatabase()
 
     for mol in mols:
         log.info(f"Processing molecule {mol.getFileName()}.")
@@ -79,7 +80,7 @@ def chopall(mols):
         #
         # Chop
         #
-        bricks, linkers, freeatoms = chop(mol.getRDKitObject())
+        (bricks, linkers, freeatoms), snips = chop(mol.getRDKitObject())
 
         #
         # Process the results
@@ -95,5 +96,9 @@ def chopall(mols):
         results = fa_db.addAll([FreeAtom.FreeAtom(fa, mol, suffix=index) for index, fa in enumerate(freeatoms)])
 
         log.info(f"Added {len(freeatoms)} freeatom{'s'[:len(freeatoms)^1]};\t({len(results)} TC-Unique)")
+
+        # results = snip_db.addAll(snips)
+
+        log.warn(f"Added {len(snips)} snips{'s'[:len(snips)^1]};\t({len(results)} TC-Unique)")
 
     return brick_db, linker_db, fa_db

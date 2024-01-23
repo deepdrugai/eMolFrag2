@@ -27,7 +27,7 @@ def mol_to_nx(mol):
 
 
 def example():
-    # convert smiles string into a molecule EXAMPLE WITH CAFFEINE MOL
+    # convert smiles string into a molecule (EXAMPLE WITH CAFFEINE MOL)
     mol_smile = "CN1C=NC2=C1C(=O)N(C(=O)N2C)C"
     mol = Chem.MolFromSmiles(mol_smile)
 
