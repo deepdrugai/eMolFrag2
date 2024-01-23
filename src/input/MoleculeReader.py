@@ -129,7 +129,6 @@ def getMolecules(files):
     mols = []
 
     for current_file in files:
-
         # get the contents of the file and the file type (extension) for processing
         file_contents = fileToString(current_file)
 
