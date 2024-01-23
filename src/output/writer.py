@@ -38,7 +38,7 @@ def prepareDirectory(out_path):
     del new_path, i
 
     # Create the diretory
-    out_path.mkdir()
+    out_path.mkdir(parents=True)
 
     # Return new path
     return out_path
@@ -116,12 +116,7 @@ def write(options, brick_db, linker_db, fa_db, molecules=False):
     # Write all fragments to a single brick and a signle linker file
     else:
         writeSingleFile(indicator, constants.BRICK_SINGLE_FILE_OUTPUT_NAME, out_dir, bricks_to_write)
-        writeSingleFile(
-            indicator,
-            constants.LINKER_SINGLE_FILE_OUTPUT_NAME,
-            out_dir,
-            linkers_to_write,
-        )
+        writeSingleFile(indicator, constants.LINKER_SINGLE_FILE_OUTPUT_NAME, out_dir, linkers_to_write)
         writeSingleFile(indicator, constants.FREEATOM_SINGLE_FILE_OUTPUT_NAME, out_dir, fa_to_write)
 
     # test draw functions
