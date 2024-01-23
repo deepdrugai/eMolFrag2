@@ -4,7 +4,7 @@ from pathlib import Path
 # from eMolFrag2.src.representation import MoleculeDatabase
 from eMolFrag2.src.utilities.logging import log
 from eMolFrag2.src.utilities import constants
-from eMolFrag2.src.output import stats, draw, trace
+from eMolFrag2.src.output import stats, draw, trace, networktext
 
 
 def writeMolImgsFromDB(db, out_dir):
@@ -134,6 +134,7 @@ def write(options, brick_db, linker_db, fa_db, molecules=False):
     # Create Trace File
     if options.TRACE:
         log.error("Hi, this is the trace output tree.")
+        trace.example()
 
     # Draw Images
     img_dir = out_dir / "images"
