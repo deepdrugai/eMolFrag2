@@ -4,7 +4,7 @@ from pathlib import Path
 # from eMolFrag2.src.representation import MoleculeDatabase
 from eMolFrag2.src.utilities.logging import log
 from eMolFrag2.src.utilities import constants
-from eMolFrag2.src.output import stats, draw
+from eMolFrag2.src.output import stats, draw, trace
 
 
 def writeMolImgsFromDB(db, out_dir):
