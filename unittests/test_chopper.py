@@ -13,9 +13,8 @@ from eMolFrag2.src.input.MoleculeReader import to_mol
 dir = Path(__file__).parent / "data/chopper"
 
 
-@pytest.mark.parametrize("cwd, cwdex", [(dir / f"mol2-{n}", dir / f"mol2-{n}-out") for n in range(1, 4)])
+@pytest.mark.parametrize("cwd, cwdex", [(dir / f"mol2-{n}", dir / f"mol2-{n}-out-joined") for n in range(1, 4)])
 def test_chopall(cwd, cwdex):
-
     elinks = [file for file in cwdex.iterdir() if str(file.name).startswith("l-")]
     ebricks = [file for file in cwdex.iterdir() if str(file.name).startswith("b-")]
     elinks = [SDMolSupplier(str(cwdex / x)) for x in elinks]
