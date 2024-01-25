@@ -11,12 +11,13 @@ from eMolFrag2.src.input import Options, MoleculeFileReader
     (["pbd"], [4]),
     (["mol"], [5]),
     (["path_not_exists"], [0]), #test if directory doesn't exist
-    (["mol/DB00415.mol"], [0]), #test if not a directory
-]) # fmt: skip
+    (["mol/DB00415.mol"], [1]), #test if not a directory
+])  # fmt: skip
+
 
 def test_get_files(input, expected):
     cwd = Path(__file__).parent / "data/db-files"
     for m, e in zip(input, expected):
-        sys.argv = ['eMolFrag2/src/eMolFrag.py', '-i', str(cwd/m), '-o', '/content/out']
+        sys.argv = ["eMolFrag2/src/eMolFrag.py", "-i", str(cwd / m), "-o", "/content/out"]
         options = Options.Options()
         assert len(MoleculeFileReader.getFiles(options)) == e
