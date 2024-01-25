@@ -1,14 +1,8 @@
-# from rdkit import Chem
-from eMolFrag2.src.utilities import constants  # , tc
+from eMolFrag2.src.utilities import constants
 from eMolFrag2.src.utilities.logging import log
-from eMolFrag2.src.chopper import Preprocessor
-from eMolFrag2.src.chopper import Deconstructor
-from eMolFrag2.src.chopper import Connectivity
-from eMolFrag2.src.chopper import Fragmenter
+from eMolFrag2.src.chopper import Preprocessor, Deconstructor, Connectivity, Fragmenter
 from eMolFrag2.src.representation import MoleculeDatabase as MDB
-from eMolFrag2.src.representation import Brick
-from eMolFrag2.src.representation import Linker
-from eMolFrag2.src.representation import FreeAtom
+from eMolFrag2.src.representation import Brick, Linker, FreeAtom
 
 
 def chop(rdkit_mol):
