@@ -158,6 +158,7 @@ def deconstruct(rdkit_mol):
             bricks (set): Set of bricks (as tuples of integers)
             linkers (set): Set of linkers (joined) (as tuples of integers)
             snips (set): Set of snips (joined) (set of 2-tuples)
+            freeatoms (set): Set of freeatoms
     """
 
     # Acquire an adjacency list of the graph corresponding to the input molecule
@@ -179,8 +180,5 @@ def deconstruct(rdkit_mol):
     log.debug(f"atomlist: {atomlist}")
     log.debug(f"atomfraglist: {atomfraglist}")
     log.debug(f"freeatoms: {freeatoms}")
-
-    # logger.setLevel("WARN")
-    # logger.setLevel("DEBUG")
 
     return computeFragmentsAndSnips(nxfrags, snips, freeatoms)
