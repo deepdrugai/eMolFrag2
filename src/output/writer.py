@@ -32,7 +32,7 @@ def prepareDirectory(out_path):
         new_path = out_path.parent / f"{out_path.name}-{i}"
         i += 1
     else:
-        log.info(f"Output path {new_path.resolve()} does not exist; will be created.")
+        log.debug(f"Output path {new_path.resolve()} does not exist, will be created.")
 
     out_path = new_path
     del new_path, i
