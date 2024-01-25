@@ -99,6 +99,6 @@ def chopall(mols):
 
         # results = snip_db.addAll(snips)
 
-        log.warn(f"Added {len(snips)} snips{'s'[:len(snips)^1]};\t({len(results)} TC-Unique)")
+        log.warning(f"Added {len(snips)} snip{'s'[:len(snips)^1]}.")
 
     return brick_db, linker_db, fa_db
