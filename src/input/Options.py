@@ -16,7 +16,7 @@ from eMolFrag2.src.input import ConfigReader
 
 INPUT_ARG = "i"
 OUTPUT_ARG = "o"
-LOGGING_ARG = "l"
+LOGGING_ARG = "log"
 CONFIGURATION_FILE_ARG = "c"
 ALL_FRAGMENTS_ARG = "all"
 INDIVIDUAL_FILE_ARG = "indiv"
@@ -80,14 +80,15 @@ class Options:
             required=True,
         )
 
-        parser.add_argument("-d", dest="debug", action="store_true", help="Quick flag to set logging level to debug.")
+        parser.add_argument("-d", "--debug", dest="debug", action="store_true", help="Quick flag to set logging level to debug.")
 
         parser.add_argument(
-            "-" + LOGGING_ARG,
+            "-l",
+            "--" + LOGGING_ARG,
             dest="logLevel",
             choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
-            # default = 'INFO',
-            default="DEBUG",  # NOTE: Set to DEBUG until we decide to move to production
+            default="INFO",
+            # default="DEBUG",  # NOTE: Set to DEBUG until we decide to move to production
             type=str.upper,
             help="Set the logging level to print to console.",
         )
@@ -95,7 +96,8 @@ class Options:
         parser.add_argument("-" + CONFIGURATION_FILE_ARG, type=str, help="Configuration file: .emf extension required.)")
 
         parser.add_argument(
-            "-" + ALL_FRAGMENTS_ARG,
+            "-a",
+            "--" + ALL_FRAGMENTS_ARG,
             action="store_true",
             default=self.INDIVIDUAL,
             help="Output all fragments (all non-unique molecules)",
@@ -109,7 +111,8 @@ class Options:
         )
 
         parser.add_argument(
-            "-" + TRACE_ARG,
+            "-t",
+            "--" + TRACE_ARG,
             action="store_true",
             default=self.TRACE,
             help="Print trace file for reconstruction.",
