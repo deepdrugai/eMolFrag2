@@ -582,7 +582,7 @@ def write_network_text(
         ascii_only=ascii_only,
         vertical_chains=vertical_chains,
     ):
-        _write(line + end)
+        _write("# " + line + end)
 
 
 def _find_sources(graph):
