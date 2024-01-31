@@ -18,10 +18,18 @@ class Molecule:
                    * In the case where our molecule is direct from a file,
                      this will be None
         """
+        # Assign original molecule idx to every atom if mol not a fragment
+        if parentMol is None:
+            for a in rdkit_mol.GetAtoms():
+                a.SetIntProp("original_idx", a.GetIdx())
+
         self.rdkitObject = rdkit_mol
         self.filename = file_name
         self.parent = parentMol
         self.similar = []
+
+    def fragment(self):
+        return True if self.parent else False
 
     def getParent(self):
         return self.parent

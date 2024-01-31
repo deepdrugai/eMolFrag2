@@ -77,7 +77,24 @@ def writeIndividualFiles(out_dir, mols, extension=constants.SDF_FORMAT_EXT):
             f.write(mol.toSDF())
 
 
-def write(options, brick_db, linker_db, fa_db, molecules=False):
+def writeTraceFiles(out_dir, snip_db, mols, extension=constants.TRACE_FORMAT_EXT):
+    """
+    Write trace (reconstruction) files.
+    snip_db -- Snip database
+    out_dir -- output directory path
+    mols -- the actual Molecule objects to write
+    """
+    for mol in mols:
+        fname = f"t-{mol.getFileName()}{extension}"
+        out_path = out_dir / fname
+        log.debug(f"Writing trace to {out_path}")
+        with out_path.open("w") as f:
+            f.write("# " + mol.getFileName() + "\n")
+            for snipa, snipb in snip_db[mol.getFileName()]:
+                f.write(str(snipa) + "\t" + str(snipb) + "\n")
+
+
+def write(options, brick_db, linker_db, fa_db, snip_db, molecules=False):
     """
     Main output routine
     The focus is what fragments (unique OR all) and format how to
@@ -128,8 +145,11 @@ def write(options, brick_db, linker_db, fa_db, molecules=False):
 
     # Create Trace File
     if options.TRACE:
-        log.error("Hi, this is the trace output tree.")
-        trace.example()
+        # for mol in molecules:
+        # log.error(f"{mol.getFileName()}'s snips: {snip_db[mol.getFileName()]}")
+        writeTraceFiles(out_dir, snip_db, molecules)
+        # log.error("Hi, this is the drawn trace output tree.")
+        # trace.example()
 
     # Draw Images
     img_dir = out_dir / "images"

@@ -66,7 +66,7 @@ def chopall(mols):
     brick_db = MDB.MoleculeDatabase(constants.DEFAULT_TC_UNIQUENESS)
     linker_db = MDB.MoleculeDatabase(constants.DEFAULT_TC_LINKER_UNIQUENESS)
     fa_db = MDB.MoleculeDatabase(constants.DEFAULT_TC_LINKER_UNIQUENESS)
-    snip_db = MDB.MoleculeDatabase()
+    snip_db = {}
 
     for mol in mols:
         log.info(f"Processing molecule {mol.getFileName()}.")
@@ -91,8 +91,32 @@ def chopall(mols):
 
         log.info(f"Added {len(freeatoms)} freeatom{'s'[:len(freeatoms)^1]};\t({len(results)} TC-Unique)")
 
-        # results = snip_db.addAll(snips)
+        #
+        # Handle snips and convert atom ids
+        #
+        og_map = {}
+        for mdb in [brick_db, linker_db, fa_db]:
+            for frag in mdb.GetAllMolecules():
+                for a in frag.getRDKitObject().GetAtoms():
+                    id = a.GetIdx()
+                    id_og = a.GetIntProp("original_idx")
 
-        log.warning(f"Added {len(snips)} snip{'s'[:len(snips)^1]}.")
+                    # Check if the id_og is in any of the snips
+                    found = any(id_og in snip for snip in snips)
 
-    return brick_db, linker_db, fa_db
+                    # Iterate through each snip in snips and add mapping to og_map
+                    if found:
+                        og_map = og_map | {id_og: f"{frag.getFileName()}-{id:03d} ({a.GetSymbol()} {id_og})" for snip in snips if id_og in snip}
+
+        # Create a new set of snips with replaced/mapped keys
+        snips_new = set()
+
+        for snip in snips:
+            temp_tuple = tuple(og_map[key] for key in snip if key in og_map)
+            snips_new.add(temp_tuple)
+
+        snip_db[mol.getFileName()] = snips_new
+
+        log.info(f"Added {len(snips)} snip{'s'[:len(snips)^1]}.")
+
+    return brick_db, linker_db, fa_db, snip_db
