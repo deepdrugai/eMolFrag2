@@ -89,14 +89,16 @@ def writeTraceFiles(out_dir, snip_db, mols, extension=constants.TRACE_FORMAT_EXT
         out_path = out_dir / fname
         log.debug(f"Writing trace to {out_path}")
 
-        # generate network text
-        mol_nx = trace.mol_to_nx(mol.getRDKitObject())
-        nt.write_network_text(mol_nx, with_labels="atom_symbol", path=out_path)
-
         with out_path.open("a") as f:
+            # Mol Name
+            f.write("# " + mol.getFileName() + "\t(" + fname + ")\n")
             f.write("\n" * 1)
-            f.write("# " + mol.getFileName() + "\n")
+
+            # generate network text
+            mol_nx = trace.mol_to_nx(mol.getRDKitObject())
+            nt.write_network_text(mol_nx, with_labels="atom_symbol", path=f)
             f.write("\n" * 2)
+
             # write snips
             for snipa, snipb in snip_db[mol.getFileName()]:
                 f.write(str(snipa) + "\t" + str(snipb) + "\n")
@@ -157,7 +159,7 @@ def write(options, brick_db, linker_db, fa_db, snip_db, molecules=False):
         # log.error(f"{mol.getFileName()}'s snips: {snip_db[mol.getFileName()]}")
         writeTraceFiles(out_dir, snip_db, molecules)
         # log.error("Hi, this is the drawn trace output tree.")
-        trace.example()
+        # trace.example()
 
     # Draw Images
     img_dir = out_dir / "images"
