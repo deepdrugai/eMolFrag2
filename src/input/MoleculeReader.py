@@ -43,13 +43,13 @@ def convertToRDkit(contents, path):
     Attempt to read and convert the input file into an RdKit.Mol object
 
     @input: contents -- string contents of a file
-    @input: mol)file -- input molecule file name
+    @input: mol_file -- input molecule file name
 
     @output: rdkit_mol -- rdkit molecule object
     """
 
     extension = path.suffix
-    # log.debug(f"Running {path}, with extension: {extension}.")
+    log.debug(f"Running {path} as extension: {extension}.")
 
     if extension not in constants.ACCEPTED_FORMATS:
         log.error(f"Input file type with extension {extension} ({path.name}) not supported.")
@@ -145,12 +145,12 @@ def getMolecules(files):
                 log.warning(f"Molecule {current_file} empty.")
                 continue
             elif isinstance(mol, list):
+                log.debug(f"{mol = }")
                 mols += [
-                    Molecule(setAtomTypes(mol), f"{current_file.name}")
-                    if name is None
-                    else Molecule(setAtomTypes(mol), f"{current_file.name}-{name}")
+                    Molecule(setAtomTypes(mol), f"{current_file.stem}-{name}") if name
+                    else Molecule(setAtomTypes(mol), f"{current_file.stem}")
                     for name, mol in mol
-                ]
+                ]  # fmt: skip
             else:
                 mols += [Molecule(setAtomTypes(mol), current_file.name)]
 

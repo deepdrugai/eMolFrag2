@@ -1,5 +1,6 @@
 from eMolFrag2.src.utilities.logging import log
 
+
 #
 # We will handle two formats for SMILES; these formats can be intermixed
 # in the same file:
@@ -20,20 +21,23 @@ def parse(contents):
     mols = []
 
     for line in contents.split("\n"):
-
         # Tokenize while trimming whitespace
         tokens = [token.strip() for token in line.split()]
 
-        # A molecule is its own ID
+        # Empty ID is not added to filename
         if len(tokens) == 1:
-            mols.append((tokens[0], tokens[0]))
+            mols.append(((), tokens[0]))
 
         # An ID has been specified
         elif len(tokens) == 2:
             mols.append((tokens[1], tokens[0]))
 
         elif len(tokens) > 2:
-            log.error(f'Expected SMILES file format. Either MOL\n or "smi id" expected, not {line}')
+            log.error(
+                "File format error: Each line should contain only a SMILES string and an optional ID. "
+                "Lines exceeding this limit will be processed by considering only the first two elements."
+            )
+            mols.append((tokens[1], tokens[0]))
 
         else:
             pass  # Ignore blank lines
