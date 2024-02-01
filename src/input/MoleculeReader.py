@@ -147,10 +147,10 @@ def getMolecules(files):
             elif isinstance(mol, list):
                 log.debug(f"{mol = }")
                 mols += [
-                    Molecule(setAtomTypes(mol), f"{current_file.stem}-{name}") if name
+                    Molecule(setAtomTypes(mol), f"{current_file.stem}-{name}") if name and current_file.stem != name
                     else Molecule(setAtomTypes(mol), f"{current_file.stem}")
                     for name, mol in mol
-                ]  # fmt: skip
+                ]
             else:
                 mols += [Molecule(setAtomTypes(mol), current_file.name)]
 
