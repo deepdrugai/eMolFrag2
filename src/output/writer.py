@@ -6,6 +6,8 @@ from eMolFrag2.src.utilities.logging import log
 from eMolFrag2.src.utilities import constants
 from eMolFrag2.src.output import stats, draw, trace, networktext as nt
 
+from rdkit.Chem import MolToSmiles
+
 
 def writeMolImgsFromDB(db, out_dir):
     for key, value in db.database.items():
@@ -92,7 +94,7 @@ def writeTraceFiles(out_dir, snip_db, mols, extension=constants.TRACE_FORMAT_EXT
         with out_path.open("a") as f:
             # Mol Name
             f.write("# " + mol.getFileName() + "\t(" + fname + ")\n")
-            f.write("\n" * 1)
+            f.write("\n")
 
             # generate network text
             mol_nx = trace.mol_to_nx(mol.getRDKitObject())
@@ -102,6 +104,10 @@ def writeTraceFiles(out_dir, snip_db, mols, extension=constants.TRACE_FORMAT_EXT
             # write snips
             for snipa, snipb in snip_db[mol.getFileName()]:
                 f.write(str(snipa) + "\t" + str(snipb) + "\n")
+            f.write("\n")
+
+            # write smiles target
+            f.write("target:\t" + MolToSmiles(mol.getFileName()) + "\n")
 
 
 def write(options, brick_db, linker_db, fa_db, snip_db, molecules=False):
