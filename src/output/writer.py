@@ -9,12 +9,16 @@ from eMolFrag2.src.output import stats, draw, trace, networktext as nt
 from rdkit.Chem import MolToSmiles
 
 
-def writeMolImgsFromDB(db, out_dir):
-    for key, value in db.database.items():
-        draw.draw_mol(
-            key.getRDKitObject(),
-            out_dir / (str(key)[: str(key).index(".sdf")] + ".png"),
-        )
+def writeMolImgsFromDB(db, out_dir, filetype=".png"):
+    # log.debug(f"{db = }")
+    # log.debug(f"{db.database = }")
+    # log.debug(f"{db.database.items() = }")
+    # log.debug(f"{db.GetAllMolecules() = }")
+    for mol in db.GetAllMolecules():
+        rdkitmol = mol.getRDKitObject()
+        fragname = Path(mol.filename).stem
+        # log.debug(f"{fragname = }\t{rdkitmol = }")
+        draw.draw_mol(rdkitmol, out_dir / (fragname + filetype))  # Valid choices are pdf, svg, ps, and png
 
 
 def prepareDirectory(out_path):
@@ -107,7 +111,7 @@ def writeTraceFiles(out_dir, snip_db, mols, extension=constants.TRACE_FORMAT_EXT
             f.write("\n")
 
             # write smiles target
-            f.write("target:\t" + MolToSmiles(mol.getFileName()) + "\n")
+            f.write("target:\t" + MolToSmiles(mol.getRDKitObject()) + "\n")
 
 
 def write(options, brick_db, linker_db, fa_db, snip_db, molecules=False):
