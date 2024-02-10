@@ -1,71 +1,75 @@
-
-from eMolFrag2.src.utilities import constants
+from eMolFrag2.src.utilities.constants import INPUT_ARG, OUTPUT_ARG, EMF_FORMAT_EXT
 from eMolFrag2.src.utilities.logging import log
 from pathlib import Path
 
+
 def cleanCommandList(cmdList):
-  """
-      Trims whitespace and other discrepancies
-      
-      @output: a list of flags and arguments
-  """
-  retList = []
-  bad_tokens = ["", " ", "\n"]
-  for token in cmdList:
-    if token not in bad_tokens:
-      retList.append(token)
+    """
+    Trims whitespace and other discrepancies
 
-  return retList
-    
+    @output: a list of flags and arguments
+    """
+    retList = []
+    bad_tokens = ["", " ", "\n"]
+    for token in cmdList:
+        if token not in bad_tokens:
+            retList.append(token)
+
+    return retList
+
+
 def grabCommands(config_file):
-  """
-      Takes the string contents of a configuration file
-      and grabs its command line arguments.
-      If there are comments, ignore anything to the right of it
-      
-      @output: a list of flags and arguments
-  """
-  retString = ""
-  position = 0
+    """
+    Takes the string contents of a configuration file
+    and grabs its command line arguments.
+    If there are comments, ignore anything to the right of it
 
-  with open (config_file) as f:
-    contents = f.readlines()
+    @output: a list of flags and arguments
+    """
+    retString = ""
+    position = 0
 
-  #Read line by line, ignore comments, concatenate the remaining tokens into one string
-  for line in contents:
-      position = line.find("#")
-      if (position >= 0):
-          retString += line[:position]
-      else:
-          retString += line
+    with open(config_file) as f:
+        contents = f.readlines()
 
-  if (len(retString) <= 0):
-    log.error(f"Configuration File is empty")
-    return None
+    # Read line by line, ignore comments, concatenate the remaining tokens into one string
+    for line in contents:
+        position = line.find("#")
+        if position >= 0:
+            retString += line[:position]
+        else:
+            retString += line
 
-  return cleanCommandList(retString.split(" "))
+    if len(retString) <= 0:
+        log.error(f"Configuration File is empty")
+        return None
+
+    return cleanCommandList(retString.split(" "))
+
 
 def readConfig(config_file, parser):
-  """
-      Reads a config file and parses arguments
-      If the file is empty, throw an error
-      
-      @output: parsed arguments from argparser
-  """
-  if not Path(config_file).exists():
-    log.error(f"{Path(config_file)} does not exist")
-    return None
+    """
+    Reads a config file and parses arguments
+    If the file is empty, throw an error
 
-  if Path(config_file).suffix != constants.EMF_FORMAT_EXT:
-    log.error(f"Configuration files must have the {constants.EMF_FORMAT_EXT} extension")
-    return None
+    @output: parsed arguments from argparser
+    """
+    if not Path(config_file).exists():
+        log.error(f"{Path(config_file)} does not exist")
+        return None
 
-  #Grab the commands and then parse them
-  cmdList = grabCommands(config_file)
+    if Path(config_file).suffix != EMF_FORMAT_EXT:
+        log.error(f"Configuration files must have the {EMF_FORMAT_EXT} extension")
+        return None
 
-  args = parser.parse_args(cmdList)
-  if args.i is None or args.o is None:
-    log.error(f'Command-line arguments failed to parse; execution of eMolFrag will stop.')
-    return None
+    # Grab the commands and then parse them
+    cmdList = grabCommands(config_file)
 
-  return args
+    args = parser.parse_args(cmdList)
+    input = getattr(args, INPUT_ARG)
+    output = getattr(args, OUTPUT_ARG)
+    if input is None or output is None:
+        log.error(f"Command-line arguments failed to parse; execution of eMolFrag will stop.")
+        return None
+
+    return args

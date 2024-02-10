@@ -3,6 +3,14 @@
 #
 # INPUT CONSTANTS
 #
+INPUT_ARG = "input"
+OUTPUT_ARG = "output"
+LOGGING_ARG = "log"
+CONFIGURATION_FILE_ARG = "config"
+ALL_FRAGMENTS_ARG = "all"
+INDIVIDUAL_FILE_ARG = "indiv"
+TRACE_ARG = "trace"
+DEFAULT_LOG_LEVEL = "INFO"
 
 # RDKit can use mol2, mol, smiles, smarts, FASTA, HELM, PDB, PNG
 FASTA_FORMAT_EXT = ".fasta"

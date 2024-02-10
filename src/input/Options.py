@@ -3,6 +3,7 @@ import sys
 
 from eMolFrag2.src.utilities.logging import log
 from eMolFrag2.src.input import ConfigReader
+from eMolFrag2.src.utilities.constants import *
 
 #
 # Arg     Explanation
@@ -10,17 +11,20 @@ from eMolFrag2.src.input import ConfigReader
 # -i      input folder path
 # -o      output folder path
 # -u      output only TC-unique fragments
-# -indiv  output all fragments in indivudal files
+# -n      output all fragments in indivdual files
 # -c      parameters specified in a configuration file
 #
 
-INPUT_ARG = "i"
-OUTPUT_ARG = "o"
-LOGGING_ARG = "log"
-CONFIGURATION_FILE_ARG = "c"
-ALL_FRAGMENTS_ARG = "all"
-INDIVIDUAL_FILE_ARG = "indiv"
-TRACE_ARG = "trace"
+# Values in constants.py:
+# ------------------------
+# INPUT_ARG = "input"
+# OUTPUT_ARG = "output"
+# LOGGING_ARG = "log"
+# CONFIGURATION_FILE_ARG = "config"
+# ALL_FRAGMENTS_ARG = "all"
+# INDIVIDUAL_FILE_ARG = "indiv"
+# TRACE_ARG = "trace"
+# DEFAULT_LOG_LEVEL = "INFO"
 
 
 class Options:
@@ -66,57 +70,85 @@ class Options:
                 self.print_help()
                 sys.exit(2)
 
-        parser = MyParser(description="eMolFrag2")
+        parser = MyParser(
+            prog="eMolFrag2",
+            description=f"eMolFrag 2.0 is a molecular fragmentation tool based on BRICS algorithm written in Python. \nThe options for this program are as follows:",
+            add_help=False,
+            # epilog=f"Example: eMolFrag2 -i /path/to/input -o /path/to/output -u -n -c /path/to/config.emf\n\n",
+            epilog="Examples:\n"
+            "  $ python emfragment.py -i data/test_data/ -o results/\n"
+            "  $ python emfragment.py -i data/test_data/ -o results/ -a -nt\n"
+            "  $ python emfragment.py -i data/test_data.smi -o results/\n"
+            "  $ python emfragment.py -i data/test_data.sdf -o results/ -c config.emf\n"
+            "  $ python emfragment.py -i data/test_data.mol2 -o results/ -an\n\n"
+            "Note: The default configuration assumes that your input contains RDKit Mol objects serialized as SMILES or MOL2 format.\n"
+            f"You can customize the behavior by providing a {EMF_FORMAT_EXT} configuration file (-c option).",
+            # formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+            formatter_class=argparse.RawDescriptionHelpFormatter,
+        )
 
-        #
         # eMolFrag arguments
         #
-        parser.add_argument("-" + INPUT_ARG, type=str, help="Input path to molecules to fragment", required=True)
+        parser.add_argument(
+            "-" + INPUT_ARG[0],
+            "--" + INPUT_ARG,
+            type=str,
+            help="Path containing source molecules for fragmentation. Single file or directory.",
+            required=True,
+        )
 
         parser.add_argument(
-            "-" + OUTPUT_ARG,
+            "-" + OUTPUT_ARG[0],
+            "--" + OUTPUT_ARG,
             type=str,
-            help="Output path for fragments (existing files will be overwritten.)",
+            help="Path for output fragments. If the directory does not exist, it will be created.",
             required=True,
+        )
+
+        parser.add_argument(
+            "-" + LOGGING_ARG[0],
+            "--" + LOGGING_ARG,
+            dest="logLevel",
+            choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
+            default=DEFAULT_LOG_LEVEL,
+            type=str.upper,
+            help=f"Set the logging level to print to console. Default is {DEFAULT_LOG_LEVEL}.",
+        )
+
+        parser.add_argument(
+            "-" + CONFIGURATION_FILE_ARG[0],
+            "--" + CONFIGURATION_FILE_ARG,
+            type=str,
+            help="Configuration file: .emf extension required.)",
+        )
+
+        parser.add_argument(
+            "-" + ALL_FRAGMENTS_ARG[0],
+            "--" + ALL_FRAGMENTS_ARG,
+            action="store_true",
+            default=self.INDIVIDUAL,
+            help="Output all non-unique fragments. Default is to output only TC-unique fragments.",
+        )
+
+        parser.add_argument(
+            "-" + INDIVIDUAL_FILE_ARG[1],
+            "--" + INDIVIDUAL_FILE_ARG,
+            action="store_true",
+            default=self.ALL_FRAGMENTS,
+            help="Each fragment will be saved individually in separate files. Default is to save in one unified file each for bricks, linkers, and freeatoms.",
+        )
+
+        parser.add_argument(
+            "-" + TRACE_ARG[0],
+            "--" + TRACE_ARG,
+            action="store_true",
+            default=self.TRACE,
+            help="Print trace file for reconstructing original molecules.",
         )
 
         parser.add_argument("-d", "--debug", dest="debug", action="store_true", help="Quick flag to set logging level to debug.")
 
-        parser.add_argument(
-            "-l",
-            "--" + LOGGING_ARG,
-            dest="logLevel",
-            choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
-            default="INFO",
-            # default="DEBUG",  # NOTE: Set to DEBUG until we decide to move to production
-            type=str.upper,
-            help="Set the logging level to print to console.",
-        )
-
-        parser.add_argument("-" + CONFIGURATION_FILE_ARG, type=str, help="Configuration file: .emf extension required.)")
-
-        parser.add_argument(
-            "-a",
-            "--" + ALL_FRAGMENTS_ARG,
-            action="store_true",
-            default=self.INDIVIDUAL,
-            help="Output all fragments (all non-unique molecules)",
-        )
-
-        parser.add_argument(
-            "-" + INDIVIDUAL_FILE_ARG,
-            action="store_true",
-            default=self.ALL_FRAGMENTS,
-            help="Fragment will be output in their own individual files",
-        )
-
-        parser.add_argument(
-            "-t",
-            "--" + TRACE_ARG,
-            action="store_true",
-            default=self.TRACE,
-            help="Print trace file for reconstruction.",
-        )
+        parser.add_argument("-h", "--help", action="help", default=argparse.SUPPRESS, help="Show this help message and exit.")
 
         args = parser.parse_args()
 
@@ -126,13 +158,14 @@ class Options:
             log.setLevel("DEBUG")
 
         # Configuration file used for execution
-        if args.c is not None:
+        config = getattr(args, CONFIGURATION_FILE_ARG)
+        if config is not None:
             # Did the user state more than "eMolFrag2 -c *.emf"?
             if len(sys.argv) > 3:
                 log.warning(f"Configuration file specified. All other command-line arguments ignored.")
 
             # TODO: Read config file
-            args = ConfigReader.readConfig(args.c, parser)
+            args = ConfigReader.readConfig(config, parser)
 
         return args
 
@@ -141,6 +174,8 @@ class Options:
         Set the user-defined options
         """
         for arg in vars(arg_env):
+            log.debug(f"{(arg+':').upper():<11}{vars(arg_env)[arg]}")
+
             if arg == INPUT_ARG:
                 self.INPUT_PATH = getattr(arg_env, arg)
 
