@@ -18,15 +18,15 @@ class Molecule:
                    * In the case where our molecule is direct from a file,
                      this will be None
         """
-        # Assign original molecule idx to every atom if mol not a fragment
-        if parentMol is None:
-            for a in rdkit_mol.GetAtoms():
-                a.SetIntProp("original_idx", a.GetIdx())
-
         self.rdkitObject = rdkit_mol
         self.filename = file_name
         self.parent = parentMol
         self.similar = []
+
+        # Assign original molecule idx to every atom if mol not a fragment
+        if parentMol is None and rdkit_mol:
+            for a in rdkit_mol.GetAtoms():
+                a.SetIntProp("original_idx", a.GetIdx())
 
     def fragment(self):
         return True if self.parent else False
@@ -108,9 +108,15 @@ class Molecule:
         try:
             writer.write(self.rdkitObject)
         except Chem.rdchem.KekulizeException:
-            log.error("Can't kekulize mol, SDWriter can't write unkekulized mol to file.")
+            log.error(f"Can't kekulize mol, SDWriter can't write unkekulized mol to file.")
         except Exception:
             log.error("Can't write mol to file.")
         writer.close()
 
         return sio.getvalue()
+
+        # suppl = Chem.ResonanceMolSupplier(self.rdkitObject, Chem.KEKULE_ALL)
+        # mols = [self.rdkitObject] + [m for m in suppl]
+        # log.info(mols)
+        # smilewriter = Chem.SmilesWriter("self.rdkitObject")
+        # smilewriter.write(sio)
