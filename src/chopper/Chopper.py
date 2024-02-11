@@ -106,7 +106,7 @@ def chopall(mols):
 
                     # Iterate through each snip in snips and add mapping to og_map
                     if found:
-                        og_map = og_map | {id_og: f"{frag.getFileName()}-{id:03d} ({a.GetSymbol()} {id_og})" for snip in snips if id_og in snip}
+                        og_map.update({id_og: f"{frag.getFileName()}-{id:03d} ({a.GetSymbol()} {id_og})" for snip in snips if id_og in snip})
 
         # Create a new set of snips with replaced/mapped keys
         snips_new = set()
