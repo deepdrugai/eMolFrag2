@@ -98,6 +98,22 @@ class Molecule:
         similar_appendix = "\n".join(sim_mol.getFileName() for sim_mol in self.similar)
         self.rdkitObject.SetProp(constants.SDF_OUTPUT_SIMILAR_FRAGMENTS, similar_appendix)
 
+        from rdkit import Chem
+
+        def get_sdf_string(molecule):
+            # Adjust properties and handle aromaticity without forcing kekulization
+            molecule.UpdatePropertyCache(strict=False)
+            Chem.GetSymmSSSR(molecule)
+            Chem.SanitizeMol(molecule, Chem.SANITIZE_ALL ^ Chem.SANITIZE_KEKULIZE)
+            sdf_string = Chem.MolToMolBlock(molecule)
+            return sdf_string
+
+        from rdkit import Chem
+
+        def try_kekulize(mol):
+            Chem.Kekulize(mol, clearAromaticFlags=True)
+            return Chem.MolToMolBlock(mol)
+
         #
         # Output the SDF formated string
         #
@@ -105,16 +121,29 @@ class Molecule:
 
         sio = StringIO()
         writer = Chem.SDWriter(sio)
+        sdf_string = ""
+
         try:
+            # log.debug("Try writing mol to file.")
             writer.write(self.rdkitObject)
         except Chem.rdchem.KekulizeException:
-            log.error(f"Can't kekulize mol, SDWriter can't write unkekulized mol to file.")
-        except Exception:
-            log.error("Can't write mol to file.")
-        writer.close()
+            log.warning("SDWriter failed to write mol to file. Trying get_sdf_string.")
+            sdf_string = get_sdf_string(self.rdkitObject)
+            if sdf_string:
+                log.debug("SDF generation successful without kekulization.")
+            else:
+                log.error("Failed at get_sdf_string; trying manual kekulization.")
+                sdf_string = try_kekulize(self.rdkitObject)
+                if sdf_string:
+                    log.warning("SDF generation successful with manual kekulization.")
+                else:
+                    log.error("Manual kekulization also failed.")
+        except Exception as e:
+            log.error(f"Failed to write mol to file: {str(e)}")
+        finally:
+            writer.close()
 
-        return sio.getvalue()
-
+        return sdf_string if sdf_string else sio.getvalue()
         # suppl = Chem.ResonanceMolSupplier(self.rdkitObject, Chem.KEKULE_ALL)
         # mols = [self.rdkitObject] + [m for m in suppl]
         # log.info(mols)
