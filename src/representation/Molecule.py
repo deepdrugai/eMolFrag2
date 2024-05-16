@@ -124,20 +124,20 @@ class Molecule:
         sdf_string = ""
 
         try:
-            # log.debug("Try writing mol to file.")
+            log.debug(f"Writing {self.filename} to file.")
             writer.write(self.rdkitObject)
         except Chem.rdchem.KekulizeException:
-            log.warning("SDWriter failed to write mol to file. Trying get_sdf_string.")
+            log.warning(f"SDWriter failed to write {self.filename} to file. Trying get_sdf_string.")
             sdf_string = get_sdf_string(self.rdkitObject)
             if sdf_string:
-                log.debug("SDF generation successful without kekulization.")
+                log.debug(f"{self.filename} SDF generation successful without kekulization.")
             else:
-                log.error("Failed at get_sdf_string; trying manual kekulization.")
+                log.error(f"Failed at get_sdf_string({self.filename}); trying manual kekulization.")
                 sdf_string = try_kekulize(self.rdkitObject)
                 if sdf_string:
-                    log.warning("SDF generation successful with manual kekulization.")
+                    log.warning(f"{self.filename} SDF generation successful with manual kekulization.")
                 else:
-                    log.error("Manual kekulization also failed.")
+                    log.error(f"Manual kekulization of {self.filename} failed.")
         except Exception as e:
             log.error(f"Failed to write mol to file: {str(e)}")
         finally:
