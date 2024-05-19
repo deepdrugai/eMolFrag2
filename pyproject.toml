@@ -5,13 +5,12 @@
 # https://packaging.python.org/en/latest/specifications/pyproject-toml/
 
 
+[build - system]
 # Choosing a build backend:
 # https://packaging.python.org/en/latest/tutorials/packaging-projects/#choosing-a-build-backend
-[build - system]
 # A list of packages that are needed to build your package:
-requires = ["setuptools"]  # REQUIRED if [build - system] table is used
-# The name of the Python object that frontends will use to perform the build:
-build - backend = "setuptools.build_meta"  # If not defined, then legacy behavior can happen.
+requires = ["setuptools"] # REQUIRED if [build - system] table is used
+build - backend = "setuptools.build_meta"  # If not defined, then legacy behavior can happen.# The name of the Python object that frontends will use to perform the build:
 
 
 [project]
@@ -26,14 +25,14 @@ build - backend = "setuptools.build_meta"  # If not defined, then legacy behavio
 # There are some restrictions on what makes a valid project name
 # specification here:
 # https://packaging.python.org/specifications/core-metadata/#name
-name = "eMolFrag"  # REQUIRED, is the only field that cannot be marked as dynamic.
+name = "eMolFrag" # REQUIRED, is the only field that cannot be marked as dynamic.
 
 # Versions should comply with PEP 440:
 # https://www.python.org/dev/peps/pep-0440/
 #
 # For a discussion on single - sourcing the version, see
 # https://packaging.python.org/guides/single-sourcing-package-version/
-version = "2.0.1"  # REQUIRED, although can be dynamic
+version = "2.0.1" # REQUIRED, although can be dynamic
 
 # This is a one - line description or tagline of what your project does.This
 # corresponds to the "Summary" metadata field:
@@ -50,12 +49,12 @@ description = "eMolFrag"
 # https://packaging.python.org/specifications/core-metadata/#description-optional
 readme = "README.md"
 
+requires - python = ">=3.8"
+
 # Specify which Python versions you support.In contrast to the
 # 'Programming Language' classifiers in this file, 'pip install' will check this
 # and refuse to install the project if the version does not match.See
 # https://packaging.python.org/guides/distributing-packages-using-setuptools/#python-requires
-requires - python = ">=3.8"
-
 # This is either text indicating the license for the distribution, or a file
 # that contains the license.
 # https://packaging.python.org/en/latest/specifications/core-metadata/#license
@@ -67,43 +66,41 @@ license = { file = "LICENSE.txt" }
 # Note that this is a list of additional keywords, separated
 # by commas, to be used to assist searching for the distribution in a
 # larger catalog.
-    keywords = ["eMolFrag", "fragment", "molecule"]
+keywords = ["eMolFrag", "fragment", "molecule"]
 
 # This should be your name or the name of the organization who originally
 # authored the project, and a valid email address corresponding to the name
 # listed.
-    authors = [
-        { name = "A. Random Developer", email = "author@example.com" }
-    ]
+authors = [{ name = "A. Random Developer", email = "author@example.com" }]
 
 # This should be your name or the names of the organization who currently
 # maintains the project, and a valid email address corresponding to the name
 # listed.
-    maintainers = [
-        { name = "A. Great Maintainer", email = "maintainer@example.com" }
-    ]
+maintainers = [
+    { name = "A. Great Maintainer", email = "maintainer@example.com" },
+]
 
 # Classifiers help users find your project by categorizing it.
 #
 # For a list of valid classifiers, see https://pypi.org/classifiers/
 classifiers = [
-  # How mature is this project ? Common values are
-  #   3 - Alpha
-  #   4 - Beta
-  #   5 - Production / Stable
-  "Development Status :: 3 - Alpha",
+    # How mature is this project ? Common values are
+    #   3 - Alpha
+    #   4 - Beta
+    #   5 - Production / Stable
+    "Development Status :: 3 - Alpha",
 
-  # Indicate who your project is intended for
-  "Intended Audience :: Developers",
+    # Indicate who your project is intended for
+    "Intended Audience :: Developers",
     "Topic :: Software Development :: Build Tools",
 
-  # Pick your license as you wish
-"License :: OSI Approved :: MIT License",
+    # Pick your license as you wish
+    "License :: OSI Approved :: MIT License",
 
-  # Specify the Python versions you support here.In particular, ensure
-  # that you indicate you support Python 3. These classifiers are * not *
-  # checked by "pip install".See instead "requires-python" key in this file.
-  "Programming Language :: Python :: 3",
+    # Specify the Python versions you support here.In particular, ensure
+    # that you indicate you support Python 3. These classifiers are * not *
+    # checked by "pip install".See instead "requires-python" key in this file.
+    "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
@@ -124,11 +121,12 @@ dependencies = [
     "networkx",
     # "pytest",
     "pandas",
-    "matplotlib"
+    "matplotlib",
 ]
 
 # rdkit colorlog networkx pytest pandas matplotlib
 
+[project.optional - dependencies]
 # List additional groups of dependencies here(e.g.development
 # dependencies).Users will be able to install these using the "extras"
 # syntax, for example:
@@ -138,7 +136,6 @@ dependencies = [
 # Optional dependencies the project provides.These are commonly 
 # referred to as "extras". For a more extensive definition see:
 # https://packaging.python.org/en/latest/specifications/dependency-specifiers/#extras
-[project.optional - dependencies]
 dev = ["pytest"]
 test = ["coverage", "pytest"]
 
@@ -168,6 +165,5 @@ sample = "sample:main"
 # This is configuration specific to the `setuptools` build backend.
 # If you are using a different build backend, you will need to change this.
 [tool.setuptools]
-# If there are data files included in your packages that need to be
+package - data = { "sample" = ["*.dat"] }# If there are data files included in your packages that need to be
 # installed, specify them here.
-    package - data = { "sample" = ["*.dat"] }
