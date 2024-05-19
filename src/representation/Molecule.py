@@ -106,6 +106,7 @@ class Molecule:
             Chem.GetSymmSSSR(molecule)
             Chem.SanitizeMol(molecule, Chem.SANITIZE_ALL ^ Chem.SANITIZE_KEKULIZE)
             sdf_string = Chem.MolToMolBlock(molecule)
+            # writer.write(molecule)
             return sdf_string
 
         from rdkit import Chem
@@ -128,16 +129,22 @@ class Molecule:
             writer.write(self.rdkitObject)
         except Chem.rdchem.KekulizeException:
             log.warning(f"SDWriter failed to write {self.filename} to file. Trying get_sdf_string.")
-            sdf_string = get_sdf_string(self.rdkitObject)
-            if sdf_string:
-                log.debug(f"{self.filename} SDF generation successful without kekulization.")
-            else:
-                log.error(f"Failed at get_sdf_string({self.filename}); trying manual kekulization.")
-                sdf_string = try_kekulize(self.rdkitObject)
+            try:
+                log.warning(f"Writing {self.filename} to file with molecule.UpdatePropertyCache(strict=False).")
+                self.rdkitObject.UpdatePropertyCache(strict=False)
+                writer.write(self.rdkitObject)
+            except Chem.rdchem.KekulizeException:
+                log.error(f"Failed to write mol to file: {self.filename}")
+                sdf_string = get_sdf_string(self.rdkitObject)
                 if sdf_string:
-                    log.warning(f"{self.filename} SDF generation successful with manual kekulization.")
+                    log.error(f"{self.filename} SDF string generation successful without kekulization (No Properties).")
                 else:
-                    log.error(f"Manual kekulization of {self.filename} failed.")
+                    log.error(f"Failed at get_sdf_string({self.filename}).")
+                    # sdf_string = try_kekulize(self.rdkitObject)
+                    # if sdf_string:
+                    #     log.warning(f"{self.filename} SDF generation successful with manual kekulization.")
+                    # else:
+                    #     log.error(f"Manual kekulization of {self.filename} failed.")
         except Exception as e:
             log.error(f"Failed to write mol to file: {str(e)}")
         finally:
