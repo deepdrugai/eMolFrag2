@@ -40,16 +40,17 @@ Repository = "https://github.com/me/eMolFrag"
 Changelog = "https://github.com/me/eMolFrag/blob/master/CHANGELOG.md"
 
 [tool.hatch.build.targets.wheel]
-packages = ["eMolFrag2"]
-package-dir = { "eMolFrag2" = "src/eMolFrag2" }
+packages = ["."]
+package-dir = { "eMolFrag2" = "src/eMolFrag" }
 exclude = [
     "**/__pycache__",
     "**/*.pyc",
-    "src/output/UnitTestMol2.py",
-    "src/output/mols.1000.mol2",
-    "src/output/mols.1000.mol2.gz",
-    "src/output/mols.1000.mol2.gz-Zone.Identifier.txr",
+    "src/eMolFrag/output/UnitTestMol2.py",
+    "src/eMolFrag/output/mols.1000.mol2",
+    "src/eMolFrag/output/mols.1000.mol2.gz",
+    "src/eMolFrag/output/mols.1000.mol2.gz-Zone.Identifier.txr",
 ]
+
 
 # Uncomment the below lines if you have scripts or GUI scripts to include
 [project.scripts]
