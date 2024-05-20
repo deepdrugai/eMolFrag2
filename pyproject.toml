@@ -41,6 +41,7 @@ Changelog = "https://github.com/me/eMolFrag/blob/master/CHANGELOG.md"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src"]
+package-dir = {"" = "eMolFrag2"}
 exclude = [
     "**/__pycache__",
     "**/*.pyc",
@@ -52,7 +53,7 @@ exclude = [
 
 # Uncomment the below lines if you have scripts or GUI scripts to include
 [project.scripts]
-eMolFrag = "src.eMolFrag:main"
+emolfrag = "src.eMolFrag:main"
 
 # [project.gui-scripts]
 # eMolFrag-gui = "src.eMolFrag:main_gui"
