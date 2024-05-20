@@ -43,3 +43,10 @@ exclude = ["**/__pycache__", "**/*.pyc"]
 
 [project.scripts]
 emolfrag = "eMolFrag.eMolFrag:main"
+
+[tool.hatch.envs.dev]
+dependencies = ["pytest", "pytest-cov"]
+hooks = [
+    { type = "data-files", include = "../data/**/*", to = "eMolFrag/data" },
+    { type = "data-files", include = "../tests/**/*", to = "eMolFrag/tests" },
+]
