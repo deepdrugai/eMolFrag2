@@ -53,7 +53,7 @@ exclude = [
 
 # Uncomment the below lines if you have scripts or GUI scripts to include
 [project.scripts]
-emolfrag = "eMolFrag2.eMolFrag:main"
+emolfrag = "eMolFrag2:eMolFrag"
 
 # [project.gui-scripts]
 # eMolFrag-gui = "src.eMolFrag:main_gui"
