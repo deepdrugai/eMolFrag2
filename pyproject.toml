@@ -40,8 +40,8 @@ Repository = "https://github.com/me/eMolFrag"
 Changelog = "https://github.com/me/eMolFrag/blob/master/CHANGELOG.md"
 
 [tool.hatch.build.targets.wheel]
-packages = ["."]
-package-dir = { "eMolFrag2" = "." }
+packages = ["src"]
+package-dir = { "eMolFrag2" = "src" }
 exclude = [
     "**/__pycache__",
     "**/*.pyc",
