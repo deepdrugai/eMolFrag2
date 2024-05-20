@@ -51,8 +51,8 @@ exclude = [
 ]
 
 # Uncomment the below lines if you have scripts or GUI scripts to include
-# [project.scripts]
-# eMolFrag-cli = "src.eMolFrag:main_cli"
+[project.scripts]
+eMolFrag = "eMolFrag.src.eMolFrag:main"
 
 # [project.gui-scripts]
 # eMolFrag-gui = "src.eMolFrag:main_gui"
