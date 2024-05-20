@@ -45,6 +45,10 @@ def main():
         f"{len(fa_db)} TC-unique freeatom{'s'[:len(fa_db)^1]} among {fa_db.numAllMolecules()} freeatom{'s'[:fa_db.numAllMolecules()^1]}."
     )
 
+    if len(brick_db) == len(linker_db) == len(fa_db) == 0:
+        log.error("No files were generated.")
+        return
+
     writer.write(options, brick_db, linker_db, fa_db, snip_db, molecules)
 
 
