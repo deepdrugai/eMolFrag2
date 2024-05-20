@@ -5,49 +5,57 @@ build-backend = "hatchling.build"
 [project]
 name = "eMolFrag"
 version = "2.0.0.2024.05.19"
-dependencies = [
-    "rdkit",
-    "colorlog",
-    "networkx",
-    # "pytest",
-    "pandas",
-    "matplotlib",
-]
-
-# rdkit colorlog networkx pytest pandas matplotlib
+dependencies = ["rdkit", "colorlog", "networkx", "pandas", "matplotlib"]
 requires-python = ">=3.8"
 authors = [
     { name = "Pradyun Gedam", email = "pradyun@example.com" },
     { name = "Tzu-Ping Chung", email = "tzu-ping@example.com" },
-    { name = "Another person" },
-    { email = "different.person@example.com" },
 ]
 maintainers = [{ name = "Brett Cannon", email = "brett@example.com" }]
-description = "Lovely Spam! Wonderful Spam!"
+description = "A toolkit for fragmenting and analyzing molecular structures."
 readme = "README.md"
-# license = { file = "LICENSE.txt" }
-keywords = ["egg", "bacon", "sausage", "tomatoes", "Lobster Thermidor"]
+keywords = ["chemistry", "molecule", "fragmentation", "bioinformatics"]
 classifiers = [
     "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
     "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+    "Topic :: Scientific/Engineering :: Chemistry",
+    "License :: OSI Approved :: MIT License",
 ]
 
 [project.optional-dependencies]
-dev = ["pytest"]
-test = ["coverage", "pytest"]
+dev = ["pytest", "coverage"]
+test = ["pytest", "coverage"]
 
 [project.urls]
 Homepage = "https://example.com"
 Documentation = "https://readthedocs.org"
-Repository = "https://github.com/me/spam.git"
-"Bug Tracker" = "https://github.com/me/spam/issues"
-Changelog = "https://github.com/me/spam/blob/master/CHANGELOG.md"
+Repository = "https://github.com/me/eMolFrag"
+"Bug Tracker" = "https://github.com/me/eMolFrag/issues"
+Changelog = "https://github.com/me/eMolFrag/blob/master/CHANGELOG.md"
 
+[tool.hatch.build.targets.wheel]
+packages = ["src"]
+exclude = [
+    "**/__pycache__",
+    "**/*.pyc",
+    "src/output/UnitTestMol2.py",
+    "src/output/mols.1000.mol2",
+    "src/output/mols.1000.mol2.gz",
+    "src/output/mols.1000.mol2.gz-Zone.Identifier.txr",
+]
+
+# Uncomment the below lines if you have scripts or GUI scripts to include
 # [project.scripts]
-# spam-cli = "spam:main_cli"
+# eMolFrag-cli = "src.eMolFrag:main_cli"
 
 # [project.gui-scripts]
-# spam-gui = "spam:main_gui"
+# eMolFrag-gui = "src.eMolFrag:main_gui"
 
-# [project.entry-points."spam.magical"]
-# tomatoes = "spam:main_tomatoes"
+# [project.entry-points."eMolFrag.magical"]
+# magic = "src.representation:Molecule"
