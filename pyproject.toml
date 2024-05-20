@@ -24,7 +24,7 @@ authors = [
 ]
 maintainers = [{ name = "Brett Cannon", email = "brett@example.com" }]
 description = "Lovely Spam! Wonderful Spam!"
-readme = "README.rst"
+readme = "README.md"
 # license = { file = "LICENSE.txt" }
 keywords = ["egg", "bacon", "sausage", "tomatoes", "Lobster Thermidor"]
 classifiers = [
