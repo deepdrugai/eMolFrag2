@@ -1,11 +1,13 @@
 import pytest
 from pathlib import Path
-from eMolFrag2.src.input.MoleculeReader import getMolecules, to_mol
-from eMolFrag2.src.utilities.logging import log
+from eMolFrag.input.MoleculeReader import getMolecules, to_mol
+from eMolFrag.utilities.logging import log
 
 cwd = Path(__file__).parent / "data/db-files"
 
 failed_mol_path = Path(__file__).parent.parent / "test/mol2-test"
+
+
 @pytest.mark.parametrize("input", [
     (["mol2"]),
     (["smi"]),

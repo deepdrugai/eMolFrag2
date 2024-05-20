@@ -1,8 +1,8 @@
 # # import sys
 # from pathlib import Path
 # from eMolFrag2.unittests import utilities
-# from eMolFrag2.src.utilities.logging import log
-# from eMolFrag2.src.input import ConfigReader
+# from eMolFrag.utilities.logging import log
+# from eMolFrag.input import ConfigReader
 
 # usr_dir = Path(__file__).parent
 # config_files = usr_dir / "data/configuration-files"

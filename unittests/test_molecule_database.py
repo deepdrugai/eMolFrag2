@@ -1,8 +1,8 @@
 import pytest
 from pathlib import Path
-from eMolFrag2.src.utilities.logging import log
-from eMolFrag2.src.input.MoleculeReader import to_mol
-from eMolFrag2.src.representation.MoleculeDatabase import MoleculeDatabase
+from eMolFrag.utilities.logging import log
+from eMolFrag.input.MoleculeReader import to_mol
+from eMolFrag.representation.MoleculeDatabase import MoleculeDatabase
 
 
 dir = Path(__file__).parent / "data"

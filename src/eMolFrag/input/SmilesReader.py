@@ -1,4 +1,4 @@
-from eMolFrag2.src.utilities.logging import log
+from eMolFrag.utilities.logging import log
 
 
 #

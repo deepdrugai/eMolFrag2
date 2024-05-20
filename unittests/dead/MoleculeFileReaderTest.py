@@ -1,7 +1,7 @@
 # import sys
 # from pathlib import Path
-# from eMolFrag2.src.utilities.logging import log
-# from eMolFrag2.src.input import Options, MoleculeFileReader
+# from eMolFrag.utilities.logging import log
+# from eMolFrag.input import Options, MoleculeFileReader
 
 # usr_dir = Path(__file__)
 # dataPath = usr_dir / "data/db-files"
@@ -31,7 +31,7 @@
 #   for folderPath in testPaths:
 #       options = getOptions(folderPath)
 #       runGetFiles(options, 5)
-      
+
 #   #Will recognize the files as bad
 #   options = getOptions(sdf)
 #   runGetFiles(options, 0)
@@ -60,7 +60,7 @@
 # def runtests():
 #     printlevel = 1
 #     log.info(f"Executing {__name__} unit tests.")
-    
+
 #     #
 #     # Define all tests as a Dictionary: {str-name, <function-to-execute>}
 #     #
@@ -74,10 +74,10 @@
 #     for test_name, test_func in tests.items():
 #         runtest(test_name, test_func, successful, failed)
 
-#     # 
+#     #
 #     # Report
 #     #
-#     if not failed:        
+#     if not failed:
 #         log.info(f'{__name__} unit tests are successful.')
 
 #     else:

@@ -3,8 +3,8 @@ from rdkit import Chem
 from rdkit.Chem import BRICS
 from rdkit.Chem.Draw import rdMolDraw2D, MolToFile, MolsToGridImage
 
-from eMolFrag2.src.chopper.Chopper import chop
-from eMolFrag2.src.utilities.logging import log
+from eMolFrag.chopper.Chopper import chop
+from eMolFrag.utilities.logging import log
 from IPython.display import SVG
 
 

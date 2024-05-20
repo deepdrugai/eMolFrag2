@@ -5,9 +5,9 @@ from itertools import product
 from rdkit.DataStructs import FingerprintSimilarity
 from rdkit.Chem import SDMolSupplier, RDKFingerprint
 
-from eMolFrag2.src.utilities.logging import log
-from eMolFrag2.src.chopper.Chopper import chopall
-from eMolFrag2.src.input.MoleculeReader import to_mol
+from eMolFrag.utilities.logging import log
+from eMolFrag.chopper.Chopper import chopall
+from eMolFrag.input.MoleculeReader import to_mol
 
 
 dir = Path(__file__).parent / "data/chopper"

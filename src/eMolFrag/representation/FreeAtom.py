@@ -1,7 +1,7 @@
 # from rdkit import Chem
 
-from eMolFrag2.src.representation import Molecule
-from eMolFrag2.src.utilities import constants
+from eMolFrag.representation import Molecule
+from eMolFrag.utilities import constants
 
 
 class FreeAtom(Molecule.Molecule):

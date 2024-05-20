@@ -2,9 +2,9 @@ import pytest
 from pathlib import Path
 from rdkit import Chem
 
-from eMolFrag2.src.input import MoleculeReader
-from eMolFrag2.src.chopper import Deconstructor
-from eMolFrag2.src.utilities.logging import log
+from eMolFrag.input import MoleculeReader
+from eMolFrag.chopper import Deconstructor
+from eMolFrag.utilities.logging import log
 
 
 cwd = Path(__file__).parents[1] / "test/mol2-test"

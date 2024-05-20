@@ -3,8 +3,8 @@
 #
 from rdkit import Chem
 
-from eMolFrag2.src.utilities import constants, tc
-from eMolFrag2.src.utilities.logging import log
+from eMolFrag.utilities import constants, tc
+from eMolFrag.utilities.logging import log
 
 
 class Molecule:

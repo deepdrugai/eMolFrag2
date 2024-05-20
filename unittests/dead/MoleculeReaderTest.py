@@ -1,7 +1,7 @@
 # # import sys
 # from pathlib import Path
-# from eMolFrag2.src.utilities.logging import log
-# from eMolFrag2.src.input import MoleculeReader
+# from eMolFrag.utilities.logging import log
+# from eMolFrag.input import MoleculeReader
 
 # dataPath = Path(__file__).parent / "data/db-files"
 # mol2 = dataPath.joinpath("mol2")
@@ -27,7 +27,7 @@
 #   #Tests if mol2 and smi are taken
 #   for folderPath in testPaths:
 #       runGetMolecules(getListofFiles(folderPath), 5)
-      
+
 #   #Will recognize the files as bad
 #   runGetMolecules(getListofFiles(sdf), 0)
 
@@ -56,7 +56,7 @@
 # def runtests():
 #     printlevel = 1
 #     log.info(f"Executing {__name__} unit tests.")
-    
+
 #     #
 #     # Define all tests as a Dictionary: {str-name, <function-to-execute>}
 #     #
@@ -70,10 +70,10 @@
 #     for test_name, test_func in tests.items():
 #         runtest(test_name, test_func, successful, failed)
 
-#     # 
+#     #
 #     # Report
 #     #
-#     if not failed:        
+#     if not failed:
 #         log.info(f'{__name__} unit tests are successful.')
 
 #     else:

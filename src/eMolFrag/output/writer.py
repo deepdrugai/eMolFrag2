@@ -1,10 +1,10 @@
 # import shutil
 from pathlib import Path
 
-# from eMolFrag2.src.representation import MoleculeDatabase
-from eMolFrag2.src.utilities.logging import log
-from eMolFrag2.src.utilities import constants
-from eMolFrag2.src.output import stats, draw, trace, networktext as nt
+# from eMolFrag.representation import MoleculeDatabase
+from eMolFrag.utilities.logging import log
+from eMolFrag.utilities import constants
+from eMolFrag.output import stats, draw, trace, networktext as nt
 
 from rdkit.Chem import MolToSmiles
 

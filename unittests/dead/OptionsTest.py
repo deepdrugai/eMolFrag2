@@ -1,7 +1,7 @@
 # import sys
 # from pathlib import Path
-# from eMolFrag2.src.utilities.logging import log
-# from eMolFrag2.src.input import Options
+# from eMolFrag.utilities.logging import log
+# from eMolFrag.input import Options
 
 # usr_dir = Path(__file__)
 # dataPath = usr_dir / "data/db-files"
@@ -49,7 +49,7 @@
 # def runtests():
 #     printlevel = 1
 #     log.info(f"Executing {__name__} unit tests.")
-    
+
 #     #
 #     # Define all tests as a Dictionary: {str-name, <function-to-execute>}
 #     #
@@ -63,10 +63,10 @@
 #     for test_name, test_func in tests.items():
 #         runtest(test_name, test_func, successful, failed)
 
-#     # 
+#     #
 #     # Report
 #     #
-#     if not failed:        
+#     if not failed:
 #         log.info(f'{__name__} unit tests are successful.')
 
 #     else:

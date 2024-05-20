@@ -1,8 +1,8 @@
 import pytest
 import sys
 from pathlib import Path
-from eMolFrag2.src.utilities.logging import log
-from eMolFrag2.src.input import Options, MoleculeFileReader
+from eMolFrag.utilities.logging import log
+from eMolFrag.input import Options, MoleculeFileReader
 
 @pytest.mark.parametrize("input, expected", [
     (["mol2"], [5]),

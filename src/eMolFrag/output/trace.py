@@ -1,6 +1,6 @@
 # %%
-from eMolFrag2.src.utilities.logging import log
-from eMolFrag2.src.output import networktext as nt
+from eMolFrag.utilities.logging import log
+from eMolFrag.output import networktext as nt
 import networkx as nx
 from rdkit import Chem
 import matplotlib.pyplot as plt

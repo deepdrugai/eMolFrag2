@@ -1,7 +1,7 @@
 # from pathlib import Path
 
 # import utilities
-# from eMolFrag2.src.chopper import Chopper
+# from eMolFrag.chopper import Chopper
 
 
 # def runisBrick(filepath, expec_result):
@@ -10,11 +10,11 @@
 #     assert Chopper.isBrick(mol) == expec_result
 
 # def runIsBrickTests():
-    
+
 #     runisBrick("./data/1098067-c2-c2-double-bond/b-CHEMBL1098067.mol2-000.sdf", True)
-#     runisBrick("./data/1098067-c2-c2-double-bond/b-CHEMBL1098067.mol2-001.sdf", True)        
+#     runisBrick("./data/1098067-c2-c2-double-bond/b-CHEMBL1098067.mol2-001.sdf", True)
 #     runisBrick("./data/1098067-c2-c2-double-bond/b-CHEMBL1098067.mol2-002.sdf", True)
-    
+
 #     runisBrick("./data/1098067-c2-c2-double-bond/1-CHEMBL1098067.mol2-000.sdf", False)
 #     runisBrick("./data/1098067-c2-c2-double-bond/1-CHEMBL1098067.mol2-001.sdf", False)
 #     runisBrick("./data/1098067-c2-c2-double-bond/1-CHEMBL1098067.mol2-002.sdf", False)
@@ -35,7 +35,7 @@
 
 # def runtest(test_name, test_func, successful, failed):
 #     (successful if run(test_func) else failed).append(test_name)
-    
+
 # def runtests(printlevel):
 
 #     utilities.emit(printlevel, f'Executing {__file__} unit tests.')
@@ -54,10 +54,10 @@
 #     for (test_name, test_func) in tests.items():
 #         runtest(test_name, test_func, successful, failed)
 
-#     # 
+#     #
 #     # Report
 #     #
-#     if not failed:        
+#     if not failed:
 #         utilities.emit(printlevel, f'{__name__} unit tests are successful.')
 
 #     else:

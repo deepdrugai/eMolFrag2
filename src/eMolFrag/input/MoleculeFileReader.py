@@ -1,8 +1,8 @@
 from pathlib import Path
 
-# from eMolFrag2.src.input import Options
-from eMolFrag2.src.utilities import constants
-from eMolFrag2.src.utilities.logging import log
+# from eMolFrag.input import Options
+from eMolFrag.utilities import constants
+from eMolFrag.utilities.logging import log
 
 
 def getFiles(options):

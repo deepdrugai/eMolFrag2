@@ -16,7 +16,7 @@
 # from rdkit import Chem
 # import tempfile, os
 # import gzip
-# from eMolFrag2.src.output.Mol2Writer import *
+# from eMolFrag.output.Mol2Writer import *
 # from rdkit import Chem
 
 # class TestCase(unittest.TestCase):

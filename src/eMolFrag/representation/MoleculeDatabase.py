@@ -1,11 +1,11 @@
 # from rdkit import DataStructs # For TC Computations
 
 # import sys
-from eMolFrag2.src.utilities import constants
-from eMolFrag2.src.utilities import tc
-from eMolFrag2.src.utilities.logging import log
+from eMolFrag.utilities import constants
+from eMolFrag.utilities import tc
+from eMolFrag.utilities.logging import log
 
-from eMolFrag2.src.representation.Molecule import Molecule
+from eMolFrag.representation.Molecule import Molecule
 
 
 #

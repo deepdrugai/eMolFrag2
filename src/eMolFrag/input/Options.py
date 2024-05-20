@@ -1,9 +1,9 @@
 import argparse
 import sys
 
-from eMolFrag2.src.utilities.logging import log
-from eMolFrag2.src.input import ConfigReader
-from eMolFrag2.src.utilities.constants import *
+from eMolFrag.utilities.logging import log
+from eMolFrag.input import ConfigReader
+from eMolFrag.utilities.constants import *
 
 #
 # Arg     Explanation

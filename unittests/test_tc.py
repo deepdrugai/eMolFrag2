@@ -1,11 +1,13 @@
 import pytest
 from pathlib import Path
 
-from eMolFrag2.src.utilities.tc import TC, TCEquiv
-from eMolFrag2.src.input.MoleculeReader import getRDKitMolecule, to_mol
-from eMolFrag2.src.utilities.logging import log
+from eMolFrag.utilities.tc import TC, TCEquiv
+from eMolFrag.input.MoleculeReader import getRDKitMolecule, to_mol
+from eMolFrag.utilities.logging import log
 
 rel_path = "data"
+
+
 @pytest.mark.parametrize("mol1_path, mol2_path, expected", (
         # Pair of molecules (.smi) with tc = 1.0
        (["similarPairSMI/1/DB00452.smi", "similarPairSMI/2/DB01137.smi", "similarPairSMI/3/DB12447.smi"],

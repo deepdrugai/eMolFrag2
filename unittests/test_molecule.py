@@ -1,8 +1,8 @@
 import py
 import pytest
 from pathlib import Path
-from eMolFrag2.src.input.MoleculeReader import to_mol
-from eMolFrag2.src.utilities.logging import log
+from eMolFrag.input.MoleculeReader import to_mol
+from eMolFrag.utilities.logging import log
 
 dir = Path(__file__).parent / "data"
 ms = ["similarPairSMI/3/DB12447.smi", "uniqueMol(SMI)/DB00415.smi"]

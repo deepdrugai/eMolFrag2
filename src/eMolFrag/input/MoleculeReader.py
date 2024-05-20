@@ -1,10 +1,10 @@
 from pathlib import Path
 from rdkit import Chem
 
-from eMolFrag2.src.output.Mol2Writer import _sybyl_atom_type
-from eMolFrag2.src.representation.Molecule import Molecule
-from eMolFrag2.src.utilities import constants
-from eMolFrag2.src.utilities.logging import log
+from eMolFrag.output.Mol2Writer import _sybyl_atom_type
+from eMolFrag.representation.Molecule import Molecule
+from eMolFrag.utilities import constants
+from eMolFrag.utilities.logging import log
 
 
 def fileToString(file):
@@ -64,7 +64,7 @@ def convertToRDkit(contents, path):
         return mol
 
     elif extension == constants.SMILES_FORMAT_EXT:
-        from eMolFrag2.src.input import SmilesReader
+        from eMolFrag.input import SmilesReader
 
         return SmilesReader.readSmilesFile(contents)
 
@@ -147,8 +147,11 @@ def getMolecules(files):
             elif isinstance(mol, list):
                 log.debug(f"{mol = }")
                 mols += [
-                    Molecule(setAtomTypes(mol), f"{current_file.stem}-{name}") if name and current_file.stem != name
-                    else Molecule(setAtomTypes(mol), f"{current_file.stem}")
+                    (
+                        Molecule(setAtomTypes(mol), f"{current_file.stem}-{name}")
+                        if name and current_file.stem != name
+                        else Molecule(setAtomTypes(mol), f"{current_file.stem}")
+                    )
                     for name, mol in mol
                 ]
             else:

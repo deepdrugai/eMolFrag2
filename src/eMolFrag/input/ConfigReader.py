@@ -1,5 +1,5 @@
-from eMolFrag2.src.utilities.constants import INPUT_ARG, OUTPUT_ARG, EMF_FORMAT_EXT
-from eMolFrag2.src.utilities.logging import log
+from eMolFrag.utilities.constants import INPUT_ARG, OUTPUT_ARG, EMF_FORMAT_EXT
+from eMolFrag.utilities.logging import log
 from pathlib import Path
 
 
