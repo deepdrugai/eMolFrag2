@@ -30,7 +30,6 @@ classifiers = [
 
 [project.optional-dependencies]
 dev = ["pytest", "coverage"]
-test = ["pytest", "coverage"]
 
 [project.urls]
 Homepage = "https://example.com"
