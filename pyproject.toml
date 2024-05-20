@@ -6,12 +6,12 @@ build-backend = "hatchling.build"
 name = "eMolFrag2"
 version = "2.0.0.2024.05.19"
 dependencies = ["rdkit", "colorlog", "networkx", "pandas", "matplotlib"]
-requires-python = ">=3.8"
+requires-python = ">=3.7"
 authors = [
-    { name = "Pradyun Gedam", email = "pradyun@example.com" },
-    { name = "Tzu-Ping Chung", email = "tzu-ping@example.com" },
+    { name = "Adam Bess", email = "bess@deepdrug.ai" },
+    { name = "Chris Alvins", email = "calvin@deepdrug.ai" },
 ]
-maintainers = [{ name = "Brett Cannon", email = "brett@example.com" }]
+maintainers = [{ name = "Adam Bess", email = "bess@deepdrug.ai" }]
 description = "A toolkit for fragmenting and analyzing molecular structures."
 readme = "README.md"
 keywords = ["chemistry", "molecule", "fragmentation", "bioinformatics"]
@@ -25,30 +25,21 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Topic :: Scientific/Engineering :: Bio-Informatics",
     "Topic :: Scientific/Engineering :: Chemistry",
-    "License :: OSI Approved :: MIT License",
 ]
 
 [project.optional-dependencies]
-dev = ["pytest", "coverage"]
+dev = ["pytest", "pytest-cov"]
 
 [project.urls]
-Homepage = "https://example.com"
+Homepage = "https://deepdrug.ai"
 Documentation = "https://readthedocs.org"
-Repository = "https://github.com/me/eMolFrag"
-"Bug Tracker" = "https://github.com/me/eMolFrag/issues"
-Changelog = "https://github.com/me/eMolFrag/blob/master/CHANGELOG.md"
+Repository = "https://github.com/deepdrugai/eMolFrag"
+"Bug Tracker" = "https://github.com/deepdrugai/eMolFrag/issues"
+Changelog = "https://github.com/deepdrugai/eMolFrag/blob/master/CHANGELOG.md"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/eMolFrag"]
-# package-dir = { "eMolFrag2" = "src/eMolFrag" }
-exclude = [
-    "**/__pycache__",
-    "**/*.pyc",
-    "src/eMolFrag/output/UnitTestMol2.py",
-    "src/eMolFrag/output/mols.1000.mol2",
-    "src/eMolFrag/output/mols.1000.mol2.gz",
-    "src/eMolFrag/output/mols.1000.mol2.gz-Zone.Identifier.txr",
-]
+exclude = ["**/__pycache__", "**/*.pyc"]
 
 
 # Uncomment the below lines if you have scripts or GUI scripts to include
