@@ -5,7 +5,8 @@ from rdkit.Chem.Draw import rdMolDraw2D, MolToFile, MolsToGridImage
 
 from eMolFrag.chopper.Chopper import chop
 from eMolFrag.utilities.logging import log
-from IPython.display import SVG
+
+# from IPython.display import SVG
 
 
 def draw_mol(mol, out_dir):
