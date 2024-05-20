@@ -35,26 +35,26 @@ def draw_grid_img2(mol, out_dir):
         outfile.write(img.encode("utf-8"))
 
 
-def highlight_cleave_sights(mol):
-    # mol.RemoveAllConformers()
-    _, snips = chop(mol)
-    snip_atoms = [x for xs in snips for x in xs]
-    log.debug(snip_atoms)
-    snip_bonds = []
-    for atom1, atom2 in snips:
-        snip_bonds.append(mol.GetBondBetweenAtoms(atom1, atom2).GetIdx())
-    log.debug(snip_bonds)
+# def highlight_cleave_sights(mol):
+#     # mol.RemoveAllConformers()
+#     _, snips = chop(mol)
+#     snip_atoms = [x for xs in snips for x in xs]
+#     log.debug(snip_atoms)
+#     snip_bonds = []
+#     for atom1, atom2 in snips:
+#         snip_bonds.append(mol.GetBondBetweenAtoms(atom1, atom2).GetIdx())
+#     log.debug(snip_bonds)
 
-    cp = Chem.Mol(mol)
-    d2d = rdMolDraw2D.MolDraw2DSVG(600, 400)
-    d2d.drawOptions().addAtomIndices = True
-    # d2d.drawOptions().addBondIndices = True
-    d2d.DrawMolecule(cp, highlightAtoms=snip_atoms, highlightBonds=snip_bonds)
-    d2d.FinishDrawing()
-    return SVG(d2d.GetDrawingText())
-    # img = d2d.GetDrawingText()
-    # with open(out_dir, "wb+") as outfile:
-    #     outfile.write(img.encode("utf-8"))
+#     cp = Chem.Mol(mol)
+#     d2d = rdMolDraw2D.MolDraw2DSVG(600, 400)
+#     d2d.drawOptions().addAtomIndices = True
+#     # d2d.drawOptions().addBondIndices = True
+#     d2d.DrawMolecule(cp, highlightAtoms=snip_atoms, highlightBonds=snip_bonds)
+#     d2d.FinishDrawing()
+#     return SVG(d2d.GetDrawingText())
+#     # img = d2d.GetDrawingText()
+#     # with open(out_dir, "wb+") as outfile:
+#     #     outfile.write(img.encode("utf-8"))
 
 
 def highlight_cleave_sights2(mol):
