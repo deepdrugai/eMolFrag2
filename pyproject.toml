@@ -36,12 +36,12 @@ classifiers = [
 dev = ["pytest"]
 test = ["coverage", "pytest"]
 
-# [project.urls]
-# Homepage = "https://example.com"
-# Documentation = "https://readthedocs.org"
-# Repository = "https://github.com/me/spam.git"
-# "Bug Tracker" = "https://github.com/me/spam/issues"
-# Changelog = "https://github.com/me/spam/blob/master/CHANGELOG.md"
+[project.urls]
+Homepage = "https://example.com"
+Documentation = "https://readthedocs.org"
+Repository = "https://github.com/me/spam.git"
+"Bug Tracker" = "https://github.com/me/spam/issues"
+Changelog = "https://github.com/me/spam/blob/master/CHANGELOG.md"
 
 # [project.scripts]
 # spam-cli = "spam:main_cli"
