@@ -33,21 +33,13 @@ dev = ["pytest", "pytest-cov"]
 [project.urls]
 Homepage = "https://deepdrug.ai"
 Documentation = "https://readthedocs.org"
-Repository = "https://github.com/deepdrugai/eMolFrag"
-"Bug Tracker" = "https://github.com/deepdrugai/eMolFrag/issues"
-Changelog = "https://github.com/deepdrugai/eMolFrag/blob/master/CHANGELOG.md"
+Repository = "https://github.com/deepdrugai/eMolFrag2"
+"Bug Tracker" = "https://github.com/deepdrugai/eMolFrag2/issues"
+Changelog = "https://github.com/deepdrugai/eMolFrag2/blob/master/CHANGELOG.md"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/eMolFrag"]
 exclude = ["**/__pycache__", "**/*.pyc"]
 
-
-# Uncomment the below lines if you have scripts or GUI scripts to include
 [project.scripts]
 emolfrag = "eMolFrag.eMolFrag:main"
-
-# [project.gui-scripts]
-# eMolFrag-gui = "src.eMolFrag:main_gui"
-
-# [project.entry-points."eMolFrag.magical"]
-# magic = "src.representation:Molecule"
