@@ -4,6 +4,9 @@ from pathlib import Path
 from eMolFrag.utilities.logging import log
 from eMolFrag.input import Options, MoleculeFileReader
 
+data = Path(__file__).parent.parent / "data"
+dir = data / "db-files"
+
 @pytest.mark.parametrize("input, expected", [
     (["mol2"], [5]),
     (["smi"], [5]),
@@ -16,8 +19,7 @@ from eMolFrag.input import Options, MoleculeFileReader
 
 
 def test_get_files(input, expected):
-    cwd = Path(__file__).parent / "data/db-files"
     for m, e in zip(input, expected):
-        sys.argv = ["eMolFrag2/src/eMolFrag.py", "-i", str(cwd / m), "-o", "/content/out"]
+        sys.argv = ["emolfrag", "-i", str(dir / m), "-o", "/content/out"]
         options = Options.Options()
         assert len(MoleculeFileReader.getFiles(options)) == e

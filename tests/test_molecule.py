@@ -4,7 +4,7 @@ from pathlib import Path
 from eMolFrag.input.MoleculeReader import to_mol
 from eMolFrag.utilities.logging import log
 
-dir = Path(__file__).parent / "data"
+data = Path(__file__).parent.parent / "data"
 ms = ["similarPairSMI/3/DB12447.smi", "uniqueMol(SMI)/DB00415.smi"]
 
 
@@ -21,7 +21,7 @@ def file_names():
 def mols():
     list_mols = []
     for m in ms:
-        path = dir / m
+        path = data / m
         list_mols.append(to_mol(path))
     return list_mols
 
@@ -48,8 +48,8 @@ def test_clear_prop_to_sdf(mols):
     ("similarPairSMI/1/DB01421.smi", "similarPairSMI/1/DB01421.smi", True),
     ])  # fmt: skip
 def test_eq_mols(mol_path1, mol_path2, expected):
-    path1 = dir / mol_path1
-    path2 = dir / mol_path2
+    path1 = data / mol_path1
+    path2 = data / mol_path2
     mol1 = to_mol(path1)
     mol2 = to_mol(path2)
     log.info(f"Molecule as String: {str(mol1) == str(mol2)}")

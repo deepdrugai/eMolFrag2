@@ -3,9 +3,9 @@ from pathlib import Path
 from eMolFrag.input.MoleculeReader import getMolecules, to_mol
 from eMolFrag.utilities.logging import log
 
-cwd = Path(__file__).parent / "data/db-files"
-
-failed_mol_path = Path(__file__).parent.parent / "test/mol2-test"
+data = Path(__file__).parent.parent / "data"
+dir = data / "db-files"
+failed_mol_path = data / "testdata/mol2-test"
 
 
 @pytest.mark.parametrize("input", [
@@ -18,7 +18,7 @@ failed_mol_path = Path(__file__).parent.parent / "test/mol2-test"
 ])  # fmt: skip
 def test_to_mol(input):  # single file to mol
     for suffix in input:
-        file_path = cwd.joinpath(suffix)
+        file_path = dir.joinpath(suffix)
         if suffix == "failed":  # testing for a failed mol that has a supported format
             failed_mol = to_mol(failed_mol_path / "DB01059.mol2")
             # failed_mol = to_mol(failed_mol_path / "DB01051.mol2")
@@ -49,7 +49,7 @@ def test_get_files(input, expected):  # multiple files to mol
             mols = getMolecules(files)
             assert len(mols) == e
         else:
-            file_path = cwd.joinpath(suffix)
+            file_path = dir.joinpath(suffix)
             for current_file in file_path.iterdir():
                 files.append(file_path / current_file.name)
             mols = getMolecules(files)

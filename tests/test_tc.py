@@ -5,7 +5,7 @@ from eMolFrag.utilities.tc import TC, TCEquiv
 from eMolFrag.input.MoleculeReader import getRDKitMolecule, to_mol
 from eMolFrag.utilities.logging import log
 
-rel_path = "data"
+data = Path(__file__).parent.parent / "data"
 
 
 @pytest.mark.parametrize("mol1_path, mol2_path, expected", (
@@ -21,11 +21,10 @@ def test_tc_private(mol1_path, mol2_path, expected):
     mol2_path string Molecule2 path
     expected float expected tanimoto coefficient
     """
-    cwd = Path(__file__).parent / rel_path
 
     for m1, m2, e in zip(mol1_path, mol2_path, expected):
-        rdkit_mol1 = getRDKitMolecule(cwd / m1)
-        rdkit_mol2 = getRDKitMolecule(cwd / m2)
+        rdkit_mol1 = getRDKitMolecule(data / m1)
+        rdkit_mol2 = getRDKitMolecule(data / m2)
         tanimoto = TC(rdkit_mol1, rdkit_mol2)
         log.debug(f"Input: {m1}\t{m2}\t Expected vs Actual = {e} | {tanimoto}")
         # log.debug(f'TC Similiarity of {m1} and {m2}: {tanimoto}.')
@@ -50,11 +49,10 @@ def rdkit_mols(tc_mols_list):
 
 @pytest.fixture
 def tc_mols_list():
-    global rel_path
     ms = ["uniqueMol(SMI)/DB00415.smi", "uniqueMol(SMI)/DB01208.smi", "uniqueMol(SMI)/DB04626.smi"]
     mols_list = []
     for m in ms:
-        mols_list.append(Path(__file__).parent / rel_path / m)
+        mols_list.append(data / m)
     return mols_list
 
 
@@ -105,11 +103,8 @@ def test_tc_equiv(mol1_path, mol2_path, expected):
     mol2_path: string Molecule2 Path
     expected: bool Expected Boolean
     """
-    global rel_path
-    cwd = Path(__file__).parent / rel_path
-
     for m1, m2, r in zip(mol1_path, mol2_path, expected):
         log.debug(f"Compare TC: {m1}\t{m2}\t Expected Equivalence = {r}")
-        mol_obj1 = to_mol(cwd / m1)
-        mol_obj2 = to_mol(cwd / m2)
+        mol_obj1 = to_mol(data / m1)
+        mol_obj2 = to_mol(data / m2)
         assert TCEquiv(mol_obj1, mol_obj2) == r

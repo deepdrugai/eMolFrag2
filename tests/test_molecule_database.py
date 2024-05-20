@@ -5,7 +5,7 @@ from eMolFrag.input.MoleculeReader import to_mol
 from eMolFrag.representation.MoleculeDatabase import MoleculeDatabase
 
 
-dir = Path(__file__).parent / "data"
+data = Path(__file__).parent.parent / "data"
 
 
 @pytest.fixture
@@ -16,8 +16,8 @@ def tc1_mol_pairs():
     molpairs = []
 
     for a, b in ms:
-        am = to_mol(dir / a)
-        bm = to_mol(dir / b)
+        am = to_mol(data / a)
+        bm = to_mol(data / b)
         molpairs.append([am, bm])
     return molpairs
 
@@ -32,7 +32,7 @@ def five_mols():
     mols = []
 
     for m in ms:
-        mols.append(to_mol(dir / m))
+        mols.append(to_mol(data / m))
     return mols
 
 
@@ -55,8 +55,8 @@ def test_add_mol_to_mdb(input, expected, tc=1.0):
     mdb = MoleculeDatabase(given_tc=tc)
 
     for m, e in zip(input, expected):
-        log.debug(f"{dir / m}\t{e}")
-        assert mdb.add(to_mol(dir / m)) is e
+        log.debug(f"{data / m}\t{e}")
+        assert mdb.add(to_mol(data / m)) is e
 
 
 def test_add_list_to_mdb(five_mols, tc=1.0):
@@ -170,6 +170,7 @@ def test_get_uniq_molecules_mdb(five_mols, tc1_mol_pairs):
 
 
 def test_mdb_fail():
+    # TODO: This needs to not be a RuntimeError, but a more specific error, otherwise other errors (like file read errors) can cause this test to pass.
     with pytest.raises(RuntimeError):
         mdb = MoleculeDatabase(given_tc=-1)
 
