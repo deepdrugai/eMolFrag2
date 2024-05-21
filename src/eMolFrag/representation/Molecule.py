@@ -125,16 +125,16 @@ class Molecule:
         sdf_string = ""
 
         try:
-            log.debug(f"Writing {self.filename} to file.")
+            log.debug(f"Writing {self.filename} to sdf.")
             writer.write(self.rdkitObject)
         except Chem.rdchem.KekulizeException:
-            log.warning(f"SDWriter failed to write {self.filename} to file. Trying get_sdf_string.")
+            log.warning(f"SDWriter failed to write {self.filename} to sdf. Trying with molecule.UpdatePropertyCache(strict=False).")
             try:
                 log.warning(f"Writing {self.filename} to file with molecule.UpdatePropertyCache(strict=False).")
                 self.rdkitObject.UpdatePropertyCache(strict=False)
                 writer.write(self.rdkitObject)
             except Chem.rdchem.KekulizeException:
-                log.error(f"Failed to write mol to file: {self.filename}")
+                log.warning(f"SDWriter failed to write {self.filename} to sdf. Trying get_sdf_string.")
                 sdf_string = get_sdf_string(self.rdkitObject)
                 if sdf_string:
                     log.error(f"{self.filename} SDF string generation successful without kekulization (No Properties).")
