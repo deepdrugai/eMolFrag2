@@ -11,7 +11,7 @@ from eMolFrag.input.MoleculeReader import to_mol
 
 
 data = Path(__file__).parent.parent / "data"
-dir = data / "chopper"
+# dir = data / "chopper"
 
 
 @pytest.mark.parametrize("cwd, cwdex", [(dir / f"mol2-{n}", dir / f"mol2-{n}-out-joined") for n in range(1, 4)])
