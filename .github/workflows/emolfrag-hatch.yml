@@ -20,14 +20,14 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
-    - name: Install hatch
+    - name: Install Hatch
       run: |
         python -m pip install hatch
 
     # - name: Run Tests
     #   run: hatch test
 
-    - name: Run Tests with Coverage
+    - name: Run PyTests with Coverage
       run: hatch test --cover
 
     # - name: Lint
