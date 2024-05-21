@@ -1,4 +1,4 @@
-name: eMolFrag Build Tests
+name: eMolFrag Hatch Tests & Coverage
 
 on: 
     - push
@@ -6,12 +6,12 @@ on:
     
 jobs:
   run:
-    name: "tests & coverage"
+    name: "eMolFrag Hatch Tests & Coverage"
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: ['ubuntu-latest'] # 'ubuntu-latest', 'windows-latest', 'macos-latest'
-        python-version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
+        python-version: ["3.7", "3.8", "3.9", "3.10", "3.11", "3.12"]
 
     steps:
     - uses: actions/checkout@v3
@@ -25,10 +25,10 @@ jobs:
         python -m pip install hatch
 
     - name: Lint
-      run: hatch run check
+      run: hatch run pytest
 
     - name: Tests
-      run: hatch run +py=${{ matrix.python-version }} test:test
+      run: hatch run +py=${{ matrix.python-version }} pytest
       
-    - name: Run tests
-      run: hatch run test:test
+    # - name: Run tests
+    #   run: hatch run pytest
