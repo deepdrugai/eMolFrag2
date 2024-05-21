@@ -1,6 +1,7 @@
 # eMolFrag 2
 
-[![eMolFrag Tests (PyPI)](https://github.com/deepdrugai/eMolFrag2/actions/workflows/emolfrag-pip.yml/badge.svg)](https://github.com/deepdrugai/eMolFrag2/actions/workflows/emolfrag-pip.yml)
+## Quick Start
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/deepdrugai/eMolFrag2/blob/eMolFrag2-packaging/eMolFrag2_Notebook%20(colab%20packaging).ipynb)
 
 ## Installation
 Install eMolFrag2 with:
