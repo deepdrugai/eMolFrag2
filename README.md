@@ -1,4 +1,4 @@
-# eMolFrag-2.0
+# eMolFrag 2
 
 [![eMolFrag Tests (PyPI)](https://github.com/deepdrugai/eMolFrag2/actions/workflows/emolfrag-pip.yml/badge.svg)](https://github.com/deepdrugai/eMolFrag2/actions/workflows/emolfrag-pip.yml)
 
