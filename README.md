@@ -13,7 +13,7 @@ Note: If your directory is called eMolFrag2.0, you may need to rename the eMolFr
 Our team will eventually shift to an installable eMolFrag package, but for now, you can put  
 `export PYTHONPATH="${PYTHONPATH}:<PATH TO eMolFrag2 PARENT DIRECTORY>"` into your .bash_profile or .bashrc file (after replacing the path betwen <> with your own path) so that the environmental variable loads on start.
 
-## Nessary Dependencies
+## Necessary Dependencies
 Two dependencies are required for eMolFrag: rdkit and networkx. Optionally, colorlog is used for full color logging files.
 
 You can install them with conda, like so:
