@@ -9,5 +9,5 @@ Install eMolFrag2 with:
 pip install "git+https://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@github.com/deepdrugai/eMolFrag2.git@eMolFrag2-packaging"
 ```
 
-## Nessary Dependencies
+## Necessary Dependencies
 Three dependencies are required for eMolFrag: rdkit, networkx and matplotlib. Optionally, colorlog is used for full color logging files.
