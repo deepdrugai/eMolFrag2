@@ -1,6 +1,6 @@
 # eMolFrag 2
 
-[![Python 3.8](https://img.shields.io/badge/python->3.8-blue.svg)](https://www.python.org/downloads/)
+[![Python 3.8](https://img.shields.io/badge/python-≥3.8-blue.svg)](https://www.python.org/downloads/)
 [![eMolFrag Tests (PyPI)](https://github.com/deepdrugai/eMolFrag2/actions/workflows/emolfrag-hatch.yml/badge.svg)](https://github.com/deepdrugai/eMolFrag2/actions/workflows/emolfrag-hatch.yml)
 
 -----
