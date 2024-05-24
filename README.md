@@ -1,7 +1,6 @@
 # eMolFrag 2
 
-[![PyPI - Version](https://img.shields.io/pypi/v/evir.svg)](https://pypi.org/project/evir)
-[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/evir.svg)](https://pypi.org/project/evir)
+[![Python 3.8](https://img.shields.io/badge/python->3.8-blue.svg)](https://www.python.org/downloads/)
 [![eMolFrag Tests (PyPI)](https://github.com/deepdrugai/eMolFrag2/actions/workflows/emolfrag-hatch.yml/badge.svg)](https://github.com/deepdrugai/eMolFrag2/actions/workflows/emolfrag-hatch.yml)
 
 -----
