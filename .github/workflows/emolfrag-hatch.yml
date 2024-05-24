@@ -1,4 +1,4 @@
-name: eMolFrag Hatch Tests & Coverage
+name: Tests & Coverage
 
 on: 
     - push
@@ -6,7 +6,7 @@ on:
     
 jobs:
   run:
-    name: "eMolFrag Tests & Coverage"
+    name: "eMolFrag Hatch Tests & Coverage"
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
