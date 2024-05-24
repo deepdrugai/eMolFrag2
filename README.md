@@ -1,5 +1,17 @@
 # eMolFrag 2
 
+[![PyPI - Version](https://img.shields.io/pypi/v/evir.svg)](https://pypi.org/project/evir)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/evir.svg)](https://pypi.org/project/evir)
+[![eMolFrag Tests (PyPI)](https://github.com/deepdrugai/eMolFrag2/actions/workflows/emolfrag-hatch.yml/badge.svg)](https://github.com/deepdrugai/eMolFrag2/actions/workflows/emolfrag-hatch.yml)
+
+-----
+
+## Table of Contents
+
+- [Quick Start](#quick-start)
+- [Installation](#installation)
+- [Necessary Dependencies](#necessary-dependencies)
+
 ## Quick Start
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/deepdrugai/eMolFrag2/blob/eMolFrag2-packaging/eMolFrag2_Notebook%20(colab%20packaging).ipynb)
 
