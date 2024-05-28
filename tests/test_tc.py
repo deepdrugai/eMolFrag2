@@ -33,27 +33,18 @@ def test_tc_private(mol1_path, mol2_path, expected):
 
 @pytest.fixture
 def mols(tc_mols_list):
-    mols = []
-    for m in tc_mols_list:
-        mols.append(to_mol(m))
-    return mols
+    return [to_mol(m) for m in tc_mols_list]
 
 
 @pytest.fixture
 def rdkit_mols(tc_mols_list):
-    rdkit_list = []
-    for m in tc_mols_list:
-        rdkit_list.append(getRDKitMolecule(m))
-    return rdkit_list
+    return [getRDKitMolecule(m) for m in tc_mols_list]
 
 
 @pytest.fixture
 def tc_mols_list():
     ms = ["uniqueMol(SMI)/DB00415.smi", "uniqueMol(SMI)/DB01208.smi", "uniqueMol(SMI)/DB04626.smi"]
-    mols_list = []
-    for m in ms:
-        mols_list.append(data / m)
-    return mols_list
+    return [data / m for m in ms]
 
 
 # def tc_eval(mol1, mol2, expected_result):
