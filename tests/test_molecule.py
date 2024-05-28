@@ -41,7 +41,7 @@ def test_clear_prop_to_sdf(mols):
         mol_to_sdf = m._toSDF()
         log.info(f"RDKit Object: {type(mol_to_sdf)}")
         mol_clear = m.clearProperties()
-        assert mol_clear is None and type(mol_to_sdf) is str
+        assert mol_clear is None and isinstance(mol_to_sdf, str)
 
 
 @pytest.mark.parametrize("mol_path1, mol_path2, expected", [
