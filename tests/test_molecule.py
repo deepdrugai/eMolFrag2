@@ -1,6 +1,7 @@
 # import py
-import pytest
 from pathlib import Path
+
+import pytest
 from eMolFrag.input.MoleculeReader import to_mol
 from eMolFrag.utilities.logging import log
 
@@ -8,7 +9,7 @@ data = Path(__file__).parent.parent / "data"
 ms = ["similarPairSMI/3/DB12447.smi", "uniqueMol(SMI)/DB00415.smi"]
 
 
-@pytest.fixture()
+@pytest.fixture
 def file_names():
     file_name = []
     for m in ms:
@@ -17,7 +18,7 @@ def file_names():
     return file_name
 
 
-@pytest.fixture()
+@pytest.fixture
 def mols():
     list_mols = []
     for m in ms:
