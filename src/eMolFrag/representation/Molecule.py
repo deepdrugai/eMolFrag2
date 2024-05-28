@@ -1,7 +1,6 @@
 #
 # The molecule class will contain the rdkit object, the name of the file it came from, as well as a list of 'equal other fragments'.
 #
-from rdkit import Chem
 
 from eMolFrag.utilities import constants, tc
 from eMolFrag.utilities.logging import log
@@ -98,7 +97,6 @@ class Molecule:
         similar_appendix = "\n".join(sim_mol.getFileName() for sim_mol in self.similar)
         self.rdkitObject.SetProp(constants.SDF_OUTPUT_SIMILAR_FRAGMENTS, similar_appendix)
 
-        from rdkit import Chem
 
         def get_sdf_string(molecule):
             # Adjust properties and handle aromaticity without forcing kekulization
@@ -146,11 +144,11 @@ class Molecule:
                     # else:
                     #     log.error(f"Manual kekulization of {self.filename} failed.")
         except Exception as e:
-            log.error(f"Failed to write mol to file: {str(e)}")
+            log.error(f"Failed to write mol to file: {e!s}")
         finally:
             writer.close()
 
-        return sdf_string if sdf_string else sio.getvalue()
+        return sdf_string or sio.getvalue()
         # suppl = Chem.ResonanceMolSupplier(self.rdkitObject, Chem.KEKULE_ALL)
         # mols = [self.rdkitObject] + [m for m in suppl]
         # log.info(mols)
