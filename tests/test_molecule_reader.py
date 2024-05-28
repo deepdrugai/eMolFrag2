@@ -1,5 +1,6 @@
-import pytest
 from pathlib import Path
+
+import pytest
 from eMolFrag.input.MoleculeReader import getMolecules, to_mol
 from eMolFrag.utilities.logging import log
 
@@ -11,7 +12,7 @@ failed_mol_path = data / "testdata/mol2-test"
 @pytest.mark.parametrize("input", [
     (["mol2"]),
     (["smi"]),
-    (pytest.param(["sdf"],marks=pytest.mark.xfail(raises=NotImplementedError))),
+    (pytest.param(["sdf"], marks=pytest.mark.xfail(raises=NotImplementedError))),
     (["pbd"]),
     (["mol"]),
     (["failed"]),
@@ -58,6 +59,6 @@ def test_get_files(input, expected):  # multiple files to mol
             # Assert that length of mols == e
             assert len(mols) == e
 
-            if not suffix == "sdf":  # unsupported format, so should return an empty list
+            if suffix != "sdf":  # unsupported format, so should return an empty list
                 # If any of the returned mols have rdkitObject==None, then the file was not read properly
                 assert all(mol.rdkitObject != None for mol in mols)
