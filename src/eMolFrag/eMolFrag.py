@@ -19,8 +19,6 @@ def main():
     #     log.error(f'Command-line arguments failed to parse; execution of eMolFrag will stop.')
     #     return
 
-    dataset = []
-
     # Verify Tools and Parse Command Line
 
     # Get files
