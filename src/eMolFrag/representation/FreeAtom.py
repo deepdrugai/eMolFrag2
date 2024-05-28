@@ -28,7 +28,7 @@ class FreeAtom(Molecule.Molecule):
         # A free radical maintains a "maximum number of connections for each fragment"
         # All atoms must have an atomtype; not all atoms have connections
         appendix = "\n".join(
-            f"{str(len(atom.GetProp(constants.ATOM_CONNECTION_PROP).split()) if atom.HasProp(constants.ATOM_CONNECTION_PROP) else 0)} {atom.GetProp(constants.ATOMTYPE_PROP)}"
+            f"{len(atom.GetProp(constants.ATOM_CONNECTION_PROP).split()) if atom.HasProp(constants.ATOM_CONNECTION_PROP) else 0!s} {atom.GetProp(constants.ATOMTYPE_PROP)}"
             for atom in self.rdkitObject.GetAtoms()
         )
 
