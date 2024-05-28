@@ -7,7 +7,7 @@ from eMolFrag.utilities.logging import log
 from rdkit import Chem
 
 data = Path(__file__).parent.parent / "data"
-dir = data / "testdata/mol2-test"
+datadir = data / "testdata/mol2-test"
 
 failed = ['DB01059.mol2', 'DB01326.mol2', 'DB00229.mol2', 'DB00779.mol2', 'DB00355.mol2',
           'DB00430.mol2', 'DB01137.mol2', 'DB01327.mol2', 'DB00446.mol2', 'DB00923.mol2',
@@ -23,7 +23,7 @@ failed = ['DB01059.mol2', 'DB01326.mol2', 'DB00229.mol2', 'DB00779.mol2', 'DB003
 @pytest.fixture
 def mol2_files():
     files = []
-    file_list = (file for file in dir.iterdir() if file.name not in failed)
+    file_list = (file for file in datadir.iterdir() if file.name not in failed)
     for file in file_list:
         files.append(file)
     return files
