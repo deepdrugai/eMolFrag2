@@ -34,17 +34,18 @@
 # This source code has been modified (slightly) for eMolFrag v2.0 in order to
 # prevent cleaving of L7 bonds.
 #
-# The code has been modified to remove 
+# The code has been modified to remove
 #
 
-import random
 import copy
+import random
+
 """ Implementation of the BRICS algorithm from Degen et al. ChemMedChem *3* 1503-7 (2008)
 
 """
 # import sys
 import re
-import random
+
 from rdkit import Chem
 from rdkit.Chem import rdChemReactions as Reactions
 
@@ -354,7 +355,7 @@ def BreakBRICSBonds(mol, bonds=None, sanitize=True, silent=True):
 
     """
     if not bonds:
-        #bonds = FindBRICSBonds(mol)
+        # bonds = FindBRICSBonds(mol)
         res = Chem.FragmentOnBRICSBonds(mol)
         if sanitize:
             Chem.SanitizeMol(res)
@@ -525,11 +526,10 @@ def BRICSDecompose(mol, allNodes=None, minFragmentSize=1, onlyUseReactions=None,
             res = set(activePool.keys())
         else:
             res = activePool.values()
+    elif not returnMols:
+        res = allNodes
     else:
-        if not returnMols:
-            res = allNodes
-        else:
-            res = foundMols.values()
+        res = foundMols.values()
     return res
 
 
