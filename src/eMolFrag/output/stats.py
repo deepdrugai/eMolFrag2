@@ -1,8 +1,11 @@
-from eMolFrag.utilities.logging import log
-import matplotlib.pyplot as plt
-import matplotlib.image as mpimg
-import numpy as np
 import math
+import operator
+
+import matplotlib.image as mpimg
+import matplotlib.pyplot as plt
+import numpy as np
+
+from eMolFrag.utilities.logging import log
 
 
 def histogram(brick_db, linker_db, out_dir):
@@ -20,7 +23,7 @@ def histogram(brick_db, linker_db, out_dir):
         mols = list(set(mols))
         sorted_order = np.argsort(list(new_dict.values()))
         mols_sorted = list(np.array(mols)[sorted_order])
-        dict_sorted = {key: value for key, value in sorted(new_dict.items(), key=lambda item: item[1], reverse=True)}
+        dict_sorted = {key: value for key, value in sorted(new_dict.items(), key=operator.itemgetter(1), reverse=True)}
         labels = dict_sorted.keys()
         values = dict_sorted.values()
         plt.bar(labels, values, width=width)
