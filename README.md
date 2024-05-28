@@ -2,6 +2,7 @@
 
 [![Python 3.8](https://img.shields.io/badge/python-≥3.8-blue.svg)](https://www.python.org/downloads/)
 [![eMolFrag Tests (PyPI)](https://github.com/deepdrugai/eMolFrag2/actions/workflows/emolfrag-hatch.yml/badge.svg)](https://github.com/deepdrugai/eMolFrag2/actions/workflows/emolfrag-hatch.yml)
+[![Tests & Coverage (eMolFrag2-packaging)](https://github.com/deepdrugai/eMolFrag2/actions/workflows/emolfrag-hatch.yml/badge.svg?branch=eMolFrag2-packaging)](https://github.com/deepdrugai/eMolFrag2/actions/workflows/emolfrag-hatch.yml)
 
 -----
 
