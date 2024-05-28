@@ -1,7 +1,8 @@
 from rdkit import Chem
+
+from eMolFrag.chopper import BRICS_custom
 from eMolFrag.utilities import constants
 from eMolFrag.utilities.logging import log
-from eMolFrag.chopper import BRICS_custom
 
 
 def getMolMatrix(mol):
@@ -30,7 +31,7 @@ def molAdjList(m):
     import numpy as np
 
     # adj_list as set
-    return { tuple(sorted(item)) for item in [*zip(*np.where(m == 1))]}  # fmt: skip
+    return {tuple(sorted(item)) for item in [*zip(*np.where(m == 1))]}  # fmt: skip
 
 
 def molBRICSBonds(mol):
@@ -92,10 +93,10 @@ def combineAdjLinkerSequences(linkers, freeatoms, snips):
         if lx and ly:
             lx, ly = *lx, *ly
 
-            log.debug(f"Join linkers: {[lx, ly]} on {(x,y)}.")
+            log.debug(f"Join linkers: {[lx, ly]} on {(x, y)}.")
 
             linkers -= {lx, ly}  # Remove linkers
-            freeatoms_r = {f for ft in {lx + ly} for f in ft}  # freeatoms to remove
+            freeatoms_r = {f for ft in (lx + ly,) for f in ft}  # freeatoms to remove
             freeatoms -= freeatoms_r  # Remove freeatoms
             linkers.add(lx + ly)  # Add merged linker
             snips_r.add((x, y))  # Add snip to removelist
