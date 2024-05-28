@@ -1,5 +1,5 @@
-from eMolFrag.input import MoleculeFileReader, MoleculeReader, Options
 from eMolFrag.chopper import Chopper
+from eMolFrag.input import MoleculeFileReader, MoleculeReader, Options
 from eMolFrag.output import writer
 from eMolFrag.utilities.logging import log
 
@@ -25,24 +25,24 @@ def main():
 
     # Get files
     mol_files = MoleculeFileReader.getFiles(options)
-    log.info(f"{len(mol_files)} file{'s'[:len(mol_files)^1]} to be processed.")
+    log.info(f"{len(mol_files)} file{'s'[:len(mol_files) ^ 1]} to be processed.")
 
     # Get molecules
     molecules = MoleculeReader.getMolecules(mol_files)
-    log.info(f"{len(molecules)} molecule{'s'[:len(molecules)^1]} to be chopped.")
+    log.info(f"{len(molecules)} molecule{'s'[:len(molecules) ^ 1]} to be chopped.")
 
     # CHOP
     brick_db, linker_db, fa_db, snip_db = Chopper.chopall(molecules)
 
     # Output fragments
     log.info(
-        f"{len(brick_db)} TC-unique brick{'s'[:len(brick_db)^1]} among {brick_db.numAllMolecules()} brick{'s'[:brick_db.numAllMolecules()^1]}."
+        f"{len(brick_db)} TC-unique brick{'s'[:len(brick_db) ^ 1]} among {brick_db.numAllMolecules()} brick{'s'[:brick_db.numAllMolecules() ^ 1]}."
     )
     log.info(
-        f"{len(linker_db)} TC-unique linker{'s'[:len(linker_db)^1]} among {linker_db.numAllMolecules()} linker{'s'[:linker_db.numAllMolecules()^1]}."
+        f"{len(linker_db)} TC-unique linker{'s'[:len(linker_db) ^ 1]} among {linker_db.numAllMolecules()} linker{'s'[:linker_db.numAllMolecules() ^ 1]}."
     )
     log.info(
-        f"{len(fa_db)} TC-unique freeatom{'s'[:len(fa_db)^1]} among {fa_db.numAllMolecules()} freeatom{'s'[:fa_db.numAllMolecules()^1]}."
+        f"{len(fa_db)} TC-unique freeatom{'s'[:len(fa_db) ^ 1]} among {fa_db.numAllMolecules()} freeatom{'s'[:fa_db.numAllMolecules() ^ 1]}."
     )
 
     if len(brick_db) == len(linker_db) == len(fa_db) == 0:
