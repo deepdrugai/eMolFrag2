@@ -297,18 +297,15 @@ def generate_network_text(
                     this_prefix = indents + [glyphs.newtree_mid]
                     next_prefix = indents + [glyphs.within_forest]
 
+            elif this_vertical:
+                this_prefix = indents
+                next_prefix = indents
+            elif this_islast:
+                this_prefix = indents + [glyphs.last]
+                next_prefix = indents + [glyphs.endof_forest]
             else:
-                # Non-top-level items
-                if this_vertical:
-                    this_prefix = indents
-                    next_prefix = indents
-                else:
-                    if this_islast:
-                        this_prefix = indents + [glyphs.last]
-                        next_prefix = indents + [glyphs.endof_forest]
-                    else:
-                        this_prefix = indents + [glyphs.mid]
-                        next_prefix = indents + [glyphs.within_tree]
+                this_prefix = indents + [glyphs.mid]
+                next_prefix = indents + [glyphs.within_tree]
 
             if node is Ellipsis:
                 label = " ..."
@@ -812,7 +809,7 @@ def _parse_network_text(lines):
         if any(item in line for item in unambiguous_undirected_items):
             is_directed = False
             break
-        elif any(item in line for item in unambiguous_directed_items):
+        if any(item in line for item in unambiguous_directed_items):
             is_directed = True
             break
 
