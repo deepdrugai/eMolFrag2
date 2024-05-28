@@ -29,14 +29,11 @@ def five_mols():
           "uniqueMol(SMI)/DB04626.smi",
           "uniqueMol(SMI)/DB11774.smi",
           "uniqueMol(SMI)/DB13499.smi",]  # fmt: skip
-    mols = []
 
-    for m in ms:
-        mols.append(to_mol(data / m))
-    return mols
+    return [to_mol(data / m) for m in ms]
 
 
-@pytest.mark.parametrize("input, expected", [
+@pytest.mark.parametrize(("smis", "equivalent"), [
     # Single Molecules
     (["similarPairSMI/3/DB12447.smi"], [True]),
     (["similarPairSMI/3/DB16219.smi"], [True]),
@@ -49,12 +46,12 @@ def five_mols():
       "uniqueMol(SMI)/DB04626.smi", "uniqueMol(SMI)/DB11774.smi",
       "uniqueMol(SMI)/DB13499.smi"], [True] * 5),
 ])  # fmt: skip
-def test_add_mol_to_mdb(input, expected, tc=1.0):
+def test_add_mol_to_mdb(smis, equivalent, tc=1.0):
     """Test adding TC Equivalent molecules to Molecule Database where given_tc = 1"""
 
     mdb = MoleculeDatabase(given_tc=tc)
 
-    for m, e in zip(input, expected):
+    for m, e in zip(smis, equivalent):
         log.debug(f"{data / m}\t{e}")
         assert mdb.add(to_mol(data / m)) is e
 
