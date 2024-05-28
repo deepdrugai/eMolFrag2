@@ -1,7 +1,7 @@
 # %%
 from rdkit import Chem
 from rdkit.Chem import BRICS
-from rdkit.Chem.Draw import rdMolDraw2D, MolToFile, MolsToGridImage
+from rdkit.Chem.Draw import MolsToGridImage, MolToFile
 
 from eMolFrag.chopper.Chopper import chop
 from eMolFrag.utilities.logging import log
