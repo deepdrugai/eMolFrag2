@@ -1,12 +1,14 @@
 # import shutil
 from pathlib import Path
 
+from rdkit.Chem import MolToSmiles
+
+from eMolFrag.output import draw, stats, trace
+from eMolFrag.output import networktext as nt
+from eMolFrag.utilities import constants
+
 # from eMolFrag.representation import MoleculeDatabase
 from eMolFrag.utilities.logging import log
-from eMolFrag.utilities import constants
-from eMolFrag.output import stats, draw, trace, networktext as nt
-
-from rdkit.Chem import MolToSmiles
 
 
 def writeMolImgsFromDB(db, out_dir, filetype=".png"):
@@ -27,18 +29,17 @@ def prepareDirectory(out_path):
     If the directory does exist, clean it.
     """
     if out_path.is_file():
-        log.error(f"Output path {str(out_path)} is a file, not a directory.")
-        raise ValueError(f"Malformed output specification path {str(out_path)}")
+        log.error(f"Output path {out_path!s} is a file, not a directory.")
+        raise ValueError(f"Malformed output specification path {out_path!s}")
 
     # Rename the directory, if needed
     new_path = out_path
     i = 1
     while new_path.exists():
-        log.warning(f"Output path {new_path} exists; Trying {str(out_path)}-{i}.")
+        log.warning(f"Output path {new_path} exists; Trying {out_path!s}-{i}.")
         new_path = out_path.parent / f"{out_path.name}-{i}"
         i += 1
-    else:
-        log.debug(f"Output path {new_path.resolve()} does not exist, will be created.")
+    log.debug(f"Output path {new_path.resolve()} does not exist, will be created.")
 
     out_path = new_path
     del new_path, i
