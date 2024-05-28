@@ -8,12 +8,12 @@ from eMolFrag.utilities.tc import TC, TCEquiv
 data = Path(__file__).parent.parent / "data"
 
 
-@pytest.mark.parametrize("mol1_path, mol2_path, expected", (
+@pytest.mark.parametrize(("mol1_path", "mol2_path", "expected"), [
         # Pair of molecules (.smi) with tc = 1.0
        (["similarPairSMI/1/DB00452.smi", "similarPairSMI/2/DB01137.smi", "similarPairSMI/3/DB12447.smi"],
         ["similarPairSMI/1/DB01421.smi", "similarPairSMI/2/DB01165.smi", "similarPairSMI/3/DB16219.smi"],
         [1.0] * 3),
-))  # fmt: skip
+])  # fmt: skip
 def test_tc_private(mol1_path, mol2_path, expected):
     """
     Test tanimoto coefficient calculation from two rdkit molecules
@@ -84,7 +84,7 @@ def test_tc(rdkit_mols, mols):
     TCEquiv(mols[1], mols[2], 0.311)
 
 
-@ pytest.mark.parametrize("mol1_path, mol2_path, expected", [
+@ pytest.mark.parametrize(("mol1_path", "mol2_path", "expected"), [
     (["similarPairSMI/1/DB00452.smi", "similarPairSMI/2/DB01137.smi", "similarPairSMI/3/DB12447.smi"],
      ["similarPairSMI/1/DB01421.smi", "similarPairSMI/2/DB01165.smi", "similarPairSMI/3/DB16219.smi"],
      [True] * 3),
