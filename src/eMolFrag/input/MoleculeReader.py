@@ -1,4 +1,5 @@
 from pathlib import Path
+
 from rdkit import Chem
 
 from eMolFrag.output.Mol2Writer import _sybyl_atom_type
@@ -135,7 +136,7 @@ def getMolecules(files):
         # Attempt to interpret the molecule
         try:
             mol = convertToRDkit(file_contents, current_file)
-        except Exception as e:
+        except Exception:
             continue
         else:
             # To Mol2Block and Back to Mol Object (to get TriposAtomType)
