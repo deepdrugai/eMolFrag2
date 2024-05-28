@@ -5,60 +5,52 @@ from eMolFrag.input.MoleculeReader import getMolecules, to_mol
 from eMolFrag.utilities.logging import log
 
 data = Path(__file__).parent.parent / "data"
-dir = data / "db-files"
+datadir = data / "db-files"
 failed_mol_path = data / "testdata/mol2-test"
 
 
-@pytest.mark.parametrize("input", [
-    (["mol2"]),
-    (["smi"]),
-    (pytest.param(["sdf"], marks=pytest.mark.xfail(raises=NotImplementedError))),
-    (["pbd"]),
-    (["mol"]),
-    (["failed"]),
+@pytest.mark.parametrize("suffix", [
+    "mol2",
+    "smi",
+    pytest.param("sdf", marks=pytest.mark.xfail(raises=NotImplementedError)),
+    "pbd",
+    "mol",
+    "failed"
 ])  # fmt: skip
-def test_to_mol(input):  # single file to mol
-    for suffix in input:
-        file_path = dir.joinpath(suffix)
-        if suffix == "failed":  # testing for a failed mol that has a supported format
-            failed_mol = to_mol(failed_mol_path / "DB01059.mol2")
-            # failed_mol = to_mol(failed_mol_path / "DB01051.mol2")
-            assert failed_mol.rdkitObject == None
-        else:  # checking if all mols in supported format test folders return a conversion
-            for current_file in file_path.iterdir():
-                mol = to_mol(file_path / current_file)
+def test_to_mol(suffix):  # single file to mol
+    file_path = datadir.joinpath(suffix)
+    if suffix == "failed":  # testing for a failed mol that has a supported format
+        failed_mol = to_mol(failed_mol_path / "DB01059.mol2")
+        assert failed_mol.rdkitObject is None
+    else:
+        for current_file in file_path.iterdir():
+            mol = to_mol(current_file)  # Directly pass current_file which already includes the path
 
-                # tesing for an unsupported format
-                assert mol.rdkitObject == None if suffix == ("sdf") else mol.rdkitObject != None
+            # Testing for unsupported format
+            assert mol.rdkitObject is not None if suffix != "sdf" else mol.rdkitObject is None
 
 
-@pytest.mark.parametrize("input, expected", [
-    (["mol2"], [5]),
-    (["smi"], [6]),
-    (["sdf"], [0]),
-    (["pbd"], [4]),
-    (["mol"], [5]),
-    (["failed"], [0]),
+@pytest.mark.parametrize(("suffix", "expected"), [
+    ("mol2", 5),
+    ("smi", 6),
+    ("sdf", 0),
+    ("pbd", 4),
+    ("mol", 5),
+    ("failed", 0)
 ])  # fmt: skip
-def test_get_files(input, expected):  # multiple files to mol
-    failed_mols = ["DB01059.mol2", "DB01326.mol2", "DB00229.mol2", "DB00779.mol2", "DB00430.mol2"]
-    for suffix, e in zip(input, expected):
-        files = []
-        if suffix == "failed":
-            for file in failed_mols:
-                files.append(failed_mol_path / file)
-            mols = getMolecules(files)
-            assert len(mols) == e
-        else:
-            file_path = dir.joinpath(suffix)
-            for current_file in file_path.iterdir():
-                files.append(file_path / current_file.name)
-            mols = getMolecules(files)
-            log.debug(mols)
+def test_get_files(suffix, expected):  # multiple files to mol
+    files = []
+    if suffix == "failed":
+        failed_mols = ["DB01059.mol2", "DB01326.mol2", "DB00229.mol2", "DB00779.mol2", "DB00430.mol2"]
+        files = [failed_mol_path / file for file in failed_mols]
+    else:
+        file_path = datadir.joinpath(suffix)
+        files = [file_path / f.name for f in file_path.iterdir()]
 
-            # Assert that length of mols == e
-            assert len(mols) == e
+    mols = getMolecules(files)
+    log.debug(mols)
 
-            if suffix != "sdf":  # unsupported format, so should return an empty list
-                # If any of the returned mols have rdkitObject==None, then the file was not read properly
-                assert all(mol.rdkitObject != None for mol in mols)
+    assert len(mols) == expected
+
+    if suffix != "sdf":  # Unsupported format should return an empty list or None in mol objects
+        assert all(mol.rdkitObject is not None for mol in mols)
