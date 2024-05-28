@@ -1,20 +1,20 @@
-import pytest
 from pathlib import Path
-from rdkit import Chem
 
-from eMolFrag.input import MoleculeReader
+import pytest
 from eMolFrag.chopper import Deconstructor
+from eMolFrag.input import MoleculeReader
 from eMolFrag.utilities.logging import log
+from rdkit import Chem
 
 data = Path(__file__).parent.parent / "data"
 dir = data / "testdata/mol2-test"
 
-failed = ['DB01059.mol2', 'DB01326.mol2', 'DB00229.mol2', 'DB00779.mol2', 'DB00355.mol2', 
-          'DB00430.mol2', 'DB01137.mol2', 'DB01327.mol2', 'DB00446.mol2', 'DB00923.mol2', 
-          'DB01329.mol2', 'DB01165.mol2', 'DB01051.mol2', 'DB01328.mol2', 'DB00267.mol2', 
-          'DB00274.mol2', 'DB00911.mol2', 'DB00467.mol2', 'DB00916.mol2', 'DB01208.mol2', 
-          'DB01155.mol2', 'DB00817.mol2', 'DB00698.mol2', 'DB00218.mol2', 'DB00845.mol2', 
-          'DB01044.mol2', 'DB00487.mol2', 'DB00978.mol2', 'DB00537.mol2', 'DB00827.mol2', 
+failed = ['DB01059.mol2', 'DB01326.mol2', 'DB00229.mol2', 'DB00779.mol2', 'DB00355.mol2',
+          'DB00430.mol2', 'DB01137.mol2', 'DB01327.mol2', 'DB00446.mol2', 'DB00923.mol2',
+          'DB01329.mol2', 'DB01165.mol2', 'DB01051.mol2', 'DB01328.mol2', 'DB00267.mol2',
+          'DB00274.mol2', 'DB00911.mol2', 'DB00467.mol2', 'DB00916.mol2', 'DB01208.mol2',
+          'DB01155.mol2', 'DB00817.mol2', 'DB00698.mol2', 'DB00218.mol2', 'DB00845.mol2',
+          'DB01044.mol2', 'DB00487.mol2', 'DB00978.mol2', 'DB00537.mol2', 'DB00827.mol2',
           'DB01405.mol2', 'DB01333.mol2', 'DB00438.mol2', 'DB01163.mol2', 'DB01413.mol2',
           # 'DB00760.mol2', # Linker Merging
           ]  # fmt: skip
@@ -62,7 +62,7 @@ def test_deconstruct(mol2_files):
         # Check if there is any overlapped atoms - atoms
         atoms = [s for t in snips for s in t]
         uniqueAtoms = set(atoms)
-        diff = sum(1 for atom in uniqueAtoms if not atom in fragments)
+        diff = sum(1 for atom in uniqueAtoms if atom not in fragments)
 
         log.debug(f"Atoms not in bricks or linkers: {diff} ({freeatoms})")
         log.debug(f"Atoms in Final Snips: {atoms}")
