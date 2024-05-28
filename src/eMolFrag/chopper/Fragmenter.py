@@ -21,7 +21,7 @@ def fragmentToMol(mol, frag_as_set):
 
     # if frag_as_set contains only one value (as in freeatom), convert to set
     if isinstance(frag_as_set, np.number):
-        frag_as_set = set([frag_as_set])
+        frag_as_set = {frag_as_set}
 
     for atom in sorted(set(range(len(cp.GetAtoms()))) - frag_as_set, reverse=True):
         cp.RemoveAtom(atom)
@@ -31,7 +31,7 @@ def fragmentToMol(mol, frag_as_set):
         Chem.SanitizeMol(cp)
         # TODO: Try to figure out the following to sanitize molecules better (not sure if this is necessary)
         # Chem.SanitizeMol(mol, Chem.SanitizeFlags.SANITIZE_ALL ^ Chem.SanitizeFlags.SANITIZE_ADJUSTHS)
-    except:
+    except Exception:
         log.warning(f"Fragment {frag_as_set} is not sanitizable.")
 
     return cp
