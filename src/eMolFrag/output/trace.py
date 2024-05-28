@@ -1,9 +1,9 @@
 # %%
-from eMolFrag.utilities.logging import log
-from eMolFrag.output import networktext as nt
+import matplotlib.pyplot as plt
 import networkx as nx
 from rdkit import Chem
-import matplotlib.pyplot as plt
+
+from eMolFrag.output import networktext as nt
 
 
 def mol_to_nx(mol):
