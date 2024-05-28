@@ -1,8 +1,8 @@
-import pytest
 import sys
 from pathlib import Path
-from eMolFrag.utilities.logging import log
-from eMolFrag.input import Options, MoleculeFileReader
+
+import pytest
+from eMolFrag.input import MoleculeFileReader, Options
 
 data = Path(__file__).parent.parent / "data"
 dir = data / "db-files"
@@ -13,8 +13,8 @@ dir = data / "db-files"
     (["sdf"], [0]),
     (["pbd"], [4]),
     (["mol"], [5]),
-    (["path_not_exists"], [0]), #test if directory doesn't exist
-    (["mol/DB00415.mol"], [1]), #test if not a directory
+    (["path_not_exists"], [0]),  # test if directory doesn't exist
+    (["mol/DB00415.mol"], [1]),  # test if not a directory
 ])  # fmt: skip
 
 

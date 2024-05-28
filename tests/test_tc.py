@@ -1,9 +1,9 @@
-import pytest
 from pathlib import Path
 
-from eMolFrag.utilities.tc import TC, TCEquiv
+import pytest
 from eMolFrag.input.MoleculeReader import getRDKitMolecule, to_mol
 from eMolFrag.utilities.logging import log
+from eMolFrag.utilities.tc import TC, TCEquiv
 
 data = Path(__file__).parent.parent / "data"
 

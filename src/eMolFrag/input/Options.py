@@ -1,9 +1,9 @@
 import argparse
 import sys
 
-from eMolFrag.utilities.logging import log
 from eMolFrag.input import ConfigReader
 from eMolFrag.utilities.constants import *
+from eMolFrag.utilities.logging import log
 
 #
 # Arg     Explanation
@@ -174,7 +174,7 @@ class Options:
         Set the user-defined options
         """
         for arg in vars(arg_env):
-            log.debug(f"{(arg+':').upper():<11}{vars(arg_env)[arg]}")
+            log.debug(f"{(arg + ':').upper():<11}{vars(arg_env)[arg]}")
 
             if arg == INPUT_ARG:
                 self.INPUT_PATH = getattr(arg_env, arg)

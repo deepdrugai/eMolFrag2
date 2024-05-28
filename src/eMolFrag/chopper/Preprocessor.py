@@ -1,6 +1,7 @@
 from rdkit import Chem
-from eMolFrag.utilities.logging import log
+
 from eMolFrag.utilities import constants
+from eMolFrag.utilities.logging import log
 
 # from eMolFrag.chopper import Deconstructor
 # from eMolFrag.chopper import Connectivity

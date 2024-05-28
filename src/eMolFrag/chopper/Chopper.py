@@ -1,8 +1,8 @@
+from eMolFrag.chopper import Connectivity, Deconstructor, Fragmenter, Preprocessor
+from eMolFrag.representation import Brick, FreeAtom, Linker
+from eMolFrag.representation import MoleculeDatabase as MDB
 from eMolFrag.utilities import constants
 from eMolFrag.utilities.logging import log
-from eMolFrag.chopper import Preprocessor, Deconstructor, Connectivity, Fragmenter
-from eMolFrag.representation import MoleculeDatabase as MDB
-from eMolFrag.representation import Brick, Linker, FreeAtom
 
 
 def chop(rdkit_mol):
@@ -81,15 +81,15 @@ def chopall(mols):
         #
         results = brick_db.addAll([Brick.Brick(b, mol, suffix=index) for index, b in enumerate(bricks)])
 
-        log.info(f"Added {len(bricks)} brick{'s'[:len(bricks)^1]};\t({len(results)} TC-Unique)")
+        log.info(f"Added {len(bricks)} brick{'s'[:len(bricks) ^ 1]};\t({len(results)} TC-Unique)")
 
         results = linker_db.addAll([Linker.Linker(ell, mol, suffix=index) for index, ell in enumerate(linkers)])
 
-        log.info(f"Added {len(linkers)} linker{'s'[:len(linkers)^1]};\t({len(results)} TC-Unique)")
+        log.info(f"Added {len(linkers)} linker{'s'[:len(linkers) ^ 1]};\t({len(results)} TC-Unique)")
 
         results = fa_db.addAll([FreeAtom.FreeAtom(fa, mol, suffix=index) for index, fa in enumerate(freeatoms)])
 
-        log.info(f"Added {len(freeatoms)} freeatom{'s'[:len(freeatoms)^1]};\t({len(results)} TC-Unique)")
+        log.info(f"Added {len(freeatoms)} freeatom{'s'[:len(freeatoms) ^ 1]};\t({len(results)} TC-Unique)")
 
         #
         # Handle snips and convert atom ids
@@ -117,6 +117,6 @@ def chopall(mols):
 
         snip_db[mol.getFileName()] = snips_new
 
-        log.info(f"Added {len(snips)} snip{'s'[:len(snips)^1]}.")
+        log.info(f"Added {len(snips)} snip{'s'[:len(snips) ^ 1]}.")
 
     return brick_db, linker_db, fa_db, snip_db

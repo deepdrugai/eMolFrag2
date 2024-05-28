@@ -1,9 +1,9 @@
-import pytest
 from pathlib import Path
-from eMolFrag.utilities.logging import log
+
+import pytest
 from eMolFrag.input.MoleculeReader import to_mol
 from eMolFrag.representation.MoleculeDatabase import MoleculeDatabase
-
+from eMolFrag.utilities.logging import log
 
 data = Path(__file__).parent.parent / "data"
 
@@ -41,9 +41,9 @@ def five_mols():
     (["similarPairSMI/3/DB12447.smi"], [True]),
     (["similarPairSMI/3/DB16219.smi"], [True]),
     # Same molecule
-    (["similarPairSMI/3/DB12447.smi", "similarPairSMI/3/DB12447.smi"], [True, False]),  
+    (["similarPairSMI/3/DB12447.smi", "similarPairSMI/3/DB12447.smi"], [True, False]),
     # Two molecules of TC = 1.0
-    (["similarPairSMI/3/DB12447.smi", "similarPairSMI/3/DB16219.smi"], [True, False]),  
+    (["similarPairSMI/3/DB12447.smi", "similarPairSMI/3/DB16219.smi"], [True, False]),
     # Five Molecules with tc < 1.0
     (["uniqueMol(SMI)/DB00415.smi", "uniqueMol(SMI)/DB01208.smi",
       "uniqueMol(SMI)/DB04626.smi", "uniqueMol(SMI)/DB11774.smi",

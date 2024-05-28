@@ -1,9 +1,12 @@
 from math import isclose
 
-from rdkit import Chem
-from rdkit import DataStructs  # For TC Computations
-from eMolFrag.utilities.logging import log
+from rdkit import (
+    Chem,
+    DataStructs,  # For TC Computations
+)
+
 from eMolFrag.representation import Molecule
+from eMolFrag.utilities.logging import log
 
 
 #

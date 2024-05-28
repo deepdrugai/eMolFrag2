@@ -1,6 +1,7 @@
-from eMolFrag.utilities.constants import INPUT_ARG, OUTPUT_ARG, EMF_FORMAT_EXT
-from eMolFrag.utilities.logging import log
 from pathlib import Path
+
+from eMolFrag.utilities.constants import EMF_FORMAT_EXT, INPUT_ARG, OUTPUT_ARG
+from eMolFrag.utilities.logging import log
 
 
 def cleanCommandList(cmdList):

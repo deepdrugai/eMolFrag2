@@ -1,14 +1,12 @@
-import pytest
-from pathlib import Path
 from itertools import product
+from pathlib import Path
 
-from rdkit.DataStructs import FingerprintSimilarity
-from rdkit.Chem import SDMolSupplier, RDKFingerprint
-
-from eMolFrag.utilities.logging import log
+import pytest
 from eMolFrag.chopper.Chopper import chopall
 from eMolFrag.input.MoleculeReader import to_mol
-
+from eMolFrag.utilities.logging import log
+from rdkit.Chem import RDKFingerprint, SDMolSupplier
+from rdkit.DataStructs import FingerprintSimilarity
 
 data = Path(__file__).parent.parent / "data"
 dir = data / "chopper"
