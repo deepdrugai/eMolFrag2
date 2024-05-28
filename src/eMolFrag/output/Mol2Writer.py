@@ -9,11 +9,12 @@
 #  of the RDKit source tree.
 #
 import re
+
 from rdkit import Chem
-from rdkit.Chem.rdchem import RWMol, Conformer, Atom, BondType
-from rdkit.Chem.rdmolfiles import MolFromSmarts, MolFromMol2Block
+from rdkit.Chem.rdchem import Atom, BondType, Conformer, RWMol
+from rdkit.Chem.rdmolfiles import MolFromMol2Block, MolFromSmarts
+from rdkit.Chem.rdmolops import AddHs, AssignAtomChiralTagsFromStructure, RemoveHs, SanitizeMol
 from rdkit.Chem.rdPartialCharges import ComputeGasteigerCharges
-from rdkit.Chem.rdmolops import AddHs, RemoveHs, AssignAtomChiralTagsFromStructure, SanitizeMol
 
 
 def _get_positions(mol, confId=-1):
@@ -338,11 +339,9 @@ def _sybyl_atom_type(atom):
             sybyl = "N.ar"
         elif _atom_matches_smarts(atom, "C(=[O,S])-N"):
             sybyl = "N.am"
-        elif degree == 3 and _atom_matches_smarts(atom, "[$(N!-*),$([NX3H1]-*!-*)]"):
+        elif (degree == 3 and _atom_matches_smarts(atom, "[$(N!-*),$([NX3H1]-*!-*)]")) or _atom_matches_smarts(atom, guanidine):
             sybyl = "N.pl3"
-        elif _atom_matches_smarts(atom, guanidine):  # guanidine has N.pl3
-            sybyl = "N.pl3"
-        elif degree == 4 or hyb == 3 and atom.GetFormalCharge():
+        elif degree == 4 or (hyb == 3 and atom.GetFormalCharge()):
             sybyl = "N.4"
         else:
             sybyl = "%s.%i" % (atom_symbol, hyb)
