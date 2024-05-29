@@ -28,7 +28,7 @@ class Molecule:
                 a.SetIntProp("original_idx", a.GetIdx())
 
     def fragment(self):
-        return True if self.parent else False
+        return bool(self.parent)
 
     def getParent(self):
         return self.parent
@@ -56,8 +56,8 @@ class Molecule:
         properties = self.rdkitObject.GetPropNames()
         properties.append(constants.ATOMTYPE_PROP)  # Remove an errant property
         properties.append(constants.ATOMTYPE_CHARGE_PROP)  # Remove an errant property
-        for property in properties:
-            self.rdkitObject.ClearProp(property)
+        for prop in properties:
+            self.rdkitObject.ClearProp(prop)
 
     def __hash__(self):
         # hash(custom_object)
@@ -97,15 +97,13 @@ class Molecule:
         similar_appendix = "\n".join(sim_mol.getFileName() for sim_mol in self.similar)
         self.rdkitObject.SetProp(constants.SDF_OUTPUT_SIMILAR_FRAGMENTS, similar_appendix)
 
-
         def get_sdf_string(molecule):
             # Adjust properties and handle aromaticity without forcing kekulization
             molecule.UpdatePropertyCache(strict=False)
             Chem.GetSymmSSSR(molecule)
             Chem.SanitizeMol(molecule, Chem.SANITIZE_ALL ^ Chem.SANITIZE_KEKULIZE)
-            sdf_string = Chem.MolToMolBlock(molecule)
+            return Chem.MolToMolBlock(molecule)
             # writer.write(molecule)
-            return sdf_string
 
         from rdkit import Chem
 
