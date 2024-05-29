@@ -50,19 +50,19 @@ def molBRICSBonds(mol):
     return {(a, b) if (a < b) else (b, a) for a, b in snips}
 
 
-def molFragments(l):
+def molFragments(mol_adj):
     """
     De-Duplicated BRICS Bonds List
 
         Parameters:
-                  l (matrix): Molecule Adjacency List
+                  mol_adj (matrix): Molecule Adjacency List
 
         Returns:
                   a (list of sets): List of Fragment Atom IDs as sets
     """
     import networkx as nx
 
-    g = nx.from_edgelist(l)
+    g = nx.from_edgelist(mol_adj)
     return list(nx.connected_components(g))
 
 
@@ -86,9 +86,9 @@ def combineAdjLinkerSequences(linkers, freeatoms, snips):
 
     for x, y in snips:
         # List of linkers for x tuple-half
-        lx = [l for l in linkers if x in l] + [(f,) for f in freeatoms if x == f]
+        lx = [linker for linker in linkers if x in linker] + [(f,) for f in freeatoms if x == f]
         # List of linkers for y tuple-half
-        ly = [l for l in linkers if y in l] + [(f,) for f in freeatoms if y == f]
+        ly = [linker for linker in linkers if y in linker] + [(f,) for f in freeatoms if y == f]
 
         if lx and ly:
             lx, ly = *lx, *ly
