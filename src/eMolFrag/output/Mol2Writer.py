@@ -154,10 +154,7 @@ class Mol2MolSupplier:
 
         # Decide whether to use an existing file object or open a new file.
         # Determine the correct file context to use
-        if hasattr(self.f, "read") and hasattr(self.f, "close"):
-            file_context = self.f
-        else:
-            file_context = open(self.f)  # noqa: SIM115
+        file_context = self.f if hasattr(self.f, "read") and hasattr(self.f, "close") else open(self.f)  # noqa: SIM115
 
         # Using a context manager to ensure the file is properly closed after processing.
         with file_context as f:
