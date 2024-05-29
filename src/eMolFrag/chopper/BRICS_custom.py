@@ -37,6 +37,7 @@
 # The code has been modified to remove
 #
 # ruff: noqa
+# fmt: off
 
 import copy
 import random
