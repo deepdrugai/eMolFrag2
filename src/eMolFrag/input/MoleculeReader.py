@@ -107,8 +107,7 @@ def readMol2File(contents):
     # 0 unique bricks among 0 bricks - 0 unique linkers among 0 linkers ||| Chem.MolFromMol2Block(contents, kekulize=False)
 
     return (
-        Chem.MolFromMol2Block(contents)
-        or Chem.MolFromMol2Block(contents, removeHs=False, cleanupSubstructures=False)
+        Chem.MolFromMol2Block(contents) or Chem.MolFromMol2Block(contents, removeHs=False, cleanupSubstructures=False)
         # or Chem.MolFromMol2Block(contents, sanitize=False)
         # or Chem.MolFromMol2Block(contents, sanitize=False, removeHs=False)
         # or Chem.MolFromMol2Block(contents, sanitize=False, removeHs=False, cleanupSubstructures=False)
