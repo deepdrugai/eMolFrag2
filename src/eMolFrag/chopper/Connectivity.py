@@ -21,7 +21,6 @@ def compute(rdkit_mol, snips):
     """
     # Analyze all snips in both directions
     for start, end in list(snips) + [(y, x) for x, y in snips]:
-
         # Each atom that is part of a BRICS cleave point may have multiple 'radical' connections;
         # use a 'list' to track them all; properties in rdkit are strings
         connections = (
