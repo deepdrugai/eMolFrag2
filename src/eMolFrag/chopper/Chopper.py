@@ -98,15 +98,17 @@ def chopall(mols):
         for mdb in [brick_db, linker_db, fa_db]:
             for frag in mdb.GetAllMolecules():
                 for a in frag.getRDKitObject().GetAtoms():
-                    id = a.GetIdx()
-                    id_og = a.GetIntProp("original_idx")
+                    idx = a.GetIdx()
+                    idx_og = a.GetIntProp("original_idx")
 
                     # Check if the id_og is in any of the snips
-                    found = any(id_og in snip for snip in snips)
+                    found = any(idx_og in snip for snip in snips)
 
                     # Iterate through each snip in snips and add mapping to og_map
                     if found:
-                        og_map.update({id_og: f"{frag.getFileName()}-{id:03d} ({a.GetSymbol()} {id_og})" for snip in snips if id_og in snip})
+                        og_map.update(
+                            {idx_og: f"{frag.getFileName()}-{idx:03d} ({a.GetSymbol()} {idx_og})" for snip in snips if idx_og in snip}
+                        )
 
         # Create a new set of snips with replaced/mapped keys
         snips_new = set()
