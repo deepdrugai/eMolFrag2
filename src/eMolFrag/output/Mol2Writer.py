@@ -263,14 +263,11 @@ def MolToMol2Block(mol, confId=-1, addHs=True, addCharges=True):
         ComputeGasteigerCharges(mol)
 
     for confId in confIds:
-
-        molecule = """@<TRIPOS>MOLECULE
-{}
-{} {} 0 0 0
+        molecule = f"""@<TRIPOS>MOLECULE
+{mol.GetProp("_Name") if mol.HasProp("_Name") else "UNK"}
+{mol.GetNumAtoms()} {mol.GetNumBonds()} 0 0 0
 SMALL
-GASTEIGER\n\n""".format(
-            mol.GetProp("_Name") if mol.HasProp("_Name") else "UNK", mol.GetNumAtoms(), mol.GetNumBonds()
-        )
+GASTEIGER\n\n"""
 
         # FIXME: "USER_CHARGES" could become 'Gasteiger charges'
         # FIXME: "SMALL" means small molecule but could become "PROTEIN"
