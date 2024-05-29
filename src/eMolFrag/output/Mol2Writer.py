@@ -9,11 +9,12 @@
 #  of the RDKit source tree.
 #
 import re
+
 from rdkit import Chem
-from rdkit.Chem.rdchem import RWMol, Conformer, Atom, BondType
-from rdkit.Chem.rdmolfiles import MolFromSmarts, MolFromMol2Block
+from rdkit.Chem.rdchem import Atom, BondType, Conformer, RWMol
+from rdkit.Chem.rdmolfiles import MolFromMol2Block, MolFromSmarts
+from rdkit.Chem.rdmolops import AddHs, AssignAtomChiralTagsFromStructure, RemoveHs, SanitizeMol
 from rdkit.Chem.rdPartialCharges import ComputeGasteigerCharges
-from rdkit.Chem.rdmolops import AddHs, RemoveHs, AssignAtomChiralTagsFromStructure, SanitizeMol
 
 
 def _get_positions(mol, confId=-1):
@@ -78,7 +79,7 @@ def MolFromCommonMol2Block(block, sanitize=True, removeHs=True):
             # charge = float(data[6])
             atom = Atom(symbol.rstrip("0123456789"))
             new_idx = mol.AddAtom(atom)
-            assert new_idx == idx
+            assert new_idx == idx  # noqa: S101
             conf.SetAtomPosition(idx, (x, y, z))
         # 2. Add bonds
         elif mode == 2:
@@ -121,7 +122,7 @@ def MolFromCommonMol2Block(block, sanitize=True, removeHs=True):
                 mol = RemoveHs(mol)
             else:
                 SanitizeMol(mol)
-        except:
+        except Exception:
             return None
     try:
         Chem.DetectBondStereoChemistry(mol, conf)
@@ -145,28 +146,39 @@ class Mol2MolSupplier:
         self._kwargs = kwargs
 
     def __iter__(self):
-        """Iterates over molecules in file"""
+        """Yield molecules from a Mol2 file."""
+        # Initialize variables to store molecule data and comment blocks.
         block = ""
         data = ""
-        n = 0
+        first_molecule = True
+
+        # Decide whether to use an existing file object or open a new file.
+        # Determine the correct file context to use
         if hasattr(self.f, "read") and hasattr(self.f, "close"):
-            f = self.f
+            file_context = self.f
         else:
-            f = open(self.f)
-        for line in f:
-            if line[:1] == "#":
-                data += line
-            elif line[:17] == "@<TRIPOS>MOLECULE":
-                if n > 0:  # skip `zero` molecule (any preciding comments and spaces)
-                    yield MolFromMol2Block(block, *self._args, **self._kwargs)
-                n += 1
-                block = data
-                data = ""
-            block += line
-        # open last molecule
+            file_context = open(self.f)  # noqa: SIM115
+
+        # Using a context manager to ensure the file is properly closed after processing.
+        with file_context as f:
+            for line in f:
+                if line.startswith("#"):
+                    data += line
+                elif line.startswith("@<TRIPOS>MOLECULE"):
+                    # Yield the current molecule block if it's not the first one.
+                    if not first_molecule:
+                        yield MolFromMol2Block(block, *self._args, **self._kwargs)
+                    else:
+                        first_molecule = False
+                    # Start a new molecule block, including preceding comments.
+                    block = data
+                    data = ""
+                # Add the current line to the current molecule block.
+                block += line
+
+        # Yield the last molecule if any.
         if block:
             yield MolFromMol2Block(block, *self._args, **self._kwargs)
-        f.close()
 
 
 class Mol2Writer:
@@ -181,7 +193,7 @@ class Mol2Writer:
         if hasattr(filename, "write") and hasattr(self.f, "close"):
             self.f = filename
         else:
-            self.f = open(filename, "w")
+            self.f = open(filename, "w")  # noqa: SIM115
         self._args = args
         self._kwargs = kwargs
 
@@ -234,7 +246,7 @@ def MolToMol2Block(mol, confId=-1, addHs=True, addCharges=True):
 
     confIds = (confId,)
 
-    if confId == None:
+    if confId is None:
         confIds = Chem.Mol.GetNumConformers()
 
     blocks = []
@@ -281,7 +293,7 @@ GASTEIGER\n\n""".format(
             )
             for a in mol.GetAtoms()
         ]
-        atom_lines = ["@<TRIPOS>ATOM"] + atom_lines
+        atom_lines = ["@<TRIPOS>ATOM", *atom_lines]
         atom_lines = "\n".join(atom_lines) + "\n"
 
         bond_lines = [
@@ -293,7 +305,7 @@ GASTEIGER\n\n""".format(
             )
             for bid, (b) in enumerate(mol.GetBonds())
         ]
-        bond_lines = ["@<TRIPOS>BOND"] + bond_lines + ["\n"]
+        bond_lines = ["@<TRIPOS>BOND", *bond_lines, "\n"]
         bond_lines = "\n".join(bond_lines)
 
         block = molecule + atom_lines + bond_lines
@@ -334,9 +346,7 @@ def _sybyl_atom_type(atom):
             sybyl = "N.ar"
         elif _atom_matches_smarts(atom, "C(=[O,S])-N"):
             sybyl = "N.am"
-        elif degree == 3 and _atom_matches_smarts(atom, "[$(N!-*),$([NX3H1]-*!-*)]"):
-            sybyl = "N.pl3"
-        elif _atom_matches_smarts(atom, guanidine):  # guanidine has N.pl3
+        elif degree == 3 and _atom_matches_smarts(atom, "[$(N!-*),$([NX3H1]-*!-*)]") or _atom_matches_smarts(atom, guanidine):
             sybyl = "N.pl3"
         elif degree == 4 or hyb == 3 and atom.GetFormalCharge():
             sybyl = "N.4"
