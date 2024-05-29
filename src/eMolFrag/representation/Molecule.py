@@ -102,8 +102,8 @@ class Molecule:
             molecule.UpdatePropertyCache(strict=False)
             Chem.GetSymmSSSR(molecule)
             Chem.SanitizeMol(molecule, Chem.SANITIZE_ALL ^ Chem.SANITIZE_KEKULIZE)
-            return Chem.MolToMolBlock(molecule)
             # writer.write(molecule)
+            return Chem.MolToMolBlock(molecule)
 
         from rdkit import Chem
 
