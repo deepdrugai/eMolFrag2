@@ -50,5 +50,5 @@ def example():
     plt.show()
 
 
-def create_trace(mol):
-    print("trace")
+# def create_trace(mol):
+#     print("trace")
