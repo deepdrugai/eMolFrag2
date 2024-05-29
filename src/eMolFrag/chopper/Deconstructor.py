@@ -174,8 +174,8 @@ def deconstruct(rdkit_mol):
     log.debug(f"nxfrags: {nxfrags}")
 
     # Calculate Free-atoms from sequential snips
-    atomlist = set([i for sl in adj_list for i in sl])
-    atomfraglist = set([i for sl in nxfrags for i in sl])
+    atomlist = {i for sl in adj_list for i in sl}
+    atomfraglist = {i for sl in nxfrags for i in sl}
     freeatoms = atomlist - atomfraglist
 
     log.debug(f"atomlist: {atomlist}")
