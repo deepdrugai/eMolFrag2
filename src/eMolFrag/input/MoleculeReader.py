@@ -14,18 +14,14 @@ def fileToString(file):
 
     @input: file -- valid path to a file
     """
-    contents = ""
     with open(file) as f:
-        contents = f.read()
-
-    return contents
+        return f.read()
 
 
 def to_mol(molPath):
     """Create Molecule object from file path (string)"""
     mol = getRDKitMolecule(molPath)
-    m = Molecule(mol, molPath.name)
-    return m
+    return Molecule(mol, molPath.name)
 
 
 def getRDKitMolecule(path):
@@ -56,20 +52,19 @@ def convertToRDkit(contents, path):
         log.error(f"Input file type with extension {extension} ({path.name}) not supported.")
         raise NotImplementedError
 
-    elif extension == constants.MOL2_FORMAT_EXT:
+    if extension == constants.MOL2_FORMAT_EXT:
         mol = readMol2File(contents)
         if mol is None:
-            print()
             log.error(f"Rdkit failed to process file {path.name}.")
             return None
         return mol
 
-    elif extension == constants.SMILES_FORMAT_EXT:
+    if extension == constants.SMILES_FORMAT_EXT:
         from eMolFrag.input import SmilesReader
 
         return SmilesReader.readSmilesFile(contents)
 
-    elif extension == constants.FASTA_FORMAT_EXT:
+    if extension == constants.FASTA_FORMAT_EXT:
         mol = Chem.MolFromFASTA(contents)
 
     elif extension == constants.YAML_FORMAT_EXT:
@@ -94,6 +89,8 @@ def convertToRDkit(contents, path):
     if path:
         log.warning(f"Input file type {extension} ({path.name}) will not preserve molecule SYBL atom types.")
         return mol
+
+    return None
 
 
 def readMol2File(contents):
@@ -136,7 +133,8 @@ def getMolecules(files):
         # Attempt to interpret the molecule
         try:
             mol = convertToRDkit(file_contents, current_file)
-        except Exception:
+        except Exception as e:
+            log.error(f"Error reading file {current_file}: {e}")
             continue
         else:
             # To Mol2Block and Back to Mol Object (to get TriposAtomType)
@@ -145,7 +143,7 @@ def getMolecules(files):
             if mol is None:
                 log.warning(f"Molecule {current_file} empty.")
                 continue
-            elif isinstance(mol, list):
+            if isinstance(mol, list):
                 log.debug(f"{mol = }")
                 mols += [
                     (
