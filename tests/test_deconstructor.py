@@ -26,9 +26,7 @@ def mol2_files():
 
 
 def test_deconstruct(mol2_files):
-
     for file in mol2_files:
-
         log.info(f"File: {file}")
 
         # create rdkit molecule from molPath
