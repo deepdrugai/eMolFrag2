@@ -1,6 +1,7 @@
 """
 Text-based visual representations of graphs
 """
+
 import sys
 import warnings
 from collections import defaultdict
@@ -9,6 +10,8 @@ import networkx as nx
 from networkx.utils import open_file
 
 __all__ = ["forest_str", "generate_network_text", "write_network_text"]
+
+# ruff: noqa
 
 
 class BaseGlyphs:
