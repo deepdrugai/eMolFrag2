@@ -1,5 +1,4 @@
 import math
-import operator
 
 import matplotlib.image as mpimg
 import matplotlib.pyplot as plt
@@ -23,11 +22,11 @@ def histogram(brick_db, linker_db, out_dir):
         mols = list(set(mols))
         sorted_order = np.argsort(list(new_dict.values()))
         mols_sorted = list(np.array(mols)[sorted_order])
-        dict_sorted = {key: value for key, value in sorted(new_dict.items(), key=operator.itemgetter(1), reverse=True)}
+        dict_sorted = dict(sorted(new_dict.items(), key=lambda item: item[1], reverse=True))
         labels = dict_sorted.keys()
         values = dict_sorted.values()
         plt.bar(labels, values, width=width)
-        for i, (label, value) in enumerate(zip(labels, values)):
+        for i, (_, value) in enumerate(zip(labels, values)):
             img = mpimg.imread(mols_sorted[i])
             plt.imshow(img, extent=[i - width / 2, i + width / 2, value, value + 1], aspect="auto", zorder=2)
         plt.xlim(-0.5, len(labels) + 1)
