@@ -62,7 +62,7 @@ def MolFromCommonMol2Block(block, sanitize=True, removeHs=True):
                 # print(line)
                 nums = line.strip().split()
                 num_atoms = int(nums[0])
-                num_bonds = int(nums[1])
+                # num_bonds = int(nums[1])
                 conf = Conformer(num_atoms)
             # n = 3: SMALL/PROTEIN
             # n = 4: GASTEIGER/USER_CHARGES
@@ -263,8 +263,8 @@ GASTEIGER\n\n""".format(
             mol.GetProp("_Name") if mol.HasProp("_Name") else "UNK", mol.GetNumAtoms(), mol.GetNumBonds()
         )
 
-        # FIXME "USER_CHARGES" could become 'Gasteiger charges'
-        # FIXME "SMALL" means small molecule but could become "PROTEIN"
+        # FIXME: "USER_CHARGES" could become 'Gasteiger charges'
+        # FIXME: "SMALL" means small molecule but could become "PROTEIN"
 
         pos = _get_positions(mol, confId)
         atom_lines = [
