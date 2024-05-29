@@ -36,6 +36,7 @@
 #
 # The code has been modified to remove
 #
+# ruff: noqa
 
 import copy
 import random
