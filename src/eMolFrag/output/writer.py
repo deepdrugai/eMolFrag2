@@ -71,7 +71,7 @@ def writeSingleFile(indicator, name, out_dir, mols, extension=constants.SDF_FORM
         f.write(text)
 
 
-def writeIndividualFiles(out_dir, mols, extension=constants.SDF_FORMAT_EXT):
+def writeIndividualFiles(out_dir, mols):
     """
     indicator --  'u' --> unique or 'a' --> all
     name -- main part of the output file: 'bricks' or 'linkers'
@@ -115,7 +115,7 @@ def writeTraceFiles(out_dir, snip_db, mols, extension=constants.TRACE_FORMAT_EXT
             f.write("target:\t" + MolToSmiles(mol.getRDKitObject()) + "\n")
 
 
-def write(options, brick_db, linker_db, fa_db, snip_db, molecules=False):
+def write(options, brick_db, linker_db, fa_db, snip_db, molecules):
     """
     Main output routine
     The focus is what fragments (unique OR all) and format how to
