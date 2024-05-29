@@ -30,8 +30,8 @@ jobs:
     - name: Run PyTests with Coverage
       run: hatch test --cover
 
-    # - name: Lint
-    #   run: hatch run pytest
+    - name: Ruff Lint & Formatting
+      run: hatch fmt
 
     # - name: Tests
     #   run: hatch run +py=${{ matrix.python-version }} pytest
