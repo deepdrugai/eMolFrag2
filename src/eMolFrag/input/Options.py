@@ -5,6 +5,8 @@ from eMolFrag.input import ConfigReader
 from eMolFrag.utilities.constants import *
 from eMolFrag.utilities.logging import log
 
+# ruff: noqa: F403, F405
+
 #
 # Arg     Explanation
 # ---     ---------------------------------------
