@@ -9,12 +9,11 @@
 #  of the RDKit source tree.
 #
 import re
-
 from rdkit import Chem
-from rdkit.Chem.rdchem import Atom, BondType, Conformer, RWMol
-from rdkit.Chem.rdmolfiles import MolFromMol2Block, MolFromSmarts
-from rdkit.Chem.rdmolops import AddHs, AssignAtomChiralTagsFromStructure, RemoveHs, SanitizeMol
+from rdkit.Chem.rdchem import RWMol, Conformer, Atom, BondType
+from rdkit.Chem.rdmolfiles import MolFromSmarts, MolFromMol2Block
 from rdkit.Chem.rdPartialCharges import ComputeGasteigerCharges
+from rdkit.Chem.rdmolops import AddHs, RemoveHs, AssignAtomChiralTagsFromStructure, SanitizeMol
 
 
 def _get_positions(mol, confId=-1):
@@ -290,11 +289,7 @@ GASTEIGER\n\n""".format(
                 bid + 1,
                 b.GetBeginAtomIdx() + 1,
                 b.GetEndAtomIdx() + 1,
-                "ar"
-                if b.GetBondTypeAsDouble() == 1.5
-                else "am"
-                if _amide_bond(b)
-                else str(int(b.GetBondTypeAsDouble())),
+                "ar" if b.GetBondTypeAsDouble() == 1.5 else "am" if _amide_bond(b) else str(int(b.GetBondTypeAsDouble())),
             )
             for bid, (b) in enumerate(mol.GetBonds())
         ]
@@ -339,9 +334,11 @@ def _sybyl_atom_type(atom):
             sybyl = "N.ar"
         elif _atom_matches_smarts(atom, "C(=[O,S])-N"):
             sybyl = "N.am"
-        elif (degree == 3 and _atom_matches_smarts(atom, "[$(N!-*),$([NX3H1]-*!-*)]")) or _atom_matches_smarts(atom, guanidine):
+        elif degree == 3 and _atom_matches_smarts(atom, "[$(N!-*),$([NX3H1]-*!-*)]"):
             sybyl = "N.pl3"
-        elif degree == 4 or (hyb == 3 and atom.GetFormalCharge()):
+        elif _atom_matches_smarts(atom, guanidine):  # guanidine has N.pl3
+            sybyl = "N.pl3"
+        elif degree == 4 or hyb == 3 and atom.GetFormalCharge():
             sybyl = "N.4"
         else:
             sybyl = "%s.%i" % (atom_symbol, hyb)
@@ -372,11 +369,7 @@ def _sybyl_atom_type(atom):
 
 def _atom_matches_smarts(atom, smarts):
     idx = atom.GetIdx()
-    patt = MolFromSmarts(smarts)
-    for m in atom.GetOwningMol().GetSubstructMatches(patt):
-        if idx in m:
-            return True
-    return False
+    return any(idx in m for m in atom.GetOwningMol().GetSubstructMatches(MolFromSmarts(smarts)))
 
 
 def _amide_bond(bond):
