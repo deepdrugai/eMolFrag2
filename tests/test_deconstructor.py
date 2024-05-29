@@ -22,11 +22,7 @@ failed = ['DB01059.mol2', 'DB01326.mol2', 'DB00229.mol2', 'DB00779.mol2', 'DB003
 
 @pytest.fixture
 def mol2_files():
-    files = []
-    file_list = (file for file in datadir.iterdir() if file.name not in failed)
-    for file in file_list:
-        files.append(file)
-    return files
+    return [file for file in datadir.iterdir() if file.name not in failed]
 
 
 def test_deconstruct(mol2_files):
@@ -40,7 +36,7 @@ def test_deconstruct(mol2_files):
 
         # Check that all files load properly
         if rdkit_mol is None:  # pragma: no cover
-            assert False
+            raise AssertionError
 
         # remove hydrogen
         rdkit_mol = Chem.RemoveAllHs(rdkit_mol, sanitize=True)
@@ -49,23 +45,22 @@ def test_deconstruct(mol2_files):
         bricks, linkers, snips, freeatoms = Deconstructor.deconstruct(rdkit_mol)
 
         # count number of atoms in bricks set
-        b_count = sum(len(b) for b in bricks)
-        fragments = [t for b in bricks for t in b]
+        b_count = sum(len(brick) for brick in bricks)
+        fragments = [atom for brick in bricks for atom in brick]
 
         # count number of atoms in linkers set
-        l_count = sum(len(l) for l in linkers)
-        fragments += [t for l in linkers for t in l]
+        l_count = sum(len(linker) for linker in linkers)
+        fragments += [atom for linker in linkers for atom in linker]
 
         log.debug(f"# of atoms in the molecule: { len(rdkit_mol.GetAtoms()) }")
         log.debug(f"# of atoms after deconstruct:{ b_count + l_count }")
 
         # Check if there is any overlapped atoms - atoms
-        atoms = [s for t in snips for s in t]
-        uniqueAtoms = set(atoms)
+        uniqueAtoms = {atom for snip in snips for atom in snip}
         diff = sum(1 for atom in uniqueAtoms if atom not in fragments)
 
         log.debug(f"Atoms not in bricks or linkers: {diff} ({freeatoms})")
-        log.debug(f"Atoms in Final Snips: {atoms}")
+        # log.debug(f"Atoms in Final Snips: {atoms}")
         log.debug(f"Unique atoms in final snips: {uniqueAtoms}")
 
         #
