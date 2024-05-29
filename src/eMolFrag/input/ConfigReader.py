@@ -10,13 +10,8 @@ def cleanCommandList(cmdList):
 
     @output: a list of flags and arguments
     """
-    retList = []
     bad_tokens = ["", " ", "\n"]
-    for token in cmdList:
-        if token not in bad_tokens:
-            retList.append(token)
-
-    return retList
+    return [token for token in cmdList if token not in bad_tokens]
 
 
 def grabCommands(config_file):
@@ -67,9 +62,9 @@ def readConfig(config_file, parser):
     cmdList = grabCommands(config_file)
 
     args = parser.parse_args(cmdList)
-    input = getattr(args, INPUT_ARG)
+    input_args = getattr(args, INPUT_ARG)
     output = getattr(args, OUTPUT_ARG)
-    if input is None or output is None:
+    if input_args is None or output is None:
         log.error(f"Command-line arguments failed to parse; execution of eMolFrag will stop.")
         return None
 
