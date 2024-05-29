@@ -109,6 +109,7 @@ def chopall(mols):
                         og_map.update(
                             {idx_og: f"{frag.getFileName()}-{idx:03d} ({a.GetSymbol()} {idx_og})" for snip in snips if idx_og in snip}
                         )
+                    # ruff: noqa: B035
 
         # Create a new set of snips with replaced/mapped keys
         snips_new = set()
