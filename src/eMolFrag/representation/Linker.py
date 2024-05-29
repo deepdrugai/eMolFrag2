@@ -5,7 +5,6 @@ from eMolFrag.utilities import constants
 
 
 class Linker(Molecule.Molecule):
-
     def __init__(self, rdkit_mol, parent, suffix=0):
         """
         @input: rdkit_obj -- Rdkit.Mol object representing this fragment
