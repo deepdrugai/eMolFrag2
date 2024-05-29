@@ -12,15 +12,15 @@ data = Path(__file__).parent.parent / "data"
 datadir = data / "chopper"
 
 
-@pytest.mark.parametrize("cwd, cwdex", [(datadir / f"mol2-{n}", datadir / f"mol2-{n}-out-joined") for n in range(1, 4)])
+@pytest.mark.parametrize(("cwd", "cwdex"), [(datadir / f"mol2-{n}", datadir / f"mol2-{n}-out-joined") for n in range(1, 4)])
 def test_chopall(cwd, cwdex):
     elinks = [file for file in cwdex.iterdir() if str(file.name).startswith("l-")]
     ebricks = [file for file in cwdex.iterdir() if str(file.name).startswith("b-")]
     elinks = [SDMolSupplier(str(cwdex / x)) for x in elinks]
     ebricks = [SDMolSupplier(str(cwdex / x)) for x in ebricks]
 
-    input = [file for file in cwd.iterdir()]
-    bricks, links, freeatoms, snips = chopall([to_mol(x) for x in input])
+    input_files = list(cwd.iterdir())
+    bricks, links, freeatoms, snips = chopall([to_mol(x) for x in input_files])
     links = [x.getRDKitObject() for x in links.GetAllMolecules()]
     bricks = [x.getRDKitObject() for x in bricks.GetAllMolecules()]
 
