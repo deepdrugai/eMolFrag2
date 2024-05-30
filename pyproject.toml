@@ -47,6 +47,12 @@ emolfrag = "eMolFrag.eMolFrag:main"
 [tool.hatch.envs.dev]
 dependencies = ["pytest", "pytest-cov"]
 
+[tool.hatch.envs.types]
+extra-dependencies = ["mypy>=1.0.0", "types-networkx"]
+
+[tool.hatch.envs.types.scripts]
+check = "mypy --install-types --non-interactive {args:src/eMolFrag tests}"
+
 [tool.ruff]
 line-length = 142
 
