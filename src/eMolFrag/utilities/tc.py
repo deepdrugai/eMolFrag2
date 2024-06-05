@@ -27,7 +27,7 @@ def TC(mol1, mol2):
     return TC_private(mol1.getRDKitObject(), mol2.getRDKitObject()) if isinstance(mol1, Molecule.Molecule) else TC_private(mol1, mol2)
 
 
-def TCEquiv(mol1, mol2, tc_threshold=1.0):
+def TCEquiv(mol1, mol2, tc_threshold=1.0) -> bool:
     """
     @input: 2 Molecule objects
     @output: True if the molecules are TC-equivalent; False otherwise

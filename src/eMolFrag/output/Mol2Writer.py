@@ -376,7 +376,7 @@ def _atom_matches_smarts(atom, smarts):
     return any(idx in m for m in atom.GetOwningMol().GetSubstructMatches(MolFromSmarts(smarts)))
 
 
-def _amide_bond(bond):
+def _amide_bond(bond) -> bool:
     a1 = bond.GetBeginAtom()
     a2 = bond.GetEndAtom()
     if (a1.GetAtomicNum() == 6 and a2.GetAtomicNum() == 7) or (a2.GetAtomicNum() == 6 and a1.GetAtomicNum() == 7):

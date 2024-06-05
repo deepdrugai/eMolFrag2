@@ -26,7 +26,7 @@ class MoleculeDatabase(Molecule):
     #
     # @output: if the given molecule is unique, return True (False if it is TC-redudant)
     #
-    def add(self, molecule):
+    def add(self, molecule) -> bool:
         # print("Adding", molecule.getFileName())
 
         tc_equiv = [db_mol for db_mol in self.database if tc.TCEquiv(molecule, db_mol, tc_threshold=self.TC_THRESH)]
