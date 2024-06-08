@@ -23,7 +23,7 @@ def writeMolImgsFromDB(db, out_dir, filetype=".png"):
         draw.draw_mol(rdkitmol, out_dir / (fragname + filetype))  # Valid choices are pdf, svg, ps, and png
 
 
-def prepareDirectory(out_path):
+def prepareDirectory(out_path: Path) -> Path:
     """
     If the directory does not exist, create it.
     If the directory does exist, clean it.
@@ -36,7 +36,7 @@ def prepareDirectory(out_path):
     new_path = out_path
     i = 1
     while new_path.exists():
-        log.warning(f"Output path {new_path} exists; Trying {out_path!s}-{i}.")
+        log.debug(f"Output path {new_path} exists; Trying {out_path!s}-{i}.")
         new_path = out_path.parent / f"{out_path.name}-{i}"
         i += 1
     log.debug(f"Output path {new_path.resolve()} does not exist, will be created.")
@@ -179,4 +179,5 @@ def write(options, brick_db, linker_db, fa_db, snip_db, molecules):
     writeMolImgsFromDB(brick_db, img_dir)
     writeMolImgsFromDB(linker_db, img_dir)
     writeMolImgsFromDB(fa_db, img_dir)
+
     stats.histogram(brick_db, linker_db, img_dir)
