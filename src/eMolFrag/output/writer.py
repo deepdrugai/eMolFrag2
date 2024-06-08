@@ -180,4 +180,17 @@ def write(options, brick_db, linker_db, fa_db, snip_db, molecules):
     writeMolImgsFromDB(linker_db, img_dir)
     writeMolImgsFromDB(fa_db, img_dir)
 
+    # Print all mols in input molecule list with snips highlighted
+    for mol in molecules:
+        highlight_snips = [tuple(int(s.split()[-1].strip("()")) for s in snip) for snip in snip_db[mol.getFileName()]]
+
+        # Find bonds to highlight based on atom pairs
+        highlight_bonds = []
+        for idx1, idx2 in highlight_snips:
+            bond = mol.getRDKitObject().GetBondBetweenAtoms(idx1, idx2)
+            if bond:
+                highlight_bonds.append(bond.GetIdx())
+
+        draw.draw_mol(mol.getRDKitObject(), img_dir / (mol.getFileName() + ".png"), highlightBonds=highlight_bonds)
+
     stats.histogram(brick_db, linker_db, img_dir)
