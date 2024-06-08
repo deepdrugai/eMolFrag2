@@ -9,10 +9,10 @@ from eMolFrag.utilities.logging import log
 # from IPython.display import SVG
 
 
-def draw_mol(mol, out_dir):
+def draw_mol(mol, out_dir, **kwargs):
     # mol = Chem.MolFromSmiles('[H][C@]12SC(C)(C)[C@@H](N1C(=O)[C@H]2NC(=O)[C@H](N)C1=CC=C(O)C=C1)C(O)=O')
     mol.RemoveAllConformers()
-    MolToFile(mol, out_dir)
+    MolToFile(mol, out_dir, **kwargs)
 
 
 def draw_grid_img(mol, out_dir):
