@@ -32,7 +32,11 @@ def fragmentToMol(mol, frag_as_set):
         # TODO: Try to figure out the following to sanitize molecules better (not sure if this is necessary)
         # Chem.SanitizeMol(mol, Chem.SanitizeFlags.SANITIZE_ALL ^ Chem.SanitizeFlags.SANITIZE_ADJUSTHS)
     except Exception:
-        log.warning(f"Fragment {frag_as_set} is not sanitizable.")
+        try:
+            log.warning(f"Attempt #2 to sanitize fragment: {frag_as_set}")
+            Chem.SanitizeMol(cp, Chem.SanitizeFlags.SANITIZE_ALL ^ Chem.SanitizeFlags.SANITIZE_ADJUSTHS)
+        except Exception:
+            log.error(f"Fragment {frag_as_set} is not sanitizable.")
 
     return cp
 
