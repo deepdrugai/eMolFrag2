@@ -180,7 +180,7 @@ def write(options, brick_db, linker_db, fa_db, snip_db, molecules):
     writeMolImgsFromDB(linker_db, img_dir)
     writeMolImgsFromDB(fa_db, img_dir)
 
-    # Print all mols in input molecule list with snips highlighted
+    # Print all mols in inputmolecule list with snips highlighted
     for mol in molecules:
         highlight_snips = [tuple(int(s.split()[-1].strip("()")) for s in snip) for snip in snip_db[mol.getFileName()]]
 
