@@ -125,7 +125,7 @@ def write(options, brick_db, linker_db, fa_db, snip_db, molecules):
     out_dir = Path(options.OUTPUT_PATH)
     out_dir = prepareDirectory(out_dir)
 
-    log.info(f"Writing to directory {out_dir.resolve()}")
+    log.debug(f"Writing to directory {out_dir.resolve()}")
 
     bricks_to_write = []
     linkers_to_write = []
@@ -194,3 +194,5 @@ def write(options, brick_db, linker_db, fa_db, snip_db, molecules):
         draw.draw_mol(mol.getRDKitObject(), img_dir / (mol.getFileName() + ".png"), highlightBonds=highlight_bonds)
 
     stats.histogram(brick_db, linker_db, img_dir)
+
+    log.info(f"eMolFrag Output Directory: {out_dir.resolve()}")
