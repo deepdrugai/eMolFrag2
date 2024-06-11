@@ -44,7 +44,7 @@ def main():
     )
 
     if len(brick_db) == len(linker_db) == len(fa_db) == 0:
-        log.error("No files were generated.")
+        log.error(f"No files were generated from {mol_files}.")
         return
 
     writer.write(options, brick_db, linker_db, fa_db, snip_db, molecules)
