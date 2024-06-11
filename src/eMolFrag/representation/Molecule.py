@@ -126,7 +126,7 @@ class Molecule:
         except Chem.rdchem.KekulizeException:
             log.warning(f"SDWriter failed to write {self.filename} to sdf. Trying with molecule.UpdatePropertyCache(strict=False).")
             try:
-                log.warning(f"Writing {self.filename} to file with molecule.UpdatePropertyCache(strict=False).")
+                # log.warning(f"Writing {self.filename} to file with molecule.UpdatePropertyCache(strict=False).")
                 self.rdkitObject.UpdatePropertyCache(strict=False)
                 writer.write(self.rdkitObject)
             except Chem.rdchem.KekulizeException:
