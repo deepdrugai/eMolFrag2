@@ -102,9 +102,10 @@ class Options:
         parser.add_argument(
             "-" + OUTPUT_ARG[0],
             "--" + OUTPUT_ARG,
+            default="out/output",
             type=str,
-            help="Path for output fragments. If the directory does not exist, it will be created.",
-            required=True,
+            help="Path for output fragments. If the directory does not exist, it will be created. Default is 'out/output'.",
+            # required=True,
         )
 
         parser.add_argument(
