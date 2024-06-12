@@ -1,7 +1,5 @@
 from rdkit import Chem
 
-from eMolFrag.utilities.logging import log
-
 
 def fragmentToMol(mol, frag_as_set):
     """

@@ -2,7 +2,6 @@ import math
 
 import matplotlib.image as mpimg
 import matplotlib.pyplot as plt
-import numpy as np
 
 from eMolFrag.utilities.logging import log
 
