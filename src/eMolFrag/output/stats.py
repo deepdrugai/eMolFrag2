@@ -7,9 +7,8 @@ import numpy as np
 from eMolFrag.utilities.logging import log
 
 
-def histogram(brick_db, linker_db, out_dir):
-    dbs = [brick_db, linker_db]
-    db_names = ["brick_db", "linker_db"]
+def histogram(dbs, out_dir):
+    db_names = ["brick_db", "linker_db", "fa_db"]
 
     for db, db_name in zip(dbs, db_names):
         if not hasattr(db, "database"):

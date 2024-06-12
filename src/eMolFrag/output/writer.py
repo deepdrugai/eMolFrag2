@@ -193,6 +193,6 @@ def write(options, brick_db, linker_db, fa_db, snip_db, molecules):
 
         draw.draw_mol(mol.getRDKitObject(), img_dir / (mol.getFileName() + ".png"), highlightBonds=highlight_bonds)
 
-    stats.histogram(brick_db, linker_db, img_dir)
+    stats.histogram([brick_db, linker_db, fa_db], img_dir)
 
     log.info(f"eMolFrag Output Directory: {out_dir.resolve()}")
