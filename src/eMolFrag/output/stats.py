@@ -17,10 +17,10 @@ def histogram(dbs, out_dir):
 
         fragments_dict = {str(key).split(".sdf")[0]: len(value) + 1 for key, value in db.database.items()}
 
-        log.debug(f"{db_name} count: {fragments_dict}")
+        log.info(f"{db_name} count: {fragments_dict}")
 
         if not fragments_dict:
-            log.warning(f"No data to plot for {db_name}. Skipping...")
+            log.info(f"No data to plot for {db_name}. Skipping...")
             continue
 
         # Preparing data for plotting
