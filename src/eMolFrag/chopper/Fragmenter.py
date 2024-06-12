@@ -19,6 +19,9 @@ def fragmentToMol(mol, frag_as_set):
     # Create copy so we can modify it accordingly
     cp = Chem.RWMol(mol)
 
+    # Set explicit double bonds, remove aromaticity
+    Chem.Kekulize(cp, clearAromaticFlags=True)
+
     # if frag_as_set contains only one value (as in freeatom), convert to set
     if isinstance(frag_as_set, np.number):
         frag_as_set = {frag_as_set}
