@@ -10,33 +10,47 @@ from eMolFrag.utilities.logging import log
 def histogram(brick_db, linker_db, out_dir):
     dbs = [brick_db, linker_db]
     db_names = ["brick_db", "linker_db"]
+
     for db, db_name in zip(dbs, db_names):
-        # key = frags in database, value = num of mols in frag's value list (I'm not sure what they represent)
-        mols = []
-        width = 0.8
-        new_dict = {}
-        for key, value in db.database.items():
-            if len(value) > 0:
-                mols.append(out_dir / (str(key)[: str(key).index(".sdf")] + ".png"))
-                new_dict[str(key)[: str(key).index(".sdf")]] = len(value)
-        mols = list(set(mols))
-        sorted_order = np.argsort(list(new_dict.values()))
-        mols_sorted = list(np.array(mols)[sorted_order])
-        dict_sorted = dict(sorted(new_dict.items(), key=lambda item: item[1], reverse=True))
-        labels = dict_sorted.keys()
-        values = dict_sorted.values()
-        plt.bar(labels, values, width=width)
-        for i, (_, value) in enumerate(zip(labels, values)):
-            img = mpimg.imread(mols_sorted[i])
-            plt.imshow(img, extent=[i - width / 2, i + width / 2, value, value + 1], aspect="auto", zorder=2)
-        plt.xlim(-0.5, len(labels) + 1)
-        if max(values, default=0) == 0:
-            log.warning(f"Number of {db_name} fragments is {len(values)}. Unable to create histogram.")
+        if not hasattr(db, "database"):
+            log.error(f"The database object for {db_name} does not have a 'database' attribute.")
             continue
+
+        fragments_dict = {str(key).split(".sdf")[0]: len(value) + 1 for key, value in db.database.items()}
+
+        log.debug(f"{db_name} count: {fragments_dict}")
+
+        if not fragments_dict:
+            log.warning(f"No data to plot for {db_name}. Skipping...")
+            continue
+
+        # Preparing data for plotting
+        sorted_items = sorted(fragments_dict.items(), key=lambda x: x[1], reverse=True)
+        labels, values = zip(*sorted_items)
+        widths = 0.8
+
+        # Set up plot
+        plt.figure(figsize=(10, 6))
+        plt.bar(labels, values, width=widths)
+
+        # Embed images into the bars if possible
+        for i, label in enumerate(labels):
+            image_path = out_dir / f"{label}.png"
+            if image_path.exists():
+                try:
+                    img = mpimg.imread(image_path)
+                    plt.imshow(img, extent=[i - widths / 2, i + widths / 2, values[i], values[i] + 1], aspect="auto", zorder=2)
+                except Exception as e:
+                    log.error(f"Failed to load image for {label}: {e}")
+
+        plt.xlim(-0.5, len(labels) - 0.5)
         plt.ylim(0, max(values) + 1)
         plt.xticks([])
         plt.yticks(range(math.floor(min(values)), math.ceil(max(values)) + 1))
-        plt.title("Histogram of Fragment Frequency")
+        plt.title(f"Histogram of Fragment Frequency in {db_name}")
         plt.tight_layout()
+
+        # Save the figure
         plt.savefig(out_dir / f"hist_{db_name}_frags.png", dpi=300)
         plt.close()
+        log.info(f"Histogram for {db_name} saved successfully.")
