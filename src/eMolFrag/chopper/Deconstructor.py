@@ -173,6 +173,10 @@ def deconstruct(rdkit_mol):
     nxfrags = molFragments(adj_list - snips)
     log.debug(f"nxfrags: {nxfrags}")
 
+    # Add warning if molecule only has a single fragment after BRICS fragmentation
+    if len(nxfrags) == 1:
+        log.warning("Only one fragment was found. This molecule is not choppable.")
+
     # Calculate Free-atoms from sequential snips
     atomlist = {i for sl in adj_list for i in sl}
     atomfraglist = {i for sl in nxfrags for i in sl}
