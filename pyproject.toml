@@ -68,8 +68,8 @@ line-length = 142
 # Avoid enforcing f-string-missing-placeholders violations (`F541`), 
 # flake8-self (SLF), flake8-blind-except (BLE001), flake8-errmsg (EM)
 # flake8-boolean-trap (FBT), tryceratops 0s (TRY0), magic-value-comparison (PLR2004)
-# and Pep-8 Naming Rules (`N`).
-ignore = ["N", "SLF", "F541", "BLE001", "EM", "TRY0", "FBT", "PLR2004"]
+# flake8-print (T20) and Pep-8 Naming Rules (`N`).
+ignore = ["N", "SLF", "F541", "BLE001", "EM", "TRY0", "FBT", "PLR2004", "T20"]
 
 # Allow fix for all enabled rules (when `--fix`) is provided.
 fixable = ["ALL"]
