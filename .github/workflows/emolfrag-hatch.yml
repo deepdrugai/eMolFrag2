@@ -6,7 +6,7 @@ on:
     
 jobs:
   run:
-    name: "(py ${{ matrix.python-version }}) eMolFrag Hatch Tests & Coverage"
+    name: "(py${{ matrix.python-version }}) eMolFrag Hatch Tests & Coverage"
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
