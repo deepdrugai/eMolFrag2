@@ -15,11 +15,11 @@ def getFiles(options):
     # Non-existing directory means no files to process
     if not folderPath.exists():
         log.error(f"Input path {options.INPUT_PATH} does not exist.")
-        return []
+        return
 
     # Path is not a directory
     if not folderPath.is_dir():
-        log.info(f"Input path {options.INPUT_PATH} is not a directory. Did you mean: {folderPath.parent}/?")
+        log.info(f'Input path {options.INPUT_PATH} is not a directory. Did you mean: "{folderPath.parent}/"?')
         current_file = folderPath
         folderPath = folderPath.parent
         # if the file extension is not a supportedd format, add the file to the bad file list, otherwise add it to the file list
@@ -48,8 +48,8 @@ def getFiles(options):
 
     # Report unacceptable files
     if bad_files:
-        log.warning(f'emolFrag2 only accepts the following formats {", ".join(constants.ACCEPTED_FORMATS)}')
-        log.warning(f'The following files will be ignored: {", ".join([bf.name for bf in bad_files])}')
+        log.warning(f'emolFrag2 only accepts the following formats {", ".join(constants.ACCEPTED_FORMATS)}.')
+        log.warning(f'The following files will be ignored: {", ".join([bf.name for bf in bad_files])}.')
 
     return files
 
