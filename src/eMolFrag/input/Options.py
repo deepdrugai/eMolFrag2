@@ -104,7 +104,7 @@ class Options:
             "--" + OUTPUT_ARG,
             default="out/output",
             type=str,
-            help="Path for output fragments. If the directory does not exist, it will be created. Default is 'out/output'.",
+            help="Path for output fragments. If the directory does not exist, it will be created. Default is 'out/output/'.",
             # required=True,
         )
 
@@ -130,7 +130,7 @@ class Options:
             "--" + ALL_FRAGMENTS_ARG,
             action="store_true",
             default=self.INDIVIDUAL,
-            help="Output all non-unique fragments. Default is to output only TC-unique fragments.",
+            help="Output all fragments. Default is to output only TC-unique fragments.",
         )
 
         parser.add_argument(
