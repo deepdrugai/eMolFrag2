@@ -47,13 +47,17 @@ emolfrag = "eMolFrag.eMolFrag:main"
 [tool.hatch.envs.dev]
 dependencies = ["pytest", "pytest-cov", "pyright"]
 [tool.hatch.envs.dev.scripts]
-check = "pyright --stats"
-checkskip = "pyright --stats --skipunannotated"
+types = "pyright --stats"
+typesskip = "pyright --stats --skipunannotated"
 
 [tool.hatch.envs.types]
 extra-dependencies = ["mypy>=1.0.0", "types-networkx"]
 [tool.hatch.envs.types.scripts]
 check = "mypy --install-types --non-interactive {args:src/eMolFrag tests}"
+
+[tool.pyright]
+include = ["src/eMolFrag", "tests"]
+exclude = ["src/eMolFrag/chopper/BRICS_custom.py"]
 
 [tool.ruff]
 line-length = 142
