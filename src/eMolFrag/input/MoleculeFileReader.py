@@ -19,7 +19,7 @@ def getFiles(options):
 
     # Path is not a directory
     if not folderPath.is_dir():
-        log.info(f'Input path {options.INPUT_PATH} is not a directory. Did you mean: "{folderPath.parent}/"?')
+        log.info(f"Input path {options.INPUT_PATH} is not a directory. Did you mean: '{folderPath.parent}/'?")
         current_file = folderPath
         folderPath = folderPath.parent
         # if the file extension is not a supportedd format, add the file to the bad file list, otherwise add it to the file list
