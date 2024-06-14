@@ -28,7 +28,7 @@ classifiers = [
 ]
 
 [project.optional-dependencies]
-dev = ["pytest", "pytest-cov"]
+dev = ["pytest", "pytest-cov", "pyright"]
 
 [project.urls]
 Homepage = "https://deepdrug.ai"
@@ -45,11 +45,13 @@ exclude = ["**/__pycache__", "**/*.pyc"]
 emolfrag = "eMolFrag.eMolFrag:main"
 
 [tool.hatch.envs.dev]
-dependencies = ["pytest", "pytest-cov"]
+dependencies = ["pytest", "pytest-cov", "pyright"]
+[tool.hatch.envs.dev.scripts]
+check = "pyright --stats"
+checkskip = "pyright --stats --skipunannotated"
 
 [tool.hatch.envs.types]
 extra-dependencies = ["mypy>=1.0.0", "types-networkx"]
-
 [tool.hatch.envs.types.scripts]
 check = "mypy --install-types --non-interactive {args:src/eMolFrag tests}"
 
