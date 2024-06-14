@@ -191,7 +191,7 @@ def write(options, brick_db, linker_db, fa_db, snip_db, molecules):
             if bond:
                 highlight_bonds.append(bond.GetIdx())
 
-        draw.draw_mol(mol.getRDKitObject(), img_dir / (mol.getFileName() + ".png"), highlightBonds=highlight_bonds)
+        draw.draw_mol(mol.getRDKitObject(), img_dir / ("_" + mol.getFileName() + ".png"), highlightBonds=highlight_bonds)
 
     stats.histogram([brick_db, linker_db, fa_db], img_dir)
 
