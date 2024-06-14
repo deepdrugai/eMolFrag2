@@ -3,7 +3,7 @@ from rdkit import Chem
 from eMolFrag.utilities.logging import log
 
 
-def fragmentToMol(mol, frag_as_set):
+def fragmentToMol(mol: Chem.Mol, frag_as_set) -> Chem.RWMol:
     """
     Acquire the rdkit molecule corresponding to the fragment specified by the index set (frag_as_set).
     We acquire the fragment (with underlying property information intact) by deletion of all other atoms
@@ -22,9 +22,11 @@ def fragmentToMol(mol, frag_as_set):
     # Set explicit double bonds, remove aromaticity
     Chem.Kekulize(cp, clearAromaticFlags=True)
 
+    log.error(f"Fragmenting {frag_as_set = } is type {type(frag_as_set)} and length {len(frag_as_set)}.")
+
     # if frag_as_set contains only one value (as in freeatom), convert to set
     if isinstance(frag_as_set, np.number):
-        frag_as_set = {frag_as_set}
+        frag_as_set = {int(frag_as_set)}
 
     for atom in sorted(set(range(len(cp.GetAtoms()))) - frag_as_set, reverse=True):
         cp.RemoveAtom(atom)
