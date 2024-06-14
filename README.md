@@ -22,7 +22,7 @@
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/deepdrugai/eMolFrag2/blob/eMolFrag2-packaging/eMolFrag2_Notebook.ipynb)
 
 ## Installation
-Install eMolFrag2 (eMolFrag2-packaging branch) with:
+Install eMolFrag2 with:
 ```shell
 pip install "git+https://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@github.com/deepdrugai/eMolFrag2.git"
 ```
