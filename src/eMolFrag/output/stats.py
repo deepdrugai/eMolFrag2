@@ -7,7 +7,7 @@ from eMolFrag.utilities.logging import log
 
 
 def histogram(dbs, out_dir):
-    db_names = ["brick_db", "linker_db", "fa_db"]
+    db_names = ["bricks", "linkers", "freeatoms"]
 
     for db, db_name in zip(dbs, db_names):
         if not hasattr(db, "database"):
@@ -45,10 +45,10 @@ def histogram(dbs, out_dir):
         plt.ylim(0, max(values) + 1)
         plt.xticks([])
         plt.yticks(range(math.floor(min(values)), math.ceil(max(values)) + 1))
-        plt.title(f"Histogram of Fragment Frequency in {db_name}")
+        plt.title(f"Histogram of {db_name.capitalize()} Fragment Frequency")
         plt.tight_layout()
 
         # Save the figure
-        plt.savefig(out_dir / f"hist_{db_name}_frags.png", dpi=300)
+        plt.savefig(out_dir / f"_hist_{db_name}_frags.png", dpi=300)
         plt.close()
         log.info(f"Histogram for {db_name} saved successfully.")
