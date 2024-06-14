@@ -167,9 +167,6 @@ def test_get_uniq_molecules_mdb(five_mols, tc1_mol_pairs):
 
 
 def test_mdb_fail():
-    # TODO: This needs to not be a RuntimeError, but a more specific error, otherwise other errors (like file read errors) can cause this test to pass.
-    with pytest.raises(RuntimeError):
+    with pytest.raises(ValueError):
         MoleculeDatabase(given_tc=-1)
-
-    with pytest.raises(RuntimeError):
         MoleculeDatabase(given_tc=1.5)

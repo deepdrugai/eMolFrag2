@@ -17,7 +17,7 @@ class MoleculeDatabase(Molecule):
 
         if given_tc < 0 or given_tc > 1:
             log.error(f"Tanimoto coefficient constant {given_tc} is not in allowable range 0 <= tc <= 1.0")
-            raise RuntimeError
+            raise ValueError(f"Tanimoto coefficient constant {given_tc} is not in allowable range 0 <= tc <= 1.0")
 
         self.TC_THRESH = given_tc
 
