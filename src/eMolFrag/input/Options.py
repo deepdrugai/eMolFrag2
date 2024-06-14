@@ -74,7 +74,7 @@ class Options:
 
         parser = MyParser(
             prog="emolfrag",
-            description=f"eMolFrag2 is a molecular fragmentation tool based on BRICS algorithm written in Python. \nThe options for this program are as follows:",
+            description=f"eMolFrag2 is a molecular fragmentation tool based on the BRICS algorithm written in Python.\nBrought to you by LSU's DeepDrug.ai team.",
             add_help=False,
             # epilog=f"Example: eMolFrag2 -i /path/to/input -o /path/to/output -u -n -c /path/to/config.emf\n\n",
             epilog="Examples:\n"
