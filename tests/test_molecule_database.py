@@ -167,6 +167,8 @@ def test_get_uniq_molecules_mdb(five_mols, tc1_mol_pairs):
 
 
 def test_mdb_fail():
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="Tanimoto coefficient constant"):
         MoleculeDatabase(given_tc=-1)
+
+    with pytest.raises(ValueError, match="Tanimoto coefficient constant"):
         MoleculeDatabase(given_tc=1.5)
