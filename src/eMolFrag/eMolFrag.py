@@ -23,12 +23,23 @@ def main():
 
     # Get files
     mol_files = MoleculeFileReader.getFiles(options)
-    mol_files_string = ", ".join([str(m.stem) for m in mol_files])
+
+    if mol_files is None:
+        return
+
+    if not mol_files:
+        log.error(f"No files were found in {options.INPUT_PATH}).")
+        return
+
+    mol_files_string = ", ".join([str(m.name) for m in mol_files])
     log.info(f"{len(mol_files)} file{'s'[:len(mol_files) ^ 1]} to be processed: {mol_files_string}.")
 
     # Get molecules
     molecules = MoleculeReader.getMolecules(mol_files)
     molecules_string = ", ".join([str(m).split(" ")[0] for m in molecules])
+    if not molecules:
+        log.error(f"No molecules were found in {mol_files_string}.")
+        return
     log.info(f"{len(molecules)} molecule{'s'[:len(molecules) ^ 1]} to be chopped: {molecules_string}.")
 
     # CHOP
