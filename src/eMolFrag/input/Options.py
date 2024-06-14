@@ -73,7 +73,7 @@ class Options:
                 sys.exit(2)
 
         parser = MyParser(
-            prog="eMolFrag2",
+            prog="emolfrag",
             description=f"eMolFrag2 is a molecular fragmentation tool based on BRICS algorithm written in Python. \nThe options for this program are as follows:",
             add_help=False,
             # epilog=f"Example: eMolFrag2 -i /path/to/input -o /path/to/output -u -n -c /path/to/config.emf\n\n",
