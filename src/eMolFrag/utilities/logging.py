@@ -24,6 +24,7 @@ try:  # if colorlog is installed, get colored log files
     log = colorlog.getLogger(__name__)
     log.addHandler(handler)
 except ImportError:  # pragma: no cover'
+
     class CustomLogger(logging.getLoggerClass()):
         def makeRecord(self, name, level, fn, lno, msg, args, exc_info, func=None, extra=None, sinfo=None):
             record = super().makeRecord(name, level, fn, lno, msg, args, exc_info, func, extra, sinfo)
