@@ -37,7 +37,7 @@ def histogram(dbs, out_dir):
             if image_path.exists():
                 try:
                     img = mpimg.imread(image_path)
-                    plt.imshow(img, extent=[i - widths / 2, i + widths / 2, values[i], values[i] + 1], aspect="auto", zorder=2)
+                    plt.imshow(img, extent=(i - widths / 2, i + widths / 2, values[i], values[i] + 1), aspect="auto", zorder=2)
                 except Exception as e:
                     log.error(f"Failed to load image for {label}: {e}")
 
