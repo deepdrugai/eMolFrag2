@@ -48,6 +48,8 @@ def convertToRDkit(contents, path):
     extension = path.suffix
     log.debug(f"Running {path} as extension: {extension}.")
 
+    mol = None
+
     if extension not in constants.ACCEPTED_FORMATS:
         log.error(f"Input file type with extension {extension} ({path.name}) not supported.")
         raise NotImplementedError
@@ -107,7 +109,8 @@ def readMol2File(contents):
     # 0 unique bricks among 0 bricks - 0 unique linkers among 0 linkers ||| Chem.MolFromMol2Block(contents, kekulize=False)
 
     return (
-        Chem.MolFromMol2Block(contents) or Chem.MolFromMol2Block(contents, removeHs=False, cleanupSubstructures=False)
+        Chem.MolFromMol2Block(contents)
+        or Chem.MolFromMol2Block(contents, removeHs=False, cleanupSubstructures=False)
         # or Chem.MolFromMol2Block(contents, sanitize=False)
         # or Chem.MolFromMol2Block(contents, sanitize=False, removeHs=False)
         # or Chem.MolFromMol2Block(contents, sanitize=False, removeHs=False, cleanupSubstructures=False)
