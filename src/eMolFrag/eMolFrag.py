@@ -24,9 +24,6 @@ def main():
     # Get files
     mol_files = MoleculeFileReader.getFiles(options)
 
-    if mol_files is None:
-        return
-
     if not mol_files:
         log.error(f"No files were found in {options.INPUT_PATH}).")
         return

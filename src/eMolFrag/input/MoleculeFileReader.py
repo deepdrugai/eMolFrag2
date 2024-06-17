@@ -15,7 +15,7 @@ def getFiles(options):
     # Non-existing directory means no files to process
     if not folderPath.exists():
         log.error(f"Input path {options.INPUT_PATH} does not exist.")
-        return
+        return []
 
     # Path is not a directory
     if not folderPath.is_dir():
