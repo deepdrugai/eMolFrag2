@@ -28,7 +28,7 @@ jobs:
     #   run: hatch test
 
     - name: Run PyTests with Coverage
-      run: hatch test -c -- rP
+      run: hatch test -c -- -rP
 
     - name: Ruff Lint & Formatting
       run: hatch fmt
