@@ -1,9 +1,9 @@
 # eMolFrag 2
 
-| **CI/CD** | [![Tests & Coverage (eMolFrag2-packaging)](https://github.com/deepdrugai/eMolFrag2/actions/workflows/emolfrag-hatch.yml/badge.svg)](https://github.com/deepdrugai/eMolFrag2/actions/workflows/emolfrag-hatch.yml) |
+| **CI/CD** | [![Tests & Coverage](https://github.com/deepdrugai/eMolFrag2/actions/workflows/emolfrag-hatch.yml/badge.svg)](https://github.com/deepdrugai/eMolFrag2/actions/workflows/emolfrag-hatch.yml) |
 | ---: | :--- |
 | **Package** | [![Python 3.8](https://img.shields.io/badge/python-≥3.8-blue.svg)](https://www.python.org/downloads/) |
-| **Meta** | [![Hatch project](https://img.shields.io/badge/%F0%9F%A5%9A-Hatch-4051b5.svg)](https://github.com/pypa/hatch) [![code style - black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black) [![types - Mypy](https://img.shields.io/badge/types-Mypy-blue.svg)](https://github.com/ambv/black) |
+| **Meta** | [![Hatch Project](https://img.shields.io/badge/%F0%9F%A5%9A-Hatch-4051b5.svg)](https://github.com/pypa/hatch) [![Code Style - Black](https://img.shields.io/badge/code_style-Black-000000.svg)](https://github.com/psf/black) [![types - Pyright](https://img.shields.io/badge/types-%F0%9F%AA%A8_Pyright-7a7953.svg)](https://github.com/microsoft/pyright) |
 <!-- [![License - MIT](https://img.shields.io/badge/license-MIT-9400d3.svg)](https://spdx.org/licenses/)  -->
 -----
 
