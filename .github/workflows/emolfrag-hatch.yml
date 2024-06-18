@@ -24,18 +24,14 @@ jobs:
       run: |
         python -m pip install hatch
 
-    - name: Run PyTests with Coverage
-      run: pytest -vrP --cov --cov-report=term-missing
+    # - name: Run PyTests with Coverage
+    #   run: hatch run dev:pytest -vrP --cov --cov-report=term-missing
 
     - name: Run Hatch Tests
-      run: hatch test
-      # run: hatch test -c -- -rP
+      run: hatch test -c -- -rP
 
     - name: Ruff Lint & Formatting
       run: hatch fmt
 
     # - name: Tests
     #   run: hatch run +py=${{ matrix.python-version }} pytest
-      
-    # - name: Run tests
-    #   run: hatch run pytest
