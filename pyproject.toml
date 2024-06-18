@@ -5,14 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "eMolFrag2"
 version = "2.0.0.2024.05.19"
-dependencies = [
-    "rdkit",
-    "colorlog",
-    "networkx",
-    "matplotlib",
-    "pytest",
-    "pytest-cov",
-]
+dependencies = ["numpy<2", "rdkit", "colorlog", "networkx", "matplotlib"]
 requires-python = ">=3.7"
 authors = [
     { name = "Adam Bess", email = "bess@deepdrug.ai" },
@@ -56,11 +49,6 @@ dependencies = ["pytest", "pytest-cov", "pyright"]
 [tool.hatch.envs.dev.scripts]
 types = "pyright --stats"
 typesskip = "pyright --stats --skipunannotated"
-
-[tool.hatch.envs.types]
-extra-dependencies = ["mypy>=1.0.0", "types-networkx"]
-[tool.hatch.envs.types.scripts]
-check = "mypy --install-types --non-interactive {args:src/eMolFrag tests}"
 
 [tool.pyright]
 include = ["src/eMolFrag", "tests"]
