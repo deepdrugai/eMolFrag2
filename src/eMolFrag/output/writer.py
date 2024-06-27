@@ -183,15 +183,35 @@ def write(options, brick_db, linker_db, fa_db, snip_db, molecules):
     # Print all mols in inputmolecule list with snips highlighted
     for mol in molecules:
         highlight_snips = [tuple(int(s.split()[-1].strip("()")) for s in snip) for snip in snip_db[mol.getFileName()]]
+        log.debug(f"Highlight Snips: {highlight_snips}")
 
         # Find bonds to highlight based on atom pairs
         highlight_bonds = []
+        associated_bonds = []
         for idx1, idx2 in highlight_snips:
+            # associated_bonds = [bond.GetBeginAtomIdx() for bond in atom.GetBonds()] + [bond.GetEndAtomIdx() for bond in atom.GetBonds()]
             bond = mol.getRDKitObject().GetBondBetweenAtoms(idx1, idx2)
+            log.debug(f"Highlight Bond: {bond}")
             if bond:
                 highlight_bonds.append(bond.GetIdx())
 
-        draw.draw_mol(mol.getRDKitObject(), img_dir / ("_" + mol.getFileName() + ".png"), highlightBonds=highlight_bonds)
+        log.debug(f"Highlight Bonds: {highlight_bonds}")
+
+        draw.draw_mol(mol.getRDKitObject(), img_dir / ("_" + mol.getFileName() + ".svg"), highlightBonds=highlight_bonds)
+
+        # List atom index, atom type, and associated bonds
+        for atom in mol.getRDKitObject().GetAtoms():
+            atom_index = atom.GetIdx()
+            atom_type = atom.GetSymbol()
+            associated_bonds = [bond.GetBeginAtomIdx() for bond in atom.GetBonds()] + [bond.GetEndAtomIdx() for bond in atom.GetBonds()]
+            log.debug(f"Atom Index: {atom_index}, Atom Type: {atom_type}, Associated Bonds: {associated_bonds}")
+
+        # List bond index and associated pair of atoms
+        for bond in mol.getRDKitObject().GetBonds():
+            bond_index = bond.GetIdx()
+            atom1 = bond.GetBeginAtomIdx()
+            atom2 = bond.GetEndAtomIdx()
+            log.debug(f"Bond Index: {bond_index}, Associated Atoms: {atom1}-{atom2}")
 
     stats.histogram([brick_db, linker_db, fa_db], img_dir)
 
