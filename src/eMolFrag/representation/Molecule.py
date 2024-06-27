@@ -114,7 +114,7 @@ class Molecule:
         #
         # Output the SDF formated string
         #
-        from rdkit.six import StringIO
+        from io import StringIO
 
         sio = StringIO()
         writer = Chem.SDWriter(sio)
