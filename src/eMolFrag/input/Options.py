@@ -201,4 +201,6 @@ class Options:
         """
         Report the current preferences for each option available
         """
-        return f"Input Path: {self.INPUT_PATH}\nOutput Path: {self.OUTPUT_PATH}\nIndividual output files: {self.INDIVIDUAL}\nAll Fragments: {self.ALL_FRAGMENTS}"
+        arg_strings = [f"{(attr.upper() + ':'):<20} {getattr(self, attr)}" for attr in vars(self)]
+        formatted_string = "Options Flags:\n" + "\n".join(arg_strings)
+        return formatted_string
