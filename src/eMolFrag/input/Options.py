@@ -104,7 +104,7 @@ class Options:
             "--" + OUTPUT_ARG,
             default="out/output",
             type=str,
-            help="Path for output fragments. If the directory does not exist, it will be created. Default is 'out/output/'.",
+            help="Path for output fragments. If the directory does not exist, it will be created. Default output directory is 'out/output/'.",
             # required=True,
         )
 
