@@ -76,13 +76,13 @@ class Options:
             prog="emolfrag",
             description=f"eMolFrag2 is a molecular fragmentation tool based on the BRICS algorithm written in Python.\nBrought to you by LSU's DeepDrug.ai team.",
             add_help=False,
-            # epilog=f"Example: eMolFrag2 -i /path/to/input -o /path/to/output -u -n -c /path/to/config.emf\n\n",
+            # epilog=f"Example: emolfrag -i /path/to/input -o /path/to/output -u -n -c /path/to/config.emf\n\n",
             epilog="Examples:\n"
-            "  $ python emfragment.py -i data/test_data/ -o results/\n"
-            "  $ python emfragment.py -i data/test_data/ -o results/ -a -nt\n"
-            "  $ python emfragment.py -i data/test_data.smi -o results/\n"
-            "  $ python emfragment.py -i data/test_data.sdf -o results/ -c config.emf\n"
-            "  $ python emfragment.py -i data/test_data.mol2 -o results/ -an\n\n"
+            "  $ emolfrag -i data/test_data/ -o results/\n"
+            "  $ emolfrag -i data/test_data/ -o results/ -a -nt\n"
+            "  $ emolfrag -i data/test_data.smi -o results/\n"
+            "  $ emolfrag -i data/test_data.sdf -o results/ -c config.emf\n"
+            "  $ emolfrag -i data/test_data.mol2 -o results/ -an\n\n"
             "Note: The default configuration assumes that your input contains RDKit Mol objects serialized as SMILES or MOL2 format.\n"
             f"You can customize the behavior by providing a {EMF_FORMAT_EXT} configuration file (-c option).",
             # formatter_class=argparse.ArgumentDefaultsHelpFormatter,
