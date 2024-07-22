@@ -70,9 +70,11 @@ def highlight_cleave_sights2(mol):
     MolToFile(mol, filename="/home/bess/dev/eMolFrag2/outputtest/magic5.svg", highlightBonds=snip_bonds)
 
 
-# mol = Chem.MolFromSmiles("[H][C@]12SC(C)(C)[C@@H](N1C(=O)[C@H]2NC(=O)[C@H](N)C1=CC=C(O)C=C1)C(O)=O")
-# DB11537 is not reconstructing
-# DB01190 is not reconstructing
-mol = Chem.MolFromSmiles("[H][C@@](NC(=O)[C@@H]1C[C@H](CC)CCN1)([C@H](C)Cl)[C@@]1([H])O[C@H](SC)[C@H](O)[C@@H](O)[C@H]1O")
-# C.3 N.Am
-# highlight_cleave_sights2(mol)
+if __name__ == "__main__":
+    print("Inside __name__ guard.")
+    # mol = Chem.MolFromSmiles("[H][C@]12SC(C)(C)[C@@H](N1C(=O)[C@H]2NC(=O)[C@H](N)C1=CC=C(O)C=C1)C(O)=O")
+    # DB11537 is not reconstructing
+    # DB01190 is not reconstructing
+    mol = Chem.MolFromSmiles("[H][C@@](NC(=O)[C@@H]1C[C@H](CC)CCN1)([C@H](C)Cl)[C@@]1([H])O[C@H](SC)[C@H](O)[C@@H](O)[C@H]1O")
+    # C.3 N.Am
+    highlight_cleave_sights2(mol)
