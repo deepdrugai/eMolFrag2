@@ -46,8 +46,13 @@ except ImportError:  # pragma: no cover'
 
 log.setLevel("DEBUG")
 
-# log.debug('This is my 😂 debug message ')
-# log.info('This is my 💜 info message ')
-# log.warning('This is my 🤔 warning message ')
-# log.error('This is my error 😱message ')
-# log.critical('This is my 😭 critical message ')
+if __name__ == "__main__":
+    # This will fail because this logging.py filename conflicts with the
+    # standard library's logging module, leading to a circular import.
+    # To resolve this issue, rename your logging.py file to something else
+    # that does not conflict with standard library modules.
+    log.debug("This is my 😂 debug message ")
+    log.info("This is my 💜 info message ")
+    log.warning("This is my 🤔 warning message ")
+    log.error("This is my error 😱message ")
+    log.critical("This is my 😭 critical message ")
