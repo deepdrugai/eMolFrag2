@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "eMolFrag2"
 version = "2.0.0.2024.05.19"
-dependencies = ["numpy<2", "rdkit", "colorlog", "networkx", "matplotlib"]
+dependencies = ["numpy", "rdkit", "colorlog", "networkx", "matplotlib"]
 requires-python = ">=3.7"
 authors = [
     { name = "Adam Bess", email = "bess@deepdrug.ai" },
