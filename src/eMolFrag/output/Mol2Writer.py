@@ -107,7 +107,7 @@ def MolFromCommonMol2Block(block, sanitize=True, removeHs=True):
     mol = mol.GetMol()
 
     try:
-        for atom in mol.GetAtoms():
+        for atom in RWMol.GetAtoms(mol):
             atom.UpdatePropertyCache()
     except Exception:
         return None
@@ -201,7 +201,7 @@ class Mol2Writer:
         RETURNS:
           bool
         """
-        return self.f.write(MolToMol2Block(mol, *self._args, **self._kwargs))
+        return self.f.write(str(MolToMol2Block(mol, *self._args, **self._kwargs)))
 
     def close(self):
         """Closes file for writing"""
@@ -244,7 +244,7 @@ def MolToMol2Block(mol, confId=-1, addHs=True, addCharges=True):
     confIds = (confId,)
 
     if confId is None:
-        confIds = Chem.Mol.GetNumConformers()
+        confIds = mol.GetNumConformers()
 
     blocks = []
 
@@ -285,7 +285,7 @@ GASTEIGER\n\n"""
                 "UNL",
                 float(a.GetProp("_GasteigerCharge").replace(",", ".")) if a.HasProp("_GasteigerCharge") else 0.0,
             )
-            for a in mol.GetAtoms()
+            for a in RWMol.GetAtoms(mol)
         ]
         atom_lines = ["@<TRIPOS>ATOM", *atom_lines]
         atom_lines = "\n".join(atom_lines) + "\n"
@@ -297,7 +297,7 @@ GASTEIGER\n\n"""
                 b.GetEndAtomIdx() + 1,
                 "ar" if b.GetBondTypeAsDouble() == 1.5 else "am" if _amide_bond(b) else str(int(b.GetBondTypeAsDouble())),
             )
-            for bid, (b) in enumerate(mol.GetBonds())
+            for bid, (b) in enumerate(RWMol.GetBonds(mol))
         ]
         bond_lines = ["@<TRIPOS>BOND", *bond_lines, "\n"]
         bond_lines = "\n".join(bond_lines)
