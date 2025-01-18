@@ -103,7 +103,7 @@ def writeTraceFiles(out_dir, snip_db, mols, og_frag_db, extension=constants.TRAC
 
             # generate network text
             mol_nx = trace.mol_to_nx(mol.getRDKitObject())
-            nt.write_network_text(mol_nx, with_labels="atom_symbol", path=f)
+            nt.write_network_text(mol_nx, with_labels="atom_symbol", path=f)  # type: ignore
             f.write("\n" * 2)
 
             # write snips
