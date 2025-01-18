@@ -20,7 +20,7 @@ def test_chopall(cwd, cwdex):
     ebricks = [SDMolSupplier(str(cwdex / x)) for x in ebricks]
 
     input_files = list(cwd.iterdir())
-    bricks, links, freeatoms, snips = chopall([to_mol(x) for x in input_files])
+    bricks, links, _, _, _ = chopall([to_mol(x) for x in input_files])
     links = [x.getRDKitObject() for x in links.GetAllMolecules()]
     bricks = [x.getRDKitObject() for x in bricks.GetAllMolecules()]
 
