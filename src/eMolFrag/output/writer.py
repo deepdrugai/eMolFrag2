@@ -116,7 +116,7 @@ def writeTraceFiles(out_dir, snip_db, mols, og_frag_db, extension=constants.TRAC
 
             # write og frags
             f.write("# Original Fragments\n")
-            for frag, fragset in og_frag_db.items():
+            for frag, fragset in og_frag_db[mol.getFileName()].items():
                 f.write("# " + str(frag) + "\t" + str(fragset) + "\n")
             f.write("\n")
 
