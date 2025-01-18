@@ -67,6 +67,7 @@ def chopall(mols):
     linker_db = MDB.MoleculeDatabase(constants.DEFAULT_TC_LINKER_UNIQUENESS)
     fa_db = MDB.MoleculeDatabase(constants.DEFAULT_TC_LINKER_UNIQUENESS)
     snip_db = {}
+    og_frag_db = {}
 
     for mol in mols:
         log.info(f"Processing molecule {mol.getFileName()}.")
@@ -111,6 +112,16 @@ def chopall(mols):
                         )
                     # ruff: noqa: B035
 
+        temp_frag_list = [frag for mdb in [brick_db, linker_db, fa_db] for frag in mdb.GetAllMolecules()]
+
+        for frag in temp_frag_list:
+            og_frag_db[frag.getFileName()] = set()
+            for a in frag.getRDKitObject().GetAtoms():
+                idx_og = a.GetIntProp("original_idx")
+                og_frag_db[frag.getFileName()].add(idx_og)
+
+        log.debug(og_frag_db)
+
         # Create a new set of snips with replaced/mapped keys
         snips_new = set()
 
@@ -122,4 +133,4 @@ def chopall(mols):
 
         log.info(f"Added {len(snips)} snip{'s'[:len(snips) ^ 1]}.")
 
-    return brick_db, linker_db, fa_db, snip_db
+    return brick_db, linker_db, fa_db, snip_db, og_frag_db
