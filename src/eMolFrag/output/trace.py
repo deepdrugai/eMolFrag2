@@ -33,7 +33,7 @@ def example():
 
     # generate network text
     mol_nx = mol_to_nx(mol)
-    nt.write_network_text(mol_nx, with_labels="atom_symbol")
+    nt.write_network_text(mol_nx, with_labels="atom_symbol")  # type: ignore
 
     # print visual for comparison
     atoms = nx.get_node_attributes(mol_nx, "atom_symbol")
