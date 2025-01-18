@@ -80,7 +80,7 @@ def MolFromCommonMol2Block(block, sanitize=True, removeHs=True):
             atom = Atom(symbol.rstrip("0123456789"))
             new_idx = mol.AddAtom(atom)
             assert new_idx == idx  # noqa: S101
-            conf.SetAtomPosition(idx, (x, y, z))
+            conf.SetAtomPosition(idx, (x, y, z))  # type: ignore # TODO: Check if this is correct
         # 2. Add bonds
         elif mode == 2:
             data = re.split(r"\s+", line.strip())  # change to raw string
@@ -98,7 +98,7 @@ def MolFromCommonMol2Block(block, sanitize=True, removeHs=True):
         n += 1
 
     try:
-        mol.AddConformer(conf)
+        mol.AddConformer(conf)  # type: ignore # TODO: Check if this is correct
     except Exception:
         return None
     # 3. Remove Hs, sanitize
@@ -125,7 +125,7 @@ def MolFromCommonMol2Block(block, sanitize=True, removeHs=True):
         except Exception:
             return None
     try:
-        Chem.DetectBondStereoChemistry(mol, conf)
+        Chem.DetectBondStereoChemistry(mol, conf)  # type: ignore # TODO: Check if this is correct
     except Exception:
         return None
 
