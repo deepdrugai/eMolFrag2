@@ -40,7 +40,7 @@ def main():
     log.info(f"{len(molecules)} molecule{'s'[:len(molecules) ^ 1]} to be chopped: {molecules_string}.")
 
     # CHOP
-    brick_db, linker_db, fa_db, snip_db = Chopper.chopall(molecules)
+    brick_db, linker_db, fa_db, snip_db, og_frag_db = Chopper.chopall(molecules)
 
     # Output fragments
     log.info(
@@ -57,7 +57,7 @@ def main():
         log.error(f"No files were generated from {mol_files}.")
         return
 
-    writer.write(options, brick_db, linker_db, fa_db, snip_db, molecules)
+    writer.write(options, brick_db, linker_db, fa_db, snip_db, molecules, og_frag_db)
 
 
 if __name__ == "__main__":

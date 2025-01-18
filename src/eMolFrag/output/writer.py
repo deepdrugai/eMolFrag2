@@ -84,7 +84,7 @@ def writeIndividualFiles(out_dir, mols):
             f.write(mol.toSDF())
 
 
-def writeTraceFiles(out_dir, snip_db, mols, extension=constants.TRACE_FORMAT_EXT):
+def writeTraceFiles(out_dir, snip_db, mols, og_frag_db, extension=constants.TRACE_FORMAT_EXT):
     """
     Write trace (reconstruction) files.
     snip_db -- Snip database
@@ -112,10 +112,16 @@ def writeTraceFiles(out_dir, snip_db, mols, extension=constants.TRACE_FORMAT_EXT
             f.write("\n")
 
             # write smiles target
-            f.write("target:\t" + MolToSmiles(mol.getRDKitObject()) + "\n")
+            f.write("target:\t" + MolToSmiles(mol.getRDKitObject()) + "\n\n")
+
+            # write og frags
+            f.write("# Original Fragments\n")
+            for frag, fragset in og_frag_db.items():
+                f.write("# " + str(frag) + "\t" + str(fragset) + "\n")
+            f.write("\n")
 
 
-def write(options, brick_db, linker_db, fa_db, snip_db, molecules):
+def write(options, brick_db, linker_db, fa_db, snip_db, molecules, og_frag_db):
     """
     Main output routine
     The focus is what fragments (unique OR all) and format how to
@@ -168,7 +174,7 @@ def write(options, brick_db, linker_db, fa_db, snip_db, molecules):
     if options.TRACE:
         # for mol in molecules:
         # log.error(f"{mol.getFileName()}'s snips: {snip_db[mol.getFileName()]}")
-        writeTraceFiles(out_dir, snip_db, molecules)
+        writeTraceFiles(out_dir, snip_db, molecules, og_frag_db)
         # log.error("Hi, this is the drawn trace output tree.")
         # trace.example()
 
