@@ -115,10 +115,11 @@ def chopall(mols):
         temp_frag_list = [frag for mdb in [brick_db, linker_db, fa_db] for frag in mdb.GetAllMolecules()]
 
         for frag in temp_frag_list:
-            og_frag_db[frag.getFileName()] = set()
-            for a in frag.getRDKitObject().GetAtoms():
-                idx_og = a.GetIntProp("original_idx")
-                og_frag_db[frag.getFileName()].add(idx_og)
+            parent_filename = frag.getParent().getFileName()
+            if parent_filename not in og_frag_db:
+                og_frag_db[parent_filename] = {}
+            frag_atoms = {a.GetIntProp("original_idx") for a in frag.getRDKitObject().GetAtoms()}
+            og_frag_db[parent_filename][frag.getFileName()] = frag_atoms
 
         log.debug(og_frag_db)
 
