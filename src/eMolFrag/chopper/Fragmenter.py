@@ -22,8 +22,8 @@ def fragmentToMol(mol: Chem.Mol, frag_as_set) -> Chem.RWMol:
     # Set explicit double bonds, remove aromaticity
     Chem.Kekulize(cp, clearAromaticFlags=True)
 
-    # if frag_as_set contains only one value (as in freeatom), convert to set
-    if isinstance(frag_as_set, np.number):
+    # if frag_as_set is not a set (as in freeatom int), convert to set
+    if not isinstance(frag_as_set, set):
         frag_as_set = {int(frag_as_set)}
 
     for atom in sorted(set(range(len(cp.GetAtoms()))) - frag_as_set, reverse=True):
