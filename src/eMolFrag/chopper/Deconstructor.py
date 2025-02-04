@@ -31,7 +31,7 @@ def molAdjList(m):
     import numpy as np
 
     # adj_list as set
-    return {tuple(sorted(item)) for item in [*zip(*np.where(m == 1))]}  # fmt: skip
+    return {tuple(int(x) for x in sorted(item)) for item in [*zip(*np.where(m == 1))]}  # fmt: skip
 
 
 def molBRICSBonds(mol):
