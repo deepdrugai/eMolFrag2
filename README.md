@@ -24,7 +24,7 @@
 ## Installation
 Install eMolFrag2 with:
 ```shell
-pip install "git+https://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@github.com/deepdrugai/eMolFrag2.git"
+pip install "git+https://github.com/deepdrugai/eMolFrag2.git"
 ```
 
 ## eMolFrag Usage Help Text
