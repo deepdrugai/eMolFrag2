@@ -51,7 +51,7 @@ def chop(rdkit_mol):
     #
     # (6): Perform the actual chop
     #
-    return Fragmenter.fragmentAll(mol, bricks, linkers, freeatoms), snips
+    return Fragmenter.fragmentAll(mol, bricks, linkers, freeatoms, snips), snips
 
 
 def chopall(mols):

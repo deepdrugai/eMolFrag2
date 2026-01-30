@@ -43,6 +43,9 @@ htmlcov/
 # Rope
 .ropeproject
 
+# Local data not for version control
+data-extra/
+
 # Django stuff:
 *.log
 *.pot
