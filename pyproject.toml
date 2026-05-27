@@ -14,10 +14,12 @@ authors = [
 maintainers = [{ name = "Adam Bess", email = "bess@deepdrug.ai" }]
 description = "A toolkit for fragmenting and analyzing molecular structures."
 readme = "README.md"
+license = { file = "LICENSE" }
 keywords = ["chemistry", "molecule", "fragmentation", "bioinformatics"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.8",

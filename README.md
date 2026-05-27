@@ -4,7 +4,7 @@
 | ---: | :--- |
 | **Package** | [![Python 3.8](https://img.shields.io/badge/python-≥3.8-blue.svg)](https://www.python.org/downloads/) |
 | **Meta** | [![Hatch Project](https://img.shields.io/badge/%F0%9F%A5%9A-Hatch-4051b5.svg)](https://github.com/pypa/hatch) [![Code Style - Black](https://img.shields.io/badge/code_style-Black-000000.svg)](https://github.com/psf/black) [![types - Pyright](https://img.shields.io/badge/types-%F0%9F%AA%A8_Pyright-7a7953.svg)](https://github.com/microsoft/pyright) |
-<!-- [![License - MIT](https://img.shields.io/badge/license-MIT-9400d3.svg)](https://spdx.org/licenses/)  -->
+| **License** | [![License - MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://opensource.org/license/mit/) |
 -----
 
 <!-- [![eMolFrag Tests (PyPI)](https://github.com/deepdrugai/eMolFrag2/actions/workflows/emolfrag-hatch.yml/badge.svg)](https://github.com/deepdrugai/eMolFrag2/actions/workflows/emolfrag-hatch.yml)
@@ -17,6 +17,7 @@
 - [Quick Start](#quick-start)
 - [Installation](#installation)
 - [Necessary Dependencies](#necessary-dependencies)
+- [License](#license)
 
 ## Quick Start
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/deepdrugai/eMolFrag2/blob/main/eMolFrag2_Notebook.ipynb)
@@ -81,3 +82,8 @@ You can customize the behavior by providing a .emf configuration file (-c option
 
 ## Necessary Dependencies
 Three dependencies are required for eMolFrag: rdkit, networkx and matplotlib. Optionally, colorlog is used for full color logging files.
+
+## License
+This repository is licensed under the MIT License. See [LICENSE](LICENSE).
+Some included third-party-derived files remain under their original BSD-style
+licenses; see [THIRD_PARTY_LICENSES](THIRD_PARTY_LICENSES).
